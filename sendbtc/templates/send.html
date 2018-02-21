@@ -26,6 +26,17 @@
     outline:none !important;
 	}
 
+	div.heading{
+		text-align:center;
+		background-color:lightgrey;
+		font-size:24px;
+		border:2px solid darkgrey;
+		font-family: 'Montserrat', sans-serif;
+		color:darkgrey;
+		height:40px;
+		vertical-align: center;
+	}
+
 
 	.box {
 		width:97%;
@@ -76,19 +87,19 @@
 			</td>
 		</tr>
 		<tr>
+			<td></td>
 			<td>
-				<h3 style="font-style:italic;font-weight:normal;">Generate, Sign, and Broadcast Bitcoin Transactions Yourself</h3>
+				<h3 style="font-family:'Montserrat' sans-serif;">Generate, Sign, and Broadcast Bitcoin Transactions Yourself</h3>
 			</td>
+			<td></td>
 		</tr>
 	</table>
 
 	<div class="box effect"> 
 
-	<div style="text-align:center;background-color:lightgrey;font-size:24px;border:2px solid darkgrey;font-family: 'Montserrat', sans-serif;" id='step1_header'>
+	<div class="heading" id='step1_header'>
 		<strong>Step 1: Input Transaction Details</strong>
 	</div>
-
-	<br>
 
 	<div id='step1'>
 		<table width='100%' align='center'>
@@ -124,11 +135,9 @@
 		</table>
 	</div>
 
-	<div style="text-align:center;background-color:lightgrey;font-size:24px;border:2px solid darkgrey;font-family: 'Montserrat', sans-serif;" id='step2_header'>
+	<div id='step2_header' class="heading">
 		<strong>Step 2: Securely Sign Transaction (OFFLINE)</strong>
 	</div>
-
-	<br>
 
 	<div id='step2'>
 		<table width='70%' align='center'>
@@ -156,7 +165,7 @@
 		</table>
 	</div>
 
-	<div style="text-align:center;background-color:lightgrey;font-size:24px;border:2px solid darkgrey;font-family: 'Montserrat', sans-serif;" id='step3_header'>
+	<div id='step3_header' class="heading">
 		<strong>Step 3: Broadcast</strong>
 	</div>
 
