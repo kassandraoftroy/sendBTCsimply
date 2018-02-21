@@ -34,7 +34,7 @@
 		font-family: 'Montserrat', sans-serif;
 		color:darkgrey;
 		height:40px;
-		vertical-align: center;
+		vertical-align: middle;
 	}
 
 
@@ -179,7 +179,7 @@
 					</p>
 					<h4 id='s_header'> Input Signed Transaction Data:</h4>
 					<textarea name="" cols="80" rows="7" wrap='hard' id='signed'></textarea><br><br>
-					<button id='broadcast' style='background-color:red;border-radius:5px;'><strong>Broadcast Transaction</strong></button><span style='font-size:12px;'><strong> &nbsp;(WARNING: Cannot change or cancel after broadcasting.) </strong></span>
+					<button id='broadcast' style="background-color:red;border-radius:5px;font-size:18px;font-family: 'Montserrat' sans-serif;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Broadcast Transaction&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button><br><span style='font-size:12px;'><strong> &nbsp;(WARNING: Cannot change or cancel after broadcasting.) </strong></span>
 				</td>
 			</tr>
 		</table>
@@ -223,7 +223,6 @@
 	
 	$('#revealunsigned').hide();
 	$('#step2').hide();
-	$('#step3').hide();
 
 	function maketx() {
 		var sender = $('#sender').val();
