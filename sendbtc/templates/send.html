@@ -25,10 +25,47 @@
     outline:none !important;
 	}
 
+
+	.box {
+		width:90%;
+		height:90%;
+		background:#FFF;
+		margin:40px auto;
+	}
+
+	/*==================================================
+	 * Effect 8
+	 * ===============================================*/
+	.effect8
+	{
+	    position:relative;
+	    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+	}
+	.effect8:before, .effect8:after
+	{
+		content:"";
+	    position:absolute; 
+	    z-index:-1;
+	    box-shadow:0 0 20px rgba(0,0,0,0.8);
+	    top:10px;
+	    bottom:10px;
+	    left:0;
+	    right:0;
+	    border-radius:100px / 10px;
+	} 
+	.effect8:after
+	{
+	    right:10px; 
+	    left:auto; 
+	    transform:skew(8deg) rotate(3deg);
+	}
+
 	</style>
 </head>
 
-<body style='text-align:center;font-family:georgia;'>
+<body style='text-align:center;font-family:georgia;background-color:grey;'>
+	<div class="box effect8">
+
 	<table width= '100%' align='center'>
 		<tr>
 			<td style='width:33%;text-align:left;vertical-align: top;'>
@@ -100,7 +137,7 @@
 	<br>
 
 	<div id='step2'>
-		<table width='700' align='center'>
+		<table width='70%' align='center'>
 			<tr style='text-align: center;'>
 				<td>
 					<p>
@@ -148,6 +185,8 @@
 	<br>
 	<br>
 	<br>
+
+	</div>
 
 </body>
 
