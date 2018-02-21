@@ -27,108 +27,130 @@
 
 	</style>
 </head>
+
 <body style='text-align:center;font-family:georgia;'>
 	<table width= '100%' align='center'>
 		<tr>
-			<td style='width:33%;text-align:left;vertical-align: top;'><p><strong>sendbtcsimply@protonmail.com</strong></td>
-			<td style='text-align: center;width:33%;'><h1>Send BTC</h1></td>
-			<td style='text-align: right; width:33%;vertical-align: top;'><p>Donate:<strong><span style="font-family:times;">19wfYbP9wYprQoKQAFasT7SZyU7XzuUuZk</span></strong></p></td>
+			<td style='width:33%;text-align:left;vertical-align: top;'>
+				<p><strong>sendbtcsimply@protonmail.com</strong></p>
+			</td>
+			<td style='text-align: center;width:33%;'>
+				<h1>Send BTC</h1>
+			</td>
+			<td style='text-align: right; width:33%;vertical-align: top;'>
+				<p>Donate:<strong><span style="font-family:times;">19wfYbP9wYprQoKQAFasT7SZyU7XzuUuZk</span></strong></p>
+			</td>
 		</tr>
 		<tr>
 			<td></td>
-			<td style='text-align: center;'><h3 style='color:grey;'>Simple. Secure. Full Control.</h3></td>
+			<td style='text-align: center;'>
+				<h3 style='color:grey;'>Simple. Secure. Full Control.</h3>
+			</td>
+			<td></td>
 		</tr>
 	</table>
 
-	<table width='800' style='text-align:left;' align='center' id='about'>
-		<tr id='about1'>
-			<td><p>Finally, a simple paper wallet soultion:<br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Send Bitcoin from ANY address</strong> as long as you control the private key.<br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>No need to sweep or import</strong> paper/brain wallets, no hefty desktop client.<br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>No fear of losing/compromising unspent coins</strong> (change automatically sent back to sender).<br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Set your own miner fees</strong> with no hidden or extra charges.<br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Securely sign transactions offline</strong> with our btcsignature command line tool (step by step guide).
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*<strong>You are ultimately responsible for your own security</strong>* using this tool is your choice.
-			</p></td>
-		</tr>
-		<tr id='about2'>
-			<td><p>A simple bitcoin transaction web tool that is...<br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Universal:</strong> Send Bitcoin from ANY address as long as you can access the private key.<br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Ultralight:</strong> No hefty desktop client, no registration, no storage, just a transaction tool.<br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Trustless:</strong> Personally oversee each step of your transaction and securely sign offline (step by step guide).<br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Cold Wallet Friendly:</strong> No more having to sweep or import paper wallets to do one small transaction.<br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Transparent:</strong> Set your own fee with no hidden or extra charges.<br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*<strong>You are ultimately responsible for your own security and finances</strong>*
-		</tr>
-	</table>
-	<br><br>
+	<br>
+	<br>
 
 	<div style='text-align:center;background-color:aliceblue;font-size:24px;border:2px solid grey; border-radius:8px;' id='step1_header'>
 		<strong>Step 1: Input Transaction Details</strong>
 	</div>
+
 	<br>
+
 	<div id='step1'>
 		<table width='100%' align='center'>
 			<tr>
 				<td style='width:25%;'></td>
-				<td style='width:50%;'><p style='text-align:left'>
-				sender address:<br><input type="text" name="" id='sender' size='60' class='addr_input'><br><br>
-				amount to send (in satoshis):<br><input type="text" name="" id='amount' size='30' class='number_input'>
-				<span id='conversion1' style='color:grey;'></span><br><br>
-				send to:<br><input type="text" name="" id='receiver' size='60' class='addr_input'><br><br>
-				fee (in satoshis):<br><input type="text" name="" id='fee' size='30' class='number_input'>
-				<span id='conversion2' style='color:grey;'></span><br><br>
-				<button id='submit'>&nbsp;&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;&nbsp;</button><br><br>
-				</p></td>
-				<td style='text-align:center;width:25%;vertical-align:top;'><div style='height:60px;width:100%;border: 2px solid black;'><br><input type="text" name="" id='conversion3' size='10' style='text-align: center; line-height: 15px;'> &nbsp;BTC&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='conversion4' size='10' style='text-align: center; line-height: 15px;'> satoshis</div></td>
+				<td style='width:50%;'>
+					<p style='text-align:left'>
+						sender address:<br>
+						<input type="text" name="" id='sender' size='60' class='addr_input'><br><br>
+						amount to send (in satoshis):<br>
+						<input type="text" name="" id='amount' size='30' class='number_input'><span id='conversion1' style='color:grey;'></span><br><br>
+						send to:<br>
+						<input type="text" name="" id='receiver' size='60' class='addr_input'><br><br>
+						fee (in satoshis):<br>
+						<input type="text" name="" id='fee' size='30' class='number_input'><span id='conversion2' style='color:grey;'></span><br><br>
+						<button id='submit'>&nbsp;&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;&nbsp;</button><br><br>
+					</p>
+				</td>
+				<td style='text-align:center;width:25%;vertical-align:top;'>
+					<div style='height:60px;width:100%;border: 2px solid black;'><br>
+						<input type="text" name="" id='conversion3' size='10' style='text-align: center; line-height: 15px;'> &nbsp;BTC&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='conversion4' size='10' style='text-align: center; line-height: 15px;'> satoshis
+					</div>
+				</td>
 			</tr>
 			<tr id='revealunsigned'>
 				<td></td>
-				<td><h4 id='unsigned_header1'>Unsigned Transaction Data:</h4>
-				<textarea name="" cols="80" rows="7" id='unsigned1' wrap='hard'></textarea><br><br></td>
+				<td>
+					<h4>Unsigned Transaction Data:</h4>
+					<textarea name="" cols="80" rows="7" id='unsigned1' wrap='hard'></textarea><br><br>
+				</td>
 				<td></td>
 			</tr>
 		</table>
 	</div>
-	<div style='text-align:center;background-color:aliceblue;border:2px solid grey;border-radius:8px;font-size:24px;' id='step2_header'><strong>Step 2: Securely Sign Transaction (OFFLINE)</strong></div><br>
+
+	<div style='text-align:center;background-color:aliceblue;border:2px solid grey;border-radius:8px;font-size:24px;' id='step2_header'>
+		<strong>Step 2: Securely Sign Transaction (OFFLINE)</strong>
+	</div>
+
+	<br>
+
 	<div id='step2'>
 		<table width='700' align='center'>
-		<tr style='text-align: center;'>
-			<td><p><span style='font-style: italic;'>By signing transactions offline from the command line we make sure<br> our private key never touches a website and stays 100% private. Heres how:</span><br><br></p></td>
-		<tr>
-			<td><p>
-				1. (First Time Only) Install <a href="https://pypi.python.org/pypi/btcsignature" target='_blank' style='text-decoration:none;color:black;'><strong>btcsignature</strong></a> python package from command line with:<br><br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='background-color:lightgrey;'>&nbsp;&nbsp;$ pip install btcsignature &nbsp;&nbsp;</span>&nbsp;&nbsp;*<a href="{% url 'guide' %}" target="_blank" style='color:black;'>guide here</a><br><br>
-				2. Go Offline.<br><br>
-				3. Run signing script from command line with:<br><br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='background-color:lightgrey;'>&nbsp;&nbsp;$ sign-offline &nbsp;&nbsp;</span><br><br>
-				4. You'll be prompted input your private key and the Unsigned Transaction Data (from Step 1)<br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>*Only retreive/connect your private key AFTER going offline*</strong><br><br>
-				5. Copy Signed Transaction Data and reconnect.<br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>*Remove/disconnect all traces of private key before going back online*</strong><br><br>
-				</p>
-			</td>
-		</tr>
+			<tr style='text-align: center;'>
+				<td>
+					<p>
+						<span style='font-style: italic;'>By signing transactions offline from the command line we make sure<br> our private key never touches a website and stays 100% private. Heres how:</span><br><br>
+					</p>
+				</td>
+			<tr>
+				<td>
+					<p>
+						1. (First Time Only) Install <a href="https://pypi.python.org/pypi/btcsignature" target='_blank' style='text-decoration:none;color:black;'><strong>btcsignature</strong></a> python package from command line with:<br><br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='background-color:lightgrey;'>&nbsp;&nbsp;$ pip install btcsignature &nbsp;&nbsp;</span>&nbsp;&nbsp;*<a href="{% url 'guide' %}" target="_blank" style='color:black;'>guide here</a><br><br>
+						2. Go Offline.<br><br>
+						3. Run signing script from command line with:<br><br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='background-color:lightgrey;'>&nbsp;&nbsp;$ sign-offline &nbsp;&nbsp;</span><br><br>
+						4. You'll be prompted input your private key and the Unsigned Transaction Data (from Step 1)<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>*Only retreive/connect your private key AFTER going offline*</strong><br><br>
+						5. Copy Signed Transaction Data and reconnect.<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>*Remove/disconnect all traces of private key before going back online*</strong><br><br>
+					</p>
+				</td>
+			</tr>
 		</table>
 	</div>
-	<div id='insecure2'>
-		
+
+	<div style='text-align:center;background-color:aliceblue;font-size:24px;border:2px solid grey; border-radius:8px;' id='step3_header'>
+		<strong>Step 3: Broadcast</strong>
 	</div>
-	<div style='text-align:center;background-color:aliceblue;font-size:24px;border:2px solid grey; border-radius:8px;' id='step3_header'><strong>Step 3: Broadcast</strong></div>
+
 	<div id='step3'>
 		<br>
 		<table width='600' align='center'>
-		<tr style='text-align: center;'>
-			<td>
-			<p><span style='font-style: italic;'>If you want to check out the contents of your transaction before broadcasting (verify that there are no extra fees and tx details are correct) - - <a href="https://live.blockcypher.com/btc/decodetx/" target='_blank' style='text-decoration:none;color:black;'><strong>click here</strong></a></span><br></p>
-			<h4 id='s_header'> Input Signed Transaction Data:</h4>
-			<textarea name="" cols="80" rows="7" wrap='hard' id='signed'></textarea><br><br>
-			<button id='broadcast' style='background-color:red;border-radius:5px;'><strong>Broadcast Transaction</strong></button><span style='font-size:12px;'><strong> &nbsp;(WARNING: Cannot change or cancel after broadcasting.) </strong></span></td>
-		</tr>
+			<tr style='text-align: center;'>
+				<td>
+					<p>
+						<span style='font-style: italic;'>If you want to check out the contents of your transaction before broadcasting (verify that there are no extra fees and tx details are correct) - - <a href="https://live.blockcypher.com/btc/decodetx/" target='_blank' style='text-decoration:none;color:black;'><strong>click here</strong></a></span><br>
+					</p>
+					<h4 id='s_header'> Input Signed Transaction Data:</h4>
+					<textarea name="" cols="80" rows="7" wrap='hard' id='signed'></textarea><br><br>
+					<button id='broadcast' style='background-color:red;border-radius:5px;'><strong>Broadcast Transaction</strong></button><span style='font-size:12px;'><strong> &nbsp;(WARNING: Cannot change or cancel after broadcasting.) </strong></span>
+				</td>
+			</tr>
 		</table>
 	</div>
-	<br><br><br>
+
+	<br>
+	<br>
+	<br>
+
 </body>
+
 <script>
 	window.onload = function () {window.setInterval(function(){
 	        var x = $('#amount').val();
@@ -158,11 +180,8 @@
 	document.getElementById('broadcast').onclick = function() {broadcast();};
 	
 	$('#revealunsigned').hide();
-	$('#step1').hide();
 	$('#step2').hide();
 	$('#step3').hide();
-	$('#about1').hide();
-	$('#insecure2').hide();
 
 	function maketx() {
 		var sender = $('#sender').val();
