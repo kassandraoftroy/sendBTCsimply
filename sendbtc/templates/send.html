@@ -70,7 +70,7 @@
 	</style>
 </head>
 
-<body style="text-align:center;font-family:georgia;background-image:lightgrey;">
+<body style="text-align:center;font-family:georgia;background-color:lightgrey;">
 
 	<table width= '95%' align='center'>
 		<tr style='text-align: center;'>
@@ -199,10 +199,9 @@
 	        	document.getElementById('conversion1').innerHTML = '';}
 	        if (y != '') {
 	        	num = parseInt(y);
-	        	conv_num = num/100000000.0;
 	        	sat_high = Math.round(num/200.0);
 	        	sat_low = Math.round(num/400.0);
-	        	show = '&nbsp;&nbsp;&nbsp;' + conv_num.toString() + ' BTC' +' (~'+sat_low.toString()+' - '+sat_high.toString()+' sat/byte)';
+	        	show = '&nbsp;&nbsp;&nbsp; (~'+sat_low.toString()+' - '+sat_high.toString()+' sat/byte)';
 	        	document.getElementById('conversion2').innerHTML = show;}
 	        else {
 	        	document.getElementById('conversion2').innerHTML = '';}	
