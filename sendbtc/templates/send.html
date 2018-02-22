@@ -70,7 +70,7 @@
 	<table width= '95%' align='center'>
 		<tr>
 			<td style='width:20%;text-align:left;vertical-align: top;'>
-				<p><strong></strong></p>
+				<p style='font-family: "Montserrat" sans-serif;'>COMMENTS&nbsp;&nbsp;&nbsp;HOW TO&nbsp;&nbsp;&nbsp;</p>
 			</td>
 			<td style='text-align: center;width:60%;'>
 				<h1>Send BTC</h1>
@@ -94,7 +94,7 @@
 	<div class="box effect"> 
 
 	<div class="heading" id='step1_header'>
-		<span style='vertical-align: middle;'><strong>Step 1: Generate Transaction</strong></span>
+		<span style='vertical-align: middle;line-height: 40px;'><strong>Step 1: Generate Transaction</strong></span>
 	</div>
 
 	<div id='step1'>
@@ -115,7 +115,7 @@
 					</p>
 				</td>
 				<td style='text-align:center;width:25%;vertical-align:top;'>
-					<div style='height:60px;width:80%;border: 2px solid black;margin-left:auto; margin-right:4px'><br>
+					<div style='height:60px;width:95%;border: 2px solid black;margin-left:auto; margin-right:4px'><br>
 						<input type="text" name="" id='conversion3' size='10' style='text-align: center; line-height: 15px;'> &nbsp;BTC&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='conversion4' size='10' style='text-align: center; line-height: 15px;'> satoshis
 					</div>
 				</td>
@@ -132,7 +132,7 @@
 	</div>
 
 	<div id='step2_header' class="heading">
-		<span style='vertical-align: middle;'><strong>Step 2: Securely Sign Transaction OFFLINE</strong></span>
+		<span style='vertical-align: middle;line-height: 40px;'><strong>Step 2: Securely Sign Transaction OFFLINE</strong></span>
 	</div>
 
 	<div id='step2'>
@@ -140,16 +140,11 @@
 			<tr>
 				<td>
 					<p>
-						<span style='font-style: italic;'>Try our command line tool:</span><br><br>
-					</p>
-				</td>
-			</tr>
-				<td>
-					<p>
 						(First Time Only) Install <a href="https://pypi.python.org/pypi/btcsignature" target='_blank' style='text-decoration:none;color:black;'><strong>btcsignature</strong></a> python package from command line with:<br><br>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='background-color:lightgrey;'>&nbsp;&nbsp;$ pip install btcsignature &nbsp;&nbsp;</span>&nbsp;&nbsp;*<a href="{% url 'guide' %}" target="_blank" style='color:black;'>guide here</a><br><br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='background-color:lightgrey;'>&nbsp;&nbsp;$ pip install btcsignature &nbsp;&nbsp;</span>&nbsp;&nbsp;<br><br>
 						Run signing script from command line with:<br><br>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='background-color:lightgrey;'>&nbsp;&nbsp;$ sign-offline &nbsp;&nbsp;</
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='background-color:lightgrey;'>&nbsp;&nbsp;$ sign-offline &nbsp;&nbsp;</span><br><br>
+						*unfamiliar with the command line?<a href="{% url 'guide' %}" target="_blank" style='color:black;'> <strong>guide here</strong></a>
 					</p>
 				</td>
 			</tr>
@@ -157,7 +152,7 @@
 	</div>
 
 	<div id='step3_header' class="heading">
-		<span style='vertical-align: middle;'><strong>Step 3: Broadcast</strong></span>
+		<span style='vertical-align: middle;line-height: 40px;'><strong>Step 3: Broadcast</strong></span>
 	</div>
 
 	<div id='step3'>
@@ -214,7 +209,6 @@
 	document.getElementById('broadcast').onclick = function() {broadcast();};
 	
 	$('#revealunsigned').hide();
-	$('#step2').hide();
 
 	function maketx() {
 		var sender = $('#sender').val();
