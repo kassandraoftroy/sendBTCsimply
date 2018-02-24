@@ -89,7 +89,7 @@
 			<td style='text-align: center;width:50%;'>
 				<h1>
 					<span style="font-family:'Montserrat' sans-serif;">BTC</span><span style='font-style:italic;font-weight:normal;'>tx</span><br>
-					<span style="font-family:'Montserrat' sans-serif;font-size:.75em;">Secure Bitcoin Transfers</span>
+					<span style='font-size:.75em;font-weight:normal;'>Secure Bitcoin Transfers</span>
 				</h1>
 			</td>
 			<td style='text-align: right; width:25%;vertical-align: top;'>
@@ -111,14 +111,17 @@
 			<tr>
 				<td style='width:40%; margin-left:4px;'>
 					<p style='text-align:left;'>
-						spend address:<br>
-						<input type="text" name="" id='sender' size='32' class='form'><br><br>
-						OUTPUT 1:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id='add_output' style='text-decoration:underline;color:blue;'>*add outputs</span><br>
-						amount:<input type="text" name="" id='amount' size='20' class='form'><span id='conversion1' style='color:grey;'></span><br>
-						to:<input type="text" name="" id='receiver' size='30' class='form'><br><br>
-						fee (in satoshis):<br>
+						Spend Address:<br>
+						<input type="text" name="" id='sender' size='32' class='form'><br>
+						Miner Fee:<br>
 						<input type="text" name="" id='fee' size='24' class='form'><span id='conversion2' style='color:grey;'></span><br><br>
-						<div id='create' class="eff2" style="background-color:navy;border:none;font-size:15px;font-family: 'Montserrat' sans-serif;color:white; height:40px; line-height: 40px;vertical-align: middle;text-align:center;width:150px;margin:auto;cursor: pointer;">&nbsp;<strong>CREATE</strong>&nbsp;</div><br><br>
+						<span style="font-family:'Montserrat' sans-serif;">OUTPUT:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>*<span id='add_output' style='text-decoration:underline;color:blue;'>add</span><br>
+						amount:
+						<input type="text" name="" id='amount' size='20' class='form'><span id='conversion1' style='color:grey;'></span><br>
+						to:
+						<input type="text" name="" id='receiver' size='32' class='form'><br><br>
+
+						<div id='create' class="eff2" style="background-color:navy;border:none;font-size:15px;font-family: 'Montserrat' sans-serif;color:white; height:40px; line-height: 40px;vertical-align: middle;width:150px;margin:auto;cursor: pointer;"><span style='text-align: center;'><strong>CREATE</strong></span></div><br><br>
 					</p>
 				</td>
 				<td>
