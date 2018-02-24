@@ -11,10 +11,13 @@ def home(request):
 
 def ajax_tx(request):
 
-	s_address = str(request.GET.get("sender", None))
-	r_address = str(request.GET.get("receiver", None))
-	amount = int(request.GET.get("amount", None))
-	fee = int(request.GET.get("fee", None))
+	try:
+		s_address = str(request.GET.get("sender", None))
+		r_address = str(request.GET.get("receiver", None))
+		amount = int(request.GET.get("amount", None))
+		fee = int(request.GET.get("fee", None))
+	except:
+		bytes_ = "Transaction Generation Failed:\nVerify all input fields.\nLeave no fields blank!"
 
 	try:
 		bytes_ = quick_unsigned_tx(s_address, r_address, amount, fee)
@@ -44,7 +47,7 @@ def ajax_broadcast(request):
 def ajax_verify(request):
 
 	bytes_ = str(request.GET.get('bytes_', None))
-	
+
 	try:
 		data = decode_tx(bytes_)
 	except:
