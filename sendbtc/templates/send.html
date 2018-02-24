@@ -87,7 +87,10 @@
 					&nbsp;&nbsp;&nbsp;</strong></p>
 			</td>
 			<td style='text-align: center;width:50%;'>
-				<h1><span style="font-family:'Montserrat' sans-serif;">BTC</span><span style='font-style:italic;font-weight:normal;'>tx</span></h1>
+				<h1>
+					<span style="font-family:'Montserrat' sans-serif;">BTC</span><span style='font-style:italic;font-weight:normal;'>tx</span><br>
+					<span style="font-family:'Montserrat' sans-serif;font-size:.75em;">Secure Bitcoin Transfers</span>
+				</h1>
 			</td>
 			<td style='text-align: right; width:25%;vertical-align: top;'>
 				<p>
@@ -95,19 +98,12 @@
 				</p>
 			</td>
 		</tr>
-		<tr style='text-align: center;'>
-			<td></td>
-			<td>
-				<h4 style="font-family:'Montserrat' sans-serif;">Secure Bitcoin Transfers<br>from any address/key pair</h4>
-			</td>
-			<td></td>
-		</tr>
 	</table>
 
 	<div class="box effect"> 
 
 	<div class="heading" id='step1_header'>
-		<span style='vertical-align: middle;line-height: 40px;'><strong>Step 1: Create tx</strong></span>
+		<span style='vertical-align: middle;line-height: 40px;'><strong>Step 1: Create Tx</strong></span>
 	</div>
 
 	<div id='step1'>
@@ -117,13 +113,18 @@
 					<p style='text-align:left;'>
 						spend address:<br>
 						<input type="text" name="" id='sender' size='32' class='form'><br><br>
-						OUTPUT 1:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a>*add outputs</a>
+						OUTPUT 1:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id='add_output' style='text-decoration:underline;color:blue;'>*add outputs</span><br>
 						amount:<input type="text" name="" id='amount' size='20' class='form'><span id='conversion1' style='color:grey;'></span><br>
-						to:<input type="text" name="" id='receiver' size='32' class='form'><br><br>
+						to:<input type="text" name="" id='receiver' size='30' class='form'><br><br>
 						fee (in satoshis):<br>
 						<input type="text" name="" id='fee' size='24' class='form'><span id='conversion2' style='color:grey;'></span><br><br>
-						<div id='verify' class="eff2" style="background-color:red;border:none;font-size:15px;font-family: 'Montserrat' sans-serif;color:white; height:40px; line-height: 40px;vertical-align: middle;width:150px;margin:auto;cursor: pointer;">&nbsp;<strong>Create</strong>&nbsp;</div><br><br>
+						<div id='create' class="eff2" style="background-color:navy;border:none;font-size:15px;font-family: 'Montserrat' sans-serif;color:white; height:40px; line-height: 40px;vertical-align: middle;text-align:center;width:150px;margin:auto;cursor: pointer;">&nbsp;<strong>CREATE</strong>&nbsp;</div><br><br>
 					</p>
+				</td>
+				<td>
+					<h4 id='s_header'>Unsigned Transaction Hex:</h4>
+						<textarea name="" cols="40" rows="7" wrap='hard' id='unsigned'></textarea><br><br>
+						<div id='verify' class="eff2" style="background-color:navy;border:none;font-size:18px;font-family: 'Montserrat' sans-serif;color:white; height:50px; line-height: 50px;vertical-align: middle;width:200px;margin:auto;cursor: pointer;">&nbsp;<strong>VERIFY</strong>&nbsp;</div>
 				</td>
 				<td style='text-align:center;width:30%;vertical-align:top;'>
 					<div style='height:60px;width:98%;border: 2px solid black;margin-left:0; margin-right:4px'><br>
@@ -163,7 +164,7 @@
 		<table width='600' align='center'>
 			<tr style='text-align: center;'>
 				<td>
-					<h4 id='s_header'> Input Signed Transaction Data:</h4>
+					<h4 id='s_header'>Signed Transaction Hex:</h4>
 					<textarea name="" cols="80" rows="7" wrap='hard' id='signed'></textarea><br><br>
 					<div id='broadcast' class="eff2" style="background-color:red;border:none;font-size:18px;font-family: 'Montserrat' sans-serif;color:white; height:50px; line-height: 50px;vertical-align: middle;width:200px;margin:auto;cursor: pointer;">&nbsp;<strong>BROADCAST</strong>&nbsp;</div><span style='font-size:12px;'><br><strong> &nbsp;(WARNING: Cannot change or cancel after broadcasting.) </strong></span>
 					<p>
@@ -207,11 +208,10 @@
 	}, 500);
 	};
 	
-	document.getElementById('submit').onclick = function() {maketx();};
+	document.getElementById('create').onclick = function() {maketx();};
 	document.getElementById('broadcast').onclick = function() {broadcast();};
 	document.getElementById('verify').onclick = function () {verification();}
 	
-	$('#revealunsigned').hide();
 	$('#step2').hide();
 
 	function maketx() {
@@ -223,7 +223,7 @@
 			url: "{% url 'ajax_tx' %}",
 			data: {'sender': sender, 'receiver':receiver, 'amount':amount, 'fee':fee},
 			success: function (data) {
-				document.getElementById('unsigned1').innerHTML = data.bytes_;
+				document.getElementById('unsigned').innerHTML = data.bytes_;
 				$('#revealunsigned').show();
 			}
   		});
@@ -246,7 +246,7 @@
 	}
 
 	function verification() {
-		var bytes_ = $('#unsigned1').val();
+		var bytes_ = $('#unsigned').val();
 		$.ajax({
 			url: "{% url 'ajax_verify' %}",
 			data: {'bytes_':bytes_},
