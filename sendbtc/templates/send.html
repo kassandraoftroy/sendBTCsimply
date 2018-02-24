@@ -84,17 +84,17 @@
 				<p style='font-family: "Montserrat" sans-serif;'><strong>
 					<a href="" target="" style="text-decoration:none;color:black;" >HOW TO</a> &nbsp;&nbsp;|&nbsp;&nbsp;
 					<a href="https://github.com/superarius/sendBTCsimply" target="_blank" style="text-decoration:none;color:black;">GITHUB</a>
-					&nbsp;&nbsp;&nbsp;</strong></p>
+					</strong>
+				</p>
 			</td>
 			<td style='text-align: center;width:50%;'>
 				<h1>
-					<span style="font-family:'Montserrat' sans-serif;">BTC</span><span style='font-style:italic;font-weight:normal;'>tx</span><br>
-					<span style='font-size:.75em;font-weight:normal;'>Secure Bitcoin Transfers</span>
+					<span style="font-family:'Montserrat' sans-serif;">BTC</span><span style='font-style:italic;font-weight:normal;'>tx</span>
 				</h1>
 			</td>
 			<td style='text-align: right; width:25%;vertical-align: top;'>
 				<p>
-					<span style="font-family:'Montserrat' sans-serif;font-size:.8em;">Donate:<strong>19wfYbP9wYprQoKQAFasT7SZyU7XzuUuZk</strong></span><br>
+					<span style="font-family:'Montserrat' sans-serif;font-size:.8em;">Donate:<strong>19wfYbP9wYprQoKQAFasT7SZyU7XzuUuZk</strong></span>
 				</p>
 			</td>
 		</tr>
@@ -108,28 +108,30 @@
 
 	<div id='step1'>
 		<table width='100%' align='center'>
-			<tr>
-				<td style='width:40%; margin-left:4px;'>
-					<p style='text-align:left;'>
+			<tr style = 'text-align: center;'>
+				<td style='width:40%;'>
+					<p style='text-align:left; padding-left:5px;'>
 						Spend Address:<br>
 						<input type="text" name="" id='sender' size='32' class='form'><br>
-						Miner Fee:<br>
-						<input type="text" name="" id='fee' size='24' class='form'><span id='conversion2' style='color:grey;'></span><br><br>
-						<span style="font-family:'Montserrat' sans-serif;">OUTPUT:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>*<span id='add_output' style='text-decoration:underline;color:blue;'>add</span><br>
-						amount:
-						<input type="text" name="" id='amount' size='20' class='form'><span id='conversion1' style='color:grey;'></span><br>
-						to:
-						<input type="text" name="" id='receiver' size='32' class='form'><br><br>
+						Miner Fee (in satoshis):<br>
+						<input type="text" name="" id='fee' size='24' class='form'><span id='conversion2' style='color:grey;'></span><br>
+						<span id='est_fee' style='font-size:.8em;'></span><a href="https://bitcoinfees.earn.com/" style='font-size:.8em;font-weight:bold;color:black;text-decoration:none;'> more info</a><br><br>
 
-						<div id='create' class="eff2" style="background-color:navy;border:none;font-size:15px;font-family: 'Montserrat' sans-serif;color:white; height:40px; line-height: 40px;vertical-align: middle;width:150px;margin:auto;cursor: pointer;"><span style='text-align: center;'><strong>CREATE</strong></span></div><br><br>
+						<span style="font-family:'Montserrat' sans-serif;">OUTPUT:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>*<span id='add_output' style='text-decoration:underline;color:blue;'>add</span><br>
+						Amount:<br>
+						<input type="text" name="" id='amount' size='24' class='form'><span id='conversion1' style='color:grey;'></span><br>
+						To:<br>
+						<input type="text" name="" id='receiver' size='32' class='form'><br>
 					</p>
+
+					<div id='create' class="eff2" style="background-color:navy;border:none;font-size:16px;font-family: 'Montserrat' sans-serif;color:white; height:45px; line-height: 45px;vertical-align: middle;width:150px;margin:auto;cursor: pointer;"><span style='text-align: center;'><strong>CREATE</strong></span></div><br><br>
 				</td>
-				<td>
+				<td style='width:32%; text-align:center;'>
 					<h4 id='s_header'>Unsigned Transaction Hex:</h4>
-						<textarea name="" cols="40" rows="7" wrap='hard' id='unsigned'></textarea><br><br>
-						<div id='verify' class="eff2" style="background-color:navy;border:none;font-size:18px;font-family: 'Montserrat' sans-serif;color:white; height:50px; line-height: 50px;vertical-align: middle;width:200px;margin:auto;cursor: pointer;">&nbsp;<strong>VERIFY</strong>&nbsp;</div>
+						<textarea name="" cols="70" rows="7" wrap='hard' id='unsigned'></textarea><br><br>
+						<div id='verify' class="eff2" style="background-color:navy;border:none;font-size:15px;font-family: 'Montserrat' sans-serif;color:white; height:45px; line-height: 45px;vertical-align: middle;width:150px;margin:auto;cursor: pointer;"><strong>VERIFY</strong></div>
 				</td>
-				<td style='text-align:center;width:30%;vertical-align:top;'>
+				<td style='text-align:center;width:28%;vertical-align:top;'>
 					<div style='height:60px;width:98%;border: 2px solid black;margin-left:0; margin-right:4px'><br>
 						<input type="text" name="" id='conversion3' size='10' style='text-align: center; line-height: 15px;'> &nbsp;BTC&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='conversion4' size='10' style='text-align: center; line-height: 15px;'> sat
 					</div>
@@ -188,7 +190,17 @@
 </body>
 
 <script>
-	window.onload = function () {window.setInterval(function(){
+	window.onload = function () {
+		$.ajax({
+			url: "https://bitcoinfees.earn.com/api/v1/fees/recommended"
+			success: function (data){
+				console.log(data);
+				var best = data.fastestFee*226;
+				var hour = data.hourFee*226;
+				document.getElementById('est_fee').innerHTML="fastest: ~" + best.toString() + "1hr: ~"+ hour.toString();
+			}
+		});
+		window.setInterval(function(){
 	        var x = $('#amount').val();
 	        var y = $('#fee').val();
 	        var num, conv_num, show, sat_low, sat_high;
