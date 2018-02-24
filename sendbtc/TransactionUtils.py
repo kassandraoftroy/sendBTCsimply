@@ -1,4 +1,4 @@
-from blockchain import pushtx
+from blockchain import pushtx, blockexplorer
 from bitcoin import b58check_to_hex, unspent, privtopub, pubtoaddr
 import hashlib, ecdsa, binascii
 from ecdsa import SigningKey, SECP256k1
@@ -92,6 +92,16 @@ def sign_tx(hex_data, private_key):
 	bytes_ += output_stub
 	return bytes_
 
+def decode_tx(bytes_):
+	readable = deserialize(bytes_)
+	inputs_decoded = [{'address': blockexplorer.get_tx(i['outpoint']['hash']).outputs[i['outpoint']['index']].address, 'value' : blockexplorer.get_tx(i['outpoint']['hash']).outputs[i['outpoint']['index']].value, 'prev_hash':i['outpoint']['hash'], 'index':i['outpoint']['index'], 'script':i['script'], 'sequence':i['sequence']}for i in readable['ins']]
+	outputs_decoded = [{'address' : hex_to_b58check(i['script'][6:-4]), 'value': i['value'], 'script':i['script']} for i in readable['outs']]
+	all_addresses = list(set([i['address'] for i in inputs_decoded] + [j['address'] for j in outputs_decoded]))
+	full_decode = {'addresses': all_addresses, 'version': readable['version'], 'size':len(bytes_)/2, 'fees': sum([i['value'] for i in inputs_decoded]) - sum([i['value'] for i in outputs_decoded]), 'locktime':readable['locktime'], 'inputs':inputs_decoded, 'outputs':outputs_decoded}
+	return full_decode
+
+def get_txid(bytes_):
+	return sha256(sha256(bytes_.decode('hex')).digest()).digest()[::-1].encode('hex')
 
 def int2hexbyte(int_):
 	raw_hex = hex(int_)[2:]

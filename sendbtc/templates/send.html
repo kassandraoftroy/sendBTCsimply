@@ -75,14 +75,14 @@
 	<table width= '95%' align='center'>
 		<tr style='text-align: center;'>
 			<td style='width:25%;text-align:left;vertical-align: top;'>
-				<p style='font-family: "Montserrat" sans-serif;'><strong>COMMENTS&nbsp;&nbsp;|&nbsp;&nbsp;HOW TO</strong>&nbsp;&nbsp;&nbsp;</p>
+				<p style='font-family: "Montserrat" sans-serif;'><strong><a href="https://github.com/superarius/sendBTCsimply" style="text-decoration:none;color:black;" >GITHUB</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="" target="_blank" style="text-decoration:none;color:black;">HOW TO</a></strong>&nbsp;&nbsp;&nbsp;</p>
 			</td>
 			<td style='text-align: center;width:50%;'>
 				<h1>Send Bitcoin Simply</h1>
 			</td>
 			<td style='text-align: right; width:25%;vertical-align: top;'>
 				<p>
-					Donate:<span style="font-family:'Montserrat' sans-serif;font-size:.85em;"><strong>19wfYbP9wYprQoKQAFasT7SZyU7XzuUuZk</strong></span><br>
+					Donate:<span style="font-family:'Montserrat' sans-serif;font-size:.8em;"><strong>19wfYbP9wYprQoKQAFasT7SZyU7XzuUuZk</strong></span><br>
 					Contact:<strong>sendbtcsimply@protonmail.com</strong>
 				</p>
 			</td>
@@ -105,7 +105,13 @@
 	<div id='step1'>
 		<table width='100%' align='center'>
 			<tr>
-				<td style='width:30%;'></td>
+				<td style='width:35%;'>
+					<span id="revealunsigned">
+						<h4>Unsigned Transaction Data:</h4>
+						<textarea name="" cols="40" rows="10" id='unsigned1' wrap='hard'></textarea><br><br>
+						<button id='verify'>&nbsp;&nbsp;&nbsp;&nbsp;verify&nbsp;&nbsp;&nbsp;&nbsp;</button><br>
+					</span>
+				</td>
 				<td style='width:40%;'>
 					<p style='text-align:left'>
 						sender address:<br>
@@ -119,19 +125,11 @@
 						<button id='submit'>&nbsp;&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;&nbsp;</button><br><br>
 					</p>
 				</td>
-				<td style='text-align:center;width:30%;vertical-align:top;'>
+				<td style='text-align:center;width:35%;vertical-align:top;'>
 					<div style='height:60px;width:98%;border: 2px solid black;margin-left:2px; margin-right:4px'><br>
 						<input type="text" name="" id='conversion3' size='10' style='text-align: center; line-height: 15px;'> &nbsp;BTC&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='conversion4' size='10' style='text-align: center; line-height: 15px;'> sat
 					</div>
 				</td>
-			</tr>
-			<tr id='revealunsigned'>
-				<td></td>
-				<td>
-					<h4>Unsigned Transaction Data:</h4>
-					<textarea name="" cols="80" rows="7" id='unsigned1' wrap='hard'></textarea><br><br>
-				</td>
-				<td></td>
 			</tr>
 		</table>
 	</div>
@@ -211,6 +209,7 @@
 	
 	document.getElementById('submit').onclick = function() {maketx();};
 	document.getElementById('broadcast').onclick = function() {broadcast();};
+	document.getElementById('verify').onclick = function () {verification();}
 	
 	$('#revealunsigned').hide();
 	$('#step2').hide();
@@ -241,10 +240,21 @@
 			url: "{% url 'ajax_broadcast' %}",
 			data: {'signed':signed},
 			success: function (data) {
-				console.log(data.output);
 				$('#signed').val(data.output);
 			}
   		});
+	}
+
+	function verification() {
+		var bytes_ = $('#unsigned1').val();
+		$.ajax({
+			url: "{% url 'ajax_verify' %}",
+			data: {'bytes_':bytes_},
+			success: function (data) {
+				var jsonStr = JSON.stringify(data);
+				alert(jsonStr);
+			}
+		});
 	}
 
 	$(document).ready( function () {
@@ -265,5 +275,7 @@
 		});
 
 	});
+
+
 
 </script>

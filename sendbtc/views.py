@@ -10,14 +10,12 @@ def home(request):
 	return render(request, "send.html")
 
 def ajax_tx(request):
-	try:
-		s_address = str(request.GET.get("sender", None))
-		r_address = str(request.GET.get("receiver", None))
-		amount = int(request.GET.get("amount", None))
-		fee = int(request.GET.get("fee", None))
-	except:
-		data = {'bytes_':'Transaction Generation Failed:\nVerify all input fields.'}
-		return JsonResponse(data)
+
+	s_address = str(request.GET.get("sender", None))
+	r_address = str(request.GET.get("receiver", None))
+	amount = int(request.GET.get("amount", None))
+	fee = int(request.GET.get("fee", None))
+
 	try:
 		bytes_ = quick_unsigned_tx(s_address, r_address, amount, fee)
 	except:
@@ -26,12 +24,8 @@ def ajax_tx(request):
 	return JsonResponse(data)
 
 def ajax_broadcast(request):
-	try:
-		bytes_ = str(request.GET.get("signed", None))
-	except:
-		output = 'Error reading transaction (before broadcasting). Verify all input fields and try again.'
-		data = {'output': output}
-		return JsonResponse(data)
+
+	bytes_ = str(request.GET.get("signed", None))
 	
 	try:
 		broadcast_tx(bytes_)
@@ -40,10 +34,24 @@ def ajax_broadcast(request):
 		receipt.time = timezone.now()
 		receipt.tx = bytes_
 		receipt.save()
+		txid = get_txid(bytes_)
 	except Exception as x:
 		output = str(repr(x))
-	data = {'output':output}
+		txid = '-'
+	data = {'output':output, 'txid':txid}
+	return JsonResponse(data)
+
+def ajax_verify(request):
+
+	bytes_ = str(request.GET.get('bytes_', None))
+	
+	try:
+		data = decode_tx(bytes_)
+	except:
+		data = {'error': 'Cannot decode transaction!'}
 	return JsonResponse(data)
 
 def tutorial_1(request):
 	return render(request, "tutorial1.html")
+
+
