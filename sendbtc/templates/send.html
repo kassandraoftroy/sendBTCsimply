@@ -75,15 +75,14 @@
 	<table width= '95%' align='center'>
 		<tr style='text-align: center;'>
 			<td style='width:25%;text-align:left;vertical-align: top;'>
-				<p style='font-family: "Montserrat" sans-serif;'><strong><a href="https://github.com/superarius/sendBTCsimply" style="text-decoration:none;color:black;" >GITHUB</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="" target="_blank" style="text-decoration:none;color:black;">HOW TO</a></strong>&nbsp;&nbsp;&nbsp;</p>
+				<p style='font-family: "Montserrat" sans-serif;'><strong><a href="https://github.com/superarius/sendBTCsimply" style="text-decoration:none;color:black;" >GITHUB</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="" target="_blank" style="text-decoration:none;color:black;">GUIDES</a></strong>&nbsp;&nbsp;&nbsp;</p>
 			</td>
 			<td style='text-align: center;width:50%;'>
 				<h1>Send Bitcoin Simply</h1>
 			</td>
 			<td style='text-align: right; width:25%;vertical-align: top;'>
 				<p>
-					Donate:<span style="font-family:'Montserrat' sans-serif;font-size:.8em;"><strong>19wfYbP9wYprQoKQAFasT7SZyU7XzuUuZk</strong></span><br>
-					Contact:<strong>sendbtcsimply@protonmail.com</strong>
+					<span style="font-family:'Montserrat' sans-serif;font-size:.8em;">Donate:<strong>19wfYbP9wYprQoKQAFasT7SZyU7XzuUuZk</strong></span><br>
 				</p>
 			</td>
 		</tr>
@@ -105,28 +104,28 @@
 	<div id='step1'>
 		<table width='100%' align='center'>
 			<tr>
-				<td style='width:30%;'>
+				<td style='width:40%;text-align:center;'>
 					<span id="revealunsigned">
 						<h4>Unsigned Transaction Data:</h4>
 						<textarea name="" cols="55" rows="10" id='unsigned1' wrap='hard'></textarea><br><br>
-						<button id='verify'>&nbsp;&nbsp;&nbsp;&nbsp;verify&nbsp;&nbsp;&nbsp;&nbsp;</button><br>
+						<div id='verify' class="eff2" style="background-color:red;border:none;font-size:15px;font-family: 'Montserrat' sans-serif;color:white; height:40px; line-height: 40px;vertical-align: middle;width:150px;margin:auto;cursor: pointer;">&nbsp;<strong>VERIFY</strong>&nbsp;</div><br>
 					</span>
 				</td>
 				<td style='width:40%;'>
-					<p style='text-align:left'>
+					<p style='text-align:center;'>
 						sender address:<br>
-						<input type="text" name="" id='sender' size='40' class='form'><br><br>
+						<input type="text" name="" id='sender' size='36' class='form'><br><br>
 						amount to send (in satoshis):<br>
-						<input type="text" name="" id='amount' size='25' class='form'><span id='conversion1' style='color:grey;'></span><br><br>
+						<input type="text" name="" id='amount' size='24' class='form'><span id='conversion1' style='color:grey;'></span><br><br>
 						send to:<br>
-						<input type="text" name="" id='receiver' size='40' class='form'><br><br>
+						<input type="text" name="" id='receiver' size='36' class='form'><br><br>
 						fee (in satoshis):<br>
-						<input type="text" name="" id='fee' size='25' class='form'><span id='conversion2' style='color:grey;'></span><br><br>
-						<button id='submit'>&nbsp;&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;&nbsp;</button><br><br>
+						<input type="text" name="" id='fee' size='24' class='form'><span id='conversion2' style='color:grey;'></span><br><br>
+						<div id='verify' class="eff2" style="background-color:red;border:none;font-size:15px;font-family: 'Montserrat' sans-serif;color:white; height:40px; line-height: 40px;vertical-align: middle;width:150px;margin:auto;cursor: pointer;">&nbsp;<strong>SUBMIT</strong>&nbsp;</div><br><br>
 					</p>
 				</td>
 				<td style='text-align:center;width:30%;vertical-align:top;'>
-					<div style='height:60px;width:98%;border: 2px solid black;margin-left:2px; margin-right:4px'><br>
+					<div style='height:60px;width:98%;border: 2px solid black;margin-left:0; margin-right:4px'><br>
 						<input type="text" name="" id='conversion3' size='10' style='text-align: center; line-height: 15px;'> &nbsp;BTC&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='conversion4' size='10' style='text-align: center; line-height: 15px;'> sat
 					</div>
 				</td>
@@ -251,8 +250,8 @@
 			url: "{% url 'ajax_verify' %}",
 			data: {'bytes_':bytes_},
 			success: function (data) {
-				var jsonStr = JSON.stringify(data);
-				alert(jsonStr);
+				var jsonStr = JSON.stringify(data, null, 4);
+				
 			}
 		});
 	}

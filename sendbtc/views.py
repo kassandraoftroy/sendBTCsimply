@@ -24,7 +24,7 @@ def ajax_tx(request):
 	except:
 		bytes_ = "Transaction Generation Failed:\nVerify all input fields.\nMake sure sender has enough funds for transaction and fee."
 	data = {'bytes_':bytes_}
-	return JsonResponse(data)
+	return JsonResponse(data)d
 
 def ajax_broadcast(request):
 
