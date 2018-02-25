@@ -138,13 +138,13 @@
 						<input type="text" name="" id='receiver' size='38' class='form'><br>
 						Amount (in satoshis):<br>
 						<input type="text" name="" id='amount' size='26' class='form'><span id='conversion1' style='color:grey;'></span><br>
-						<span id='add_output' style='text-decoration:underline;color:blue;'>add output</span>
+						<span id='add_output' style='text-decoration:underline;color:blue;cursor:pointer;'>add output</span>
 					</p>
 					<p style="font-family:'Montserrat' sans-serif;text-align: center;"><strong>MINER FEE</strong></p>
 					<p style='text-align:left; padding-left:30px;'>
 						Fee (in satoshis):<br>
 						<input type="text" name="" id='fee' size='26' class='form'><span id='conversion2' style='color:grey;'></span><br>
-						<span id='get_suggest' style='text-decoration:underline;color:blue;'>smart suggestion</span><br>
+						<span id='get_suggest' style='text-decoration:underline;color:blue;cursor:pointer;'>smart suggestion</span><br>
 						<span id='suggest'></span>
 					</p>
 					<div id='create' class="eff2" style="background-color:navy;border:none;font-size:16px;font-family: 'Montserrat' sans-serif;color:white; height:45px; line-height: 45px;vertical-align: middle;width:150px;margin-left:30px;cursor: pointer;text-align:center;"><span style='text-align: center;'><strong>CREATE</strong></span></div><br><br>
@@ -253,7 +253,7 @@
 	
 	document.getElementById('create').onclick = function() {maketx();};
 	document.getElementById('broadcast').onclick = function() {broadcast();};
-	document.getElementById('verify').onclick = function () {verification();}
+	document.getElementById('verify').onclick = function () {verify_direct();}
 	document.getElementById('get_suggest').onclick = function () {fee_suggest();}
 
 	function maketx() {
@@ -281,11 +281,25 @@
 		$('#signed').val('Sending . . .');
 		$.ajax({
 			url: "{% url 'ajax_broadcast' %}",
+			type:"POST"
 			data: {'signed':signed},
 			success: function (data) {
 				$('#signed').val(data.output);
 			}
   		});
+	}
+
+	function verify_direct() {
+		var bytes_ = $('#unsigned').val();
+		$.ajax({
+			url: "https://http://api.blockcypher.com/txs/decode",
+			type: "post",
+			data: {'tx':bytes_},
+			success: function (data) {
+				var jsonStr = JSON.stringify(data, null, 4);
+				alert(jsonStr);
+			}
+		});
 	}
 
 	function verification() {
@@ -325,7 +339,7 @@
 			var a = $('#btcsat').val();
 			if (a==''){document.getElementById('satbtc').value = '';document.getElementById('btcusd').value = '';document.getElementById('usdbtc').value = '';}
 			else {
-			num = Math.round(parseFloat(a)*100000000);
+			var num = Math.round(parseFloat(a)*100000000);
 			document.getElementById('satbtc').value = num.toString();
 			document.getElementById('btcusd').value = a;
 			document.getElementById('usdbtc').value = my_round(parseFloat(a)*usd2btc,2).toString();}
@@ -335,17 +349,17 @@
 			var a = $('#satbtc').val();
 			if (a==''){document.getElementById('btcsat').value = '';document.getElementById('btcusd').value = '';document.getElementById('usdbtc').value = '';}
 			else {
-			num = parseInt(a)/100000000.0;
+			var num = parseInt(a)/100000000.0;
 			document.getElementById('btcsat').value = num.toString();
 			document.getElementById('btcusd').value = num.toString();
-			document.getElementById('udsbtc').value = my_round(parseFloat(num)*usd2btc,2).toString();}
+			document.getElementById('usdbtc').value = my_round(parseFloat(num)*usd2btc,2).toString();}
 		});
 		
 		$('#btcusd').on('keyup', function () {
 			var a = $('#btcusd').val();
 			if (a==''){document.getElementById('satbtc').value = '';document.getElementById('btcsat').value = '';document.getElementById('usdbtc').value = '';}
 			else {
-			num = Math.round(parseFloat(a)*usd2btc*100)/100;
+			var num = Math.round(parseFloat(a)*usd2btc*100)/100;
 			document.getElementById('usdbtc').value = num.toString();
 			document.getElementById('btcsat').value = a;
 			document.getElementById('satbtc').value = Math.round(parseFloat(a)*100000000).toString();}
@@ -355,7 +369,7 @@
 			var a = $('#usdbtc').val();
 			if (a==''){document.getElementById('satbtc').value = '';document.getElementById('btcusd').value = '';document.getElementById('btcsat').value = '';}
 			else {
-			num = my_round(parseFloat(a)/usd2btc, 8);
+			var num = my_round(parseFloat(a)/usd2btc, 8);
 			document.getElementById('btcusd').value = num.toString();
 			document.getElementById('btcsat').value = num.toString();
 			document.getElementById('satbtc').value = Math.round(num*100000000).toString();}
