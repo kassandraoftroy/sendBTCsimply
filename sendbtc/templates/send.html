@@ -110,6 +110,19 @@
 	<div id='step1'>
 		<table id='table1' width='100%' align='center'>
 			<tr style = 'text-align: center;'>
+				<td style='text-align:center;width:33%;vertical-align:top;'>
+					<div style='height:440px;width:98%;border: 2px solid black;margin-left:0; margin-right:6px; margin-top:6px; margin-bottom:6px;'><br>
+						<h3 style='font-weight:normal;font-style:italic;'>Conversions</h3>
+						<input type="text" name="" id='conversion3' size='10' style='text-align: center; line-height: 15px;'> &nbsp;BTC&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='conversion4' size='10' style='text-align: center; line-height: 15px;'> sat
+						<br><br>
+						<input type="text" name="" id='btcusd' size='10' style='text-align: center; line-height: 15px;'> &nbsp;BTC&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='usdbtc' size='10' style='text-align: center; line-height: 15px;'> USD
+						<br><br><br>
+						<h3 style='font-weight:normal;font-style:italic;'>Fees</h3>
+						<span id='est_fee'></span><br>
+						<span style='font-size:.8em;'>* assumes tx size of 226 bytes<a href="https://bitcoinfees.earn.com/" style='font-weight:bold;color:black;text-decoration:none;'> more info</a><br>
+						* * use "smart suggestion" for estimates specific to your tx.</span>
+					</div>
+				</td>
 				<td id='colform' style='width:34%;'>
 					<p style="font-family:'Montserrat' sans-serif;text-align: center;"><strong><br>INPUT</strong></p>
 					<p style='text-align:left; padding-left:12px;'>
@@ -120,7 +133,7 @@
 					<p style='text-align:left; padding-left:12px;'>
 						To Address:<br>
 						<input type="text" name="" id='receiver' size='32' class='form'><br>
-						Amount:<br>
+						Amount (in satoshis):<br>
 						<input type="text" name="" id='amount' size='24' class='form'><span id='conversion1' style='color:grey;'></span><br>
 						<span id='add_output' style='text-decoration:underline;color:blue;'>add output</span>
 					</p>
@@ -137,17 +150,6 @@
 						<textarea name="" cols="55" rows="7" wrap='hard' id='unsigned'></textarea><br><br>
 						<div id='verify' class="eff2" style="background-color:navy;border:none;font-size:15px;font-family: 'Montserrat' sans-serif;color:white; height:45px; line-height: 45px;vertical-align: middle;width:150px;margin:auto;cursor: pointer;"><strong>VERIFY</strong></div>
 					</span>
-				</td>
-				<td style='text-align:center;width:33%;vertical-align:top;'>
-					<div style='height:440px;width:98%;border: 2px solid black;margin-left:0; margin-right:6px; margin-top:6px; margin-bottom:6px;'><br>
-						<h3 style='font-weight:normal;font-style:italic;'>Conversions</h3>
-						<input type="text" name="" id='conversion3' size='10' style='text-align: center; line-height: 15px;'> &nbsp;BTC&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='conversion4' size='10' style='text-align: center; line-height: 15px;'> sat
-						<br><br><br>
-						<h3 style='font-weight:normal;font-style:italic;'>Fees</h3>
-						<span id='est_fee'></span><br>
-						<span style='font-size:.8em;'>* assumes 226 byte tx size<a href="https://bitcoinfees.earn.com/" style='font-weight:bold;color:black;text-decoration:none;'> more info</a><br>
-						* * use "smart suggestion" for estimates specific to your tx.</span>
-					</div>
 				</td>
 			</tr>
 		</table>
@@ -203,6 +205,7 @@
 </body>
 
 <script>
+	var usd2btc = 1;
 	window.onload = function () {
 		$.ajax({
 			url: "https://bitcoinfees.earn.com/api/v1/fees/recommended",
@@ -211,6 +214,14 @@
 				var half = Math.ceil(data.halfHourFee*226/1000)*1000;
 				var hour = Math.ceil(data.hourFee*226/1000)*1000;
 				document.getElementById('est_fee').innerHTML="optimal: ~" + best.toString() + " satoshis<br><30m: ~"+ half.toString()+" satoshis<br><1hr: ~"+ hour.toString()+" satoshis<br>";
+			}
+		});
+		$.ajax({
+			url: "https://blockchain.info/ticker"
+			success: function (data){
+				usd2btc = data.USD.last;
+				document.getElementById('btcusd').innerHTML = "1"
+				document.getElementById('usdbtc').innerHTML = usd2btc.toString();
 			}
 		});
 		window.setInterval(function(){
@@ -301,6 +312,22 @@
 			else {
 			num = parseInt(a)/100000000.0;
 			document.getElementById('conversion3').value = num.toString();}
+		});
+		
+		$('#btcusd').on('keyup', function () {
+			var a = $('#btcusd').val();
+			if (a==''){document.getElementById('usdbtc').value = '';}
+			else {
+			num = Math.round(parseFloat(a)*usd2btc*100)/100;
+			document.getElementById('usdbtc').value = num.toString();}
+		});
+		
+		$('#usdbtc').on('keyup', function () {
+			var a = $('#usdbtc').val();
+			if (a==''){document.getElementById('btcusd').value = '';}
+			else {
+			num = parseFloat(a)/usd2btc;
+			document.getElementById('btcusd').value = num.toString();}
 		});
 
 	});
