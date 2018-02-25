@@ -223,10 +223,10 @@
 			url: "https://blockchain.info/ticker",
 			success: function (data){
 				usd2btc = data.USD.last;
-				document.getElementById('btcusd').val("1");
-				document.getElementById('btcsat').val("1");
-				document.getElementById('usdbtc').val(usd2btc.toString());
-				document.getElementById('satbtc').val(innerHTML = "100000000");
+				$('#btcusd').val("1");
+				$('#btcsat').val("1");
+				$('#usdbtc').val(usd2btc.toString());
+				$('#satbtc').val("100000000");
 			}
 		});
 		window.setInterval(function(){
@@ -264,6 +264,7 @@
 		var receiver = $('#receiver').val();
 		var amount = $('#amount').val();
 		var fee = $('#fee').val();
+
 		$.ajax({
 			url: "{% url 'ajax_tx' %}",
 			data: {'sender': sender, 'receiver':receiver, 'amount':amount, 'fee':fee},
@@ -297,7 +298,7 @@
 			data: {'bytes_':bytes_},
 			success: function (data) {
 				var jsonStr = JSON.stringify(data, null, 4);
-				
+				alert(jsonStr);
 			}
 		});
 	}
