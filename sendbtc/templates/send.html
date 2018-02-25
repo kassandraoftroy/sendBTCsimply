@@ -76,7 +76,7 @@
 	</style>
 </head>
 
-<body style="text-align:center;font-family:georgia;background-color:#fff0b3;">
+<body style="text-align:center;font-family:georgia;background-image:url('https://s3.amazonaws.com/aristaticfiles/cligraph3.jpg');">
 
 	<table width= '95%' align='center'>
 		<tr style='text-align: center;'>
@@ -109,11 +109,6 @@
 	<div id='step1'>
 		<table id='table1' width='100%' align='center'>
 			<tr style = 'text-align: center;'>
-				<td style='width:34%; text-align:center;' id='revealunsigned'>
-					<h4 id='s_header'>Unsigned Transaction Hex:</h4>
-						<textarea name="" cols="55" rows="7" wrap='hard' id='unsigned'></textarea><br><br>
-						<div id='verify' class="eff2" style="background-color:navy;border:none;font-size:15px;font-family: 'Montserrat' sans-serif;color:white; height:45px; line-height: 45px;vertical-align: middle;width:150px;margin:auto;cursor: pointer;"><strong>VERIFY</strong></div>
-				</td>
 				<td id='colform' style='width:33%;'>
 					<p style='text-align:left; padding-left:12px;'>
 						Spend Address:<br>
@@ -125,14 +120,21 @@
 						<input type="text" name="" id='amount' size='24' class='form'><span id='conversion1' style='color:grey;'></span><br>
 						To:<br>
 						<input type="text" name="" id='receiver' size='32' class='form'><br>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*<span id='add_output' style='text-decoration:underline;color:blue;'>add</span>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*<span id='add_output' style='text-decoration:underline;color:blue;'>add</span>
 					</p>
 
 					<div id='create' class="eff2" style="background-color:navy;border:none;font-size:16px;font-family: 'Montserrat' sans-serif;color:white; height:45px; line-height: 45px;vertical-align: middle;width:150px;margin-left:12px;cursor: pointer;text-align:center;"><span style='text-align: center;'><strong>CREATE</strong></span></div><br><br>
 				</td>
+				<td style='width:34%; text-align:center;'>
+					<span id='revealunsigned'>
+						<h4 id='s_header'>Unsigned Transaction Hex:</h4>
+						<textarea name="" cols="55" rows="7" wrap='hard' id='unsigned'></textarea><br><br>
+						<div id='verify' class="eff2" style="background-color:navy;border:none;font-size:15px;font-family: 'Montserrat' sans-serif;color:white; height:45px; line-height: 45px;vertical-align: middle;width:150px;margin:auto;cursor: pointer;"><strong>VERIFY</strong></div>
+					</span>
+				</td>
 				<td style='text-align:center;width:33%;vertical-align:top;'>
 					<div style='height:100%;width:98%;border: 2px solid black;margin-left:0; margin-right:4px'><br>
-						<h3 style='font-weight:normal;font-style:italic;'>Current Figures</h3>
+						<h3 style='font-weight:normal;font-style:italic;'></h3>
 						<input type="text" name="" id='conversion3' size='10' style='text-align: center; line-height: 15px;'> &nbsp;BTC&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='conversion4' size='10' style='text-align: center; line-height: 15px;'> sat
 						<br>
 						<span id='est_fee' style='font-size:.8em;'></span><a href="https://bitcoinfees.earn.com/" style='font-size:.8em;font-weight:bold;color:black;text-decoration:none;'> more info</a>
@@ -196,9 +198,10 @@
 		$.ajax({
 			url: "https://bitcoinfees.earn.com/api/v1/fees/recommended",
 			success: function (data){
-				var best = data.fastestFee*226;
-				var hour = data.hourFee*226;
-				document.getElementById('est_fee').innerHTML="fastest: ~" + best.toString() + "1hr: ~"+ hour.toString();
+				var best = Math.ceil(data.fastestFee*226/100)*100;
+				var half = Math.ceil(data.halfHourFee*226/100)*100
+				var hour = Math.ceil(data.hourFee*226/100)*100;
+				document.getElementById('est_fee').innerHTML="optimal: " + best.toString() + "<30m 1hr: ~"+ hour.toString();
 			}
 		});
 		window.setInterval(function(){
@@ -229,7 +232,6 @@
 	document.getElementById('verify').onclick = function () {verification();}
 	
 	$('#step2').hide();
-	$('#revealunsigned').hide();
 
 	function maketx() {
 		var sender = $('#sender').val();
@@ -241,11 +243,6 @@
 			data: {'sender': sender, 'receiver':receiver, 'amount':amount, 'fee':fee},
 			success: function (data) {
 				document.getElementById('unsigned').innerHTML = data.bytes_;
-				var tbl = $('#table1');
-				$('#colform').hide(500);
-				jQuery.moveColumn(tbl, 1, 0);
-				$('#revealunsigned').show(500);
-				$('#colform').show(500);
 			}
   		});
 	}
