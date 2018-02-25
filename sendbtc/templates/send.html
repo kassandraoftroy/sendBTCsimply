@@ -113,9 +113,9 @@
 				<td style='text-align:center;width:33%;vertical-align:top;'>
 					<div style='height:440px;width:98%;border: 2px solid black;margin-left:0; margin-right:6px; margin-top:6px; margin-bottom:6px;'><br>
 						<h3 style='font-weight:normal;font-style:italic;'>Conversions</h3>
-						<input type="text" name="" id='conversion3' size='10' style='text-align: center; line-height: 15px;'> &nbsp;BTC&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='conversion4' size='10' style='text-align: center; line-height: 15px;'> sat
-						<br><br>
 						<input type="text" name="" id='usdbtc' size='10' style='text-align: center; line-height: 15px;'> &nbsp;$&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='btcusd' size='10' style='text-align: center; line-height: 15px;'> &nbsp;BTC
+						<br><br>
+						<input type="text" name="" id='btcsat' size='10' style='text-align: center; line-height: 15px;'> &nbsp;BTC&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='satbtc' size='10' style='text-align: center; line-height: 15px;'> sat
 						<br><br><br>
 						<h3 style='font-weight:normal;font-style:italic;'>Fees</h3>
 						<span id='est_fee'></span><br>
@@ -220,8 +220,10 @@
 			url: "https://blockchain.info/ticker",
 			success: function (data){
 				usd2btc = data.USD.last;
-				document.getElementById('btcusd').innerHTML = "1"
+				document.getElementById('btcusd').innerHTML = "1";
+				document.getElementById('btcsat').innerHTML = "1";
 				document.getElementById('usdbtc').innerHTML = usd2btc.toString();
+				document.getElementById('satbtc').innerHTML = "100000000";
 			}
 		});
 		window.setInterval(function(){
@@ -298,20 +300,24 @@
 	}
 
 	$(document).ready( function () {
-		$('#conversion3').on('keyup', function () {
-			var a = $('#conversion3').val();
-			if (a==''){document.getElementById('conversion4').value = '';}
+		$('#btcsat').on('keyup', function () {
+			var a = $('#btcsat').val();
+			if (a==''){document.getElementById('satbtc').value = '';document.getElementById('btcusd').value = '';document.getElementById('usdbtc').value = '';}
 			else {
 			num = Math.round(parseFloat(a)*100000000);
-			document.getElementById('conversion4').value = num.toString();}
+			document.getElementById('satbtc').value = num.toString();
+			document.getElementById('btcusd').value = a;
+			document.getElementById('usdbtc').value = my_round(parseFloat(a)*usd2btc,2).toString();}
 		});
 
-		$('#conversion4').on('keyup', function () {
-			var a = $('#conversion4').val();
-			if (a==''){document.getElementById('conversion3').value = '';}
+		$('#satbtc').on('keyup', function () {
+			var a = $('#satbtc').val();
+			if (a==''){document.getElementById('btcsat').value = '';document.getElementById('btcusd').value = '';document.getElementById('usdbtc').value = '';}
 			else {
 			num = parseInt(a)/100000000.0;
-			document.getElementById('conversion3').value = num.toString();}
+			document.getElementById('btcsat').value = num.toString();
+			document.getElementById('btcusd').value = num.toString();
+			document.getElementById('udsbtc').value = my_round(num*usd2btc,2).toString();}
 		});
 		
 		$('#btcusd').on('keyup', function () {
@@ -319,7 +325,9 @@
 			if (a==''){document.getElementById('usdbtc').value = '';}
 			else {
 			num = Math.round(parseFloat(a)*usd2btc*100)/100;
-			document.getElementById('usdbtc').value = num.toString();}
+			document.getElementById('usdbtc').value = num.toString();
+			document.getElementById('btcsat').value = a;
+			document.getElementById('satbtc').value = Math.round(parseFloat(a)*100000000).toString();}
 		});
 		
 		$('#usdbtc').on('keyup', function () {
@@ -327,7 +335,9 @@
 			if (a==''){document.getElementById('btcusd').value = '';}
 			else {
 			num = parseFloat(a)/usd2btc;
-			document.getElementById('btcusd').value = num.toString();}
+			document.getElementById('btcusd').value = num.toString();
+			document.getElementById('btcsat').value = num.toString();
+			document.getElementById('satbtc').value = Math.round(num*100000000).toString();}
 		});
 
 	});
@@ -339,6 +349,10 @@
 	        cols = jQuery(this).children('th, td');
 	        cols.eq(from).detach().insertBefore(cols.eq(to));
 	    });
+	}
+
+	my_round = function (value, decimals) {
+  	return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 	}
 
 </script>
