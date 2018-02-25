@@ -107,10 +107,15 @@
 	</div>
 
 	<div id='step1'>
-		<table width='100%' align='center'>
+		<table id='table1' width='100%' align='center'>
 			<tr style = 'text-align: center;'>
-				<td style='width:33%;'>
-					<p style='text-align:left; padding-left:12px;'>
+				<td style='width:34%; text-align:center;' id='revealunsigned'>
+					<h4 id='s_header'>Unsigned Transaction Hex:</h4>
+						<textarea name="" cols="55" rows="7" wrap='hard' id='unsigned'></textarea><br><br>
+						<div id='verify' class="eff2" style="background-color:navy;border:none;font-size:15px;font-family: 'Montserrat' sans-serif;color:white; height:45px; line-height: 45px;vertical-align: middle;width:150px;margin:auto;cursor: pointer;"><strong>VERIFY</strong></div>
+				</td>
+				<td id='colform' style='width:33%;'>
+					<p style='text-align:left;'>
 						Spend Address:<br>
 						<input type="text" name="" id='sender' size='32' class='form'><br>
 						Miner Fee (in satoshis):<br>
@@ -124,12 +129,7 @@
 						<input type="text" name="" id='receiver' size='32' class='form'><br>
 					</p>
 
-					<div id='create' class="eff2" style="background-color:navy;border:none;font-size:16px;font-family: 'Montserrat' sans-serif;color:white; height:45px; line-height: 45px;vertical-align: middle;width:150px;margin-left:12px;cursor: pointer;text-align:center;"><span style='text-align: center;'><strong>CREATE</strong></span></div><br><br>
-				</td>
-				<td style='width:34%; text-align:center;'>
-					<h4 id='s_header'>Unsigned Transaction Hex:</h4>
-						<textarea name="" cols="55" rows="7" wrap='hard' id='unsigned'></textarea><br><br>
-						<div id='verify' class="eff2" style="background-color:navy;border:none;font-size:15px;font-family: 'Montserrat' sans-serif;color:white; height:45px; line-height: 45px;vertical-align: middle;width:150px;margin:auto;cursor: pointer;"><strong>VERIFY</strong></div>
+					<div id='create' class="eff2" style="background-color:navy;border:none;font-size:16px;font-family: 'Montserrat' sans-serif;color:white; height:45px; line-height: 45px;vertical-align: middle;width:150px;cursor: pointer;text-align:center;"><span style='text-align: center;'><strong>CREATE</strong></span></div><br><br>
 				</td>
 				<td style='text-align:center;width:33%;vertical-align:top;'>
 					<div style='height:60px;width:98%;border: 2px solid black;margin-left:0; margin-right:4px'><br>
@@ -194,7 +194,6 @@
 		$.ajax({
 			url: "https://bitcoinfees.earn.com/api/v1/fees/recommended",
 			success: function (data){
-				console.log(data);
 				var best = data.fastestFee*226;
 				var hour = data.hourFee*226;
 				document.getElementById('est_fee').innerHTML="fastest: ~" + best.toString() + "1hr: ~"+ hour.toString();
@@ -239,7 +238,11 @@
 			data: {'sender': sender, 'receiver':receiver, 'amount':amount, 'fee':fee},
 			success: function (data) {
 				document.getElementById('unsigned').innerHTML = data.bytes_;
+				var tbl = $('#table1');
+				$('#colform').hide();
+				jQuery.moveColumn(tbl, 1, 0);
 				$('#revealunsigned').show();
+				$('#colform').show();
 			}
   		});
 	}
@@ -291,6 +294,13 @@
 
 	});
 
-
+	jQuery.moveColumn = function (table, from, to) {
+	    var rows = jQuery('tr', table);
+	    var cols;
+	    rows.each(function() {
+	        cols = jQuery(this).children('th, td');
+	        cols.eq(from).detach().insertBefore(cols.eq(to));
+	    });
+	}
 
 </script>
