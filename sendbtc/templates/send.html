@@ -43,6 +43,7 @@
 		height:auto;
 		background:#FFF;
 		margin:10px auto;
+		opacity:0.66;
 	}
 
 	.effect
@@ -76,7 +77,7 @@
 	</style>
 </head>
 
-<body style="text-align:center;font-family:georgia;background-image:url('https://s3.amazonaws.com/aristaticfiles/canvas3.jpg');">
+<body style="text-align:center;font-family:georgia;background-image:url('https://s3.amazonaws.com/aristaticfiles/cligraph3.jpg');">
 
 	<table width= '95%' align='center'>
 		<tr style='text-align: center;'>
@@ -133,12 +134,14 @@
 					<div id='create' class="eff2" style="background-color:navy;border:none;font-size:16px;font-family: 'Montserrat' sans-serif;color:white; height:45px; line-height: 45px;vertical-align: middle;width:150px;margin-left:12px;cursor: pointer;text-align:center;"><span style='text-align: center;'><strong>CREATE</strong></span></div><br><br>
 				</td>
 				<td style='text-align:center;width:33%;vertical-align:top;'>
-					<div style='height:400px;width:98%;border: 2px solid black;margin-left:0; margin-right:4px'><br>
-						<h3 style='font-weight:normal;font-style:italic;'></h3>
+					<div style='height:360px;width:98%;border: 2px solid black;margin-left:0; margin-right:4px'><br>
+						<h3 style='font-weight:normal;font-style:italic;'>Conversions</h3>
 						<input type="text" name="" id='conversion3' size='10' style='text-align: center; line-height: 15px;'> &nbsp;BTC&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='conversion4' size='10' style='text-align: center; line-height: 15px;'> sat
-						<br><br>
-						<
-						<span id='est_fee'></span><a href="https://bitcoinfees.earn.com/" style='font-weight:bold;color:black;text-decoration:none;'> more info</a>
+						<br><br><br>
+						<h3 style='font-weight:normal;font-style:italic;'>Avg Fees Now:</h3>
+						<span id='est_fee'></span>
+						<span style='font-size:.8em;'>* assumes 226 byte tx size - <a href="https://bitcoinfees.earn.com/" style='font-weight:bold;color:black;text-decoration:none;'>more info</a><br>
+						* * use "smart suggest" for an estimate tailored to your tx size.</span>
 					</div>
 				</td>
 			</tr>
@@ -202,7 +205,7 @@
 				var best = Math.ceil(data.fastestFee*226/1000)*1000;
 				var half = Math.ceil(data.halfHourFee*226/1000)*1000;
 				var hour = Math.ceil(data.hourFee*226/1000)*1000;
-				document.getElementById('est_fee').innerHTML="optimal: ~" + best.toString() + "<br><30m: ~"+ half.toString()+"<br><1hr: ~"+ hour.toString();
+				document.getElementById('est_fee').innerHTML="optimal: ~" + best.toString() + " satoshis<br><30m: ~"+ half.toString()+" satoshis<br><1hr: ~"+ hour.toString()+" satoshis<br>";
 			}
 		});
 		window.setInterval(function(){
