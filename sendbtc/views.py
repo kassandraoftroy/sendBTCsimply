@@ -58,7 +58,7 @@ def ajax_suggest(request):
 	try:
 		addr = str(request.GET.get('addr', None))
 		num = int(request.GET.get('amount', None))
-		o = [{'address': "none"; 'value':num}]
+		o = [{'address': "none", 'value':num}]
 		data = {"msg":txsize_est(addr, o)}
 	except:
 		data = {"msg": 0}
