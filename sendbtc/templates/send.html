@@ -89,8 +89,8 @@
 				</p>
 			</td>
 			<td style='text-align: center;width:50%;'>
-				<h1>
-					<span style="font-family:'Montserrat' sans-serif;">BTC</span><span style='font-style:italic;font-weight:normal;'>tx</span>
+				<h1 style="font-family:'Montserrat' sans-serif;">
+					BTC<span style='font-style:italic;font-weight:normal;font-family:georgia;'>tx</span>
 				</h1>
 			</td>
 			<td style='text-align: center; width:25%;vertical-align: top;'>
@@ -338,7 +338,7 @@
 			var a = $('#usdbtc').val();
 			if (a==''){document.getElementById('btcusd').value = '';}
 			else {
-			num = my_round(parseFloat(a)/usd2btc, 12);
+			num = my_round(parseFloat(a)/usd2btc, 8);
 			document.getElementById('btcusd').value = num.toString();
 			document.getElementById('btcsat').value = num.toString();
 			document.getElementById('satbtc').value = Math.round(num*100000000).toString();}
