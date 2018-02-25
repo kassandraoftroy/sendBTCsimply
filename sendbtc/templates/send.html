@@ -111,12 +111,15 @@
 		<table id='table1' width='100%' align='center'>
 			<tr style = 'text-align: center;'>
 				<td style='text-align:center;width:33%;vertical-align:top;'>
-					<div style='height:440px;width:98%;border: 2px solid black;margin-left:0; margin-right:6px; margin-top:6px; margin-bottom:6px;'><br>
+					<div style='height:200px;width:98%;border: 2px solid black;margin-left:6px; margin-right:0; margin-top:6px; margin-bottom:6px;'><br>
 						<h3 style='font-weight:normal;font-style:italic;'>Conversions</h3>
-						<input type="text" name="" id='usdbtc' size='10' style='text-align: center; line-height: 15px;'> &nbsp;$&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='btcusd' size='10' style='text-align: center; line-height: 15px;'> &nbsp;BTC
+						<input type="text" name="" id='usdbtc' size='14' style='text-align: center; line-height: 15px;'> &nbsp;$&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='btcusd' size='14' style='text-align: center; line-height: 15px;'> &nbsp;BTC
 						<br><br>
-						<input type="text" name="" id='btcsat' size='10' style='text-align: center; line-height: 15px;'> &nbsp;BTC&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='satbtc' size='10' style='text-align: center; line-height: 15px;'> sat
+						<input type="text" name="" id='btcsat' size='14' style='text-align: center; line-height: 15px;'> &nbsp;BTC&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='satbtc' size='14' style='text-align: center; line-height: 15px;'> sat
 						<br><br><br>
+					</div>
+					<div style='height:50px;'></div>
+					<div style='height:200px;width:98%;border: 2px solid black;margin-left:6px; margin-right:0; margin-top:6px; margin-bottom:6px;'>
 						<h3 style='font-weight:normal;font-style:italic;'>Fees</h3>
 						<span id='est_fee'></span><br>
 						<span style='font-size:.8em;'>* assumes tx size of 226 bytes<a href="https://bitcoinfees.earn.com/" style='font-weight:bold;color:black;text-decoration:none;'> more info</a><br>
@@ -125,24 +128,24 @@
 				</td>
 				<td id='colform' style='width:34%;'>
 					<p style="font-family:'Montserrat' sans-serif;text-align: center;"><strong><br>INPUT</strong></p>
-					<p style='text-align:left; padding-left:20px;'>
+					<p style='text-align:left; padding-left:30px;'>
 						Spend Address:<br>
-						<input type="text" name="" id='sender' size='32' class='form'>
+						<input type="text" name="" id='sender' size='38' class='form'>
 					</p>
 					<p style="font-family:'Montserrat' sans-serif;text-align: center;"><strong>OUTPUT</strong></p>
-					<p style='text-align:left; padding-left:20px;'>
+					<p style='text-align:left; padding-left:30px;'>
 						To Address:<br>
-						<input type="text" name="" id='receiver' size='32' class='form'><br>
+						<input type="text" name="" id='receiver' size='38' class='form'><br>
 						Amount (in satoshis):<br>
-						<input type="text" name="" id='amount' size='24' class='form'><span id='conversion1' style='color:grey;'></span><br>
+						<input type="text" name="" id='amount' size='26' class='form'><span id='conversion1' style='color:grey;'></span><br>
 						<span id='add_output' style='text-decoration:underline;color:blue;'>add output</span>
 					</p>
 					<p style="font-family:'Montserrat' sans-serif;text-align: center;"><strong>MINER FEE</strong></p>
-					<p style='text-align:left; padding-left:20px;'>
+					<p style='text-align:left; padding-left:30px;'>
 						Fee (in satoshis):<br>
-						<input type="text" name="" id='fee' size='24' class='form'><span id='conversion2' style='color:grey;'></span><br>
+						<input type="text" name="" id='fee' size='26' class='form'><span id='conversion2' style='color:grey;'></span><br>
 						<span id='suggest_fee' style='text-decoration:underline;color:blue;'>smart suggestion</span>
-					<div id='create' class="eff2" style="background-color:navy;border:none;font-size:16px;font-family: 'Montserrat' sans-serif;color:white; height:45px; line-height: 45px;vertical-align: middle;width:150px;margin-left:20px;cursor: pointer;text-align:center;"><span style='text-align: center;'><strong>CREATE</strong></span></div><br><br>
+					<div id='create' class="eff2" style="background-color:navy;border:none;font-size:16px;font-family: 'Montserrat' sans-serif;color:white; height:45px; line-height: 45px;vertical-align: middle;width:150px;margin-left:30px;cursor: pointer;text-align:center;"><span style='text-align: center;'><strong>CREATE</strong></span></div><br><br>
 				</td>
 				<td style='width:33%; text-align:center;'>
 					<span id='revealunsigned'>
@@ -220,10 +223,10 @@
 			url: "https://blockchain.info/ticker",
 			success: function (data){
 				usd2btc = data.USD.last;
-				document.getElementById('btcusd').innerHTML = "1";
-				document.getElementById('btcsat').innerHTML = "1";
-				document.getElementById('usdbtc').innerHTML = usd2btc.toString();
-				document.getElementById('satbtc').innerHTML = "100000000";
+				document.getElementById('btcusd').val("1");
+				document.getElementById('btcsat').val("1");
+				document.getElementById('usdbtc').val(usd2btc.toString());
+				document.getElementById('satbtc').val(innerHTML = "100000000");
 			}
 		});
 		window.setInterval(function(){
@@ -334,7 +337,7 @@
 			var a = $('#usdbtc').val();
 			if (a==''){document.getElementById('btcusd').value = '';}
 			else {
-			num = parseFloat(a)/usd2btc;
+			num = my_round(parseFloat(a)/usd2btc, 12);
 			document.getElementById('btcusd').value = num.toString();
 			document.getElementById('btcsat').value = num.toString();
 			document.getElementById('satbtc').value = Math.round(num*100000000).toString();}
