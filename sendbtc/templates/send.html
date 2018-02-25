@@ -43,7 +43,7 @@
 		height:auto;
 		background:#FFF;
 		margin:10px auto;
-		opacity:0.9;
+		opacity:0.85;
 	}
 
 	.effect
@@ -118,11 +118,11 @@
 						<input type="text" name="" id='btcsat' size='14' style='text-align: center; line-height: 15px;'> &nbsp;BTC&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='satbtc' size='14' style='text-align: center; line-height: 15px;'> sat
 						<br><br><br>
 					</div>
-					<div style='height:50px;'></div>
+					<div style='height:40px;'></div>
 					<div style='height:200px;width:98%;border: 2px solid black;margin-left:6px; margin-right:0; margin-top:6px; margin-bottom:6px;'>
 						<h3 style='font-weight:normal;font-style:italic;'>Fees</h3>
 						<span id='est_fee'></span><br>
-						<span style='font-size:.8em;'>* assumes tx size of 226 bytes<a href="https://bitcoinfees.earn.com/" style='font-weight:bold;color:black;text-decoration:none;'> more info</a><br>
+						<span style='font-size:.8em;'>* assumes tx size of ~250 bytes - <a href="https://bitcoinfees.earn.com/" style='font-weight:bold;color:black;text-decoration:none;'> more fee info</a><br>
 						* * use "smart suggestion" for estimates specific to your tx.</span>
 					</div>
 				</td>
@@ -144,7 +144,9 @@
 					<p style='text-align:left; padding-left:30px;'>
 						Fee (in satoshis):<br>
 						<input type="text" name="" id='fee' size='26' class='form'><span id='conversion2' style='color:grey;'></span><br>
-						<span id='suggest_fee' style='text-decoration:underline;color:blue;'>smart suggestion</span>
+						<span id='get_suggest' style='text-decoration:underline;color:blue;'>smart suggestion</span><br>
+						<span id='suggest'></span>
+					</p>
 					<div id='create' class="eff2" style="background-color:navy;border:none;font-size:16px;font-family: 'Montserrat' sans-serif;color:white; height:45px; line-height: 45px;vertical-align: middle;width:150px;margin-left:30px;cursor: pointer;text-align:center;"><span style='text-align: center;'><strong>CREATE</strong></span></div><br><br>
 				</td>
 				<td style='width:33%; text-align:center;'>
@@ -209,20 +211,26 @@
 
 <script>
 	var usd2btc = 1;
+	var optimal_satbyte, halfhour_satbyte, hour_satbyte;
 	window.onload = function () {
+		$('#step2').hide();
+		$('#revealunsigned').hide();
 		$.ajax({
 			url: "https://bitcoinfees.earn.com/api/v1/fees/recommended",
 			success: function (data){
-				var best = Math.ceil(data.fastestFee*226/1000)*1000;
-				var half = Math.ceil(data.halfHourFee*226/1000)*1000;
-				var hour = Math.ceil(data.hourFee*226/1000)*1000;
-				document.getElementById('est_fee').innerHTML="optimal: ~" + best.toString() + " satoshis<br><30m: ~"+ half.toString()+" satoshis<br><1hr: ~"+ hour.toString()+" satoshis<br>";
+				optimal_satbyte = data.fastestFee;
+				halfhour_satbyte = data.halfHourFee;
+				hour_satbyte = data.hourFee;
+				var best = Math.ceil(data.fastestFee*250/1000)*1000;
+				var half = Math.ceil(data.halfHourFee*250/1000)*1000;
+				var hour = Math.ceil(data.hourFee*250/1000)*1000;
+				document.getElementById('est_fee').innerHTML="optimal: " + optimal_satbyte.toString()+ "sat/byte - - ->&nbsp;~" + best.toString() + " satoshis (avg)<br> <30m: "+ halfhour_satbyte.toString() +"sat/byte - - ->&nbsp;~"+half.toString()+" satoshis (avg)<br><1hr: "+hour_satbyte.toString()+"sat/byte - - ->&nbsp;~"+hour.toString()+" satoshis (avg)<br><br>";
 			}
 		});
 		$.ajax({
 			url: "https://blockchain.info/ticker",
 			success: function (data){
-				usd2btc = data.USD.last;
+				usd2btc = my_round(data.USD.last, 2);
 				$('#btcusd').val("1");
 				$('#btcsat').val("1");
 				$('#usdbtc').val(usd2btc.toString());
@@ -240,24 +248,13 @@
 	        	document.getElementById('conversion1').innerHTML = show;}
 	        else {
 	        	document.getElementById('conversion1').innerHTML = '';}
-	        if (y != '') {
-	        	num = parseInt(y);
-	        	sat_high = Math.round(num/200.0);
-	        	sat_low = Math.round(num/400.0);
-	        	show = '&nbsp;&nbsp;&nbsp; (~'+sat_low.toString()+' - '+sat_high.toString()+' sat/byte)';
-	        	document.getElementById('conversion2').innerHTML = show;}
-	        else {
-	        	document.getElementById('conversion2').innerHTML = '';}	
-
-	}, 500);
+		}, 500);
 	};
 	
 	document.getElementById('create').onclick = function() {maketx();};
 	document.getElementById('broadcast').onclick = function() {broadcast();};
 	document.getElementById('verify').onclick = function () {verification();}
-	
-	$('#step2').hide();
-	$('#revealunsigned').hide();
+	document.getElementById('get_suggest').onclick = function () {fee_suggest();}
 
 	function maketx() {
 		var sender = $('#sender').val();
@@ -303,6 +300,26 @@
 		});
 	}
 
+	function fee_suggest() {
+		var addr = $('#sender').val();
+		var amount = $('#amount').val();
+		$.ajax({
+			url: "{% url 'ajax_suggest' %}",
+			data: {'address': addr, 'amount':amount},
+			success: function (data){
+				var size = data.msg;
+				if (size == 0){document.getElementById('suggest').innerHTML = "fill out rest of form first!";}
+				else {
+					var opt = optimal_satbyte*size;
+					var halfh = halfhour_satbyte*size;
+					var hour = hour_satbyte*size;
+					document.getElementById('suggest').innerHTML = "size: ~"+ size.toString() +"bytes<br>optimal: <strong>"+opt.toString()+"</strong> || <30m: <strong>"+halfh.toString()+"</strong> || <1hr: <strong>"+hour.toString()+"</strong>";
+				}
+			}
+
+		});
+	}
+
 	$(document).ready( function () {
 		$('#btcsat').on('keyup', function () {
 			var a = $('#btcsat').val();
@@ -326,7 +343,7 @@
 		
 		$('#btcusd').on('keyup', function () {
 			var a = $('#btcusd').val();
-			if (a==''){document.getElementById('usdbtc').value = '';}
+			if (a==''){document.getElementById('satbtc').value = '';document.getElementById('btcsat').value = '';document.getElementById('usdbtc').value = '';}
 			else {
 			num = Math.round(parseFloat(a)*usd2btc*100)/100;
 			document.getElementById('usdbtc').value = num.toString();
@@ -336,7 +353,7 @@
 		
 		$('#usdbtc').on('keyup', function () {
 			var a = $('#usdbtc').val();
-			if (a==''){document.getElementById('btcusd').value = '';}
+			if (a==''){document.getElementById('satbtc').value = '';document.getElementById('btcusd').value = '';document.getElementById('btcsat').value = '';}
 			else {
 			num = my_round(parseFloat(a)/usd2btc, 8);
 			document.getElementById('btcusd').value = num.toString();

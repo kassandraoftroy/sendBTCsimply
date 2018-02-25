@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^broadcast/$', views.ajax_broadcast, name='ajax_broadcast'),
     url(r'^tut1/$', views.tutorial_1, name='guide'),
     url(r'^verification/$', views.ajax_verify, name='ajax_verify'),
+    url(r'^suggestfee/$', views.ajax_suggest, name='ajax_suggest'),
 ]

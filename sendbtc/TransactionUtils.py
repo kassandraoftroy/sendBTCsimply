@@ -103,6 +103,14 @@ def decode_tx(bytes_):
 def get_txid(bytes_):
 	return sha256(sha256(bytes_.decode('hex')).digest()).digest()[::-1].encode('hex')
 
+def txsize_est(from_, outputs):
+	utxos = unspent(from_)
+	gross_input_thresh = sum([i['value'] for i in outputs]) + 1000
+	tx_inputs = choose_inputs(utxos, gross_input_thresh)
+	bytes_est = 160*len(tx_inputs)+34*len(outputs)+100
+	return bytes_est
+
+
 def int2hexbyte(int_):
 	raw_hex = hex(int_)[2:]
 	if len(raw_hex) == 1:
