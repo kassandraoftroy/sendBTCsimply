@@ -305,7 +305,7 @@
 		var amount = $('#amount').val();
 		$.ajax({
 			url: "{% url 'ajax_suggest' %}",
-			data: {'address': addr, 'amount':amount},
+			data: {'addr': addr, 'amount':amount},
 			success: function (data){
 				var size = data.msg;
 				if (size == 0){document.getElementById('suggest').innerHTML = "fill out rest of form first!";}
@@ -338,7 +338,7 @@
 			num = parseInt(a)/100000000.0;
 			document.getElementById('btcsat').value = num.toString();
 			document.getElementById('btcusd').value = num.toString();
-			document.getElementById('udsbtc').value = my_round(num*usd2btc,2).toString();}
+			document.getElementById('udsbtc').value = my_round(parseFloat(num)*usd2btc,2).toString();}
 		});
 		
 		$('#btcusd').on('keyup', function () {
