@@ -76,7 +76,7 @@
 	</style>
 </head>
 
-<body style="text-align:center;font-family:georgia;background-color:lightgrey;">
+<body style="text-align:center;font-family:georgia;background-color:#fff0b3;">
 
 	<table width= '95%' align='center'>
 		<tr style='text-align: center;'>
@@ -115,25 +115,27 @@
 						<div id='verify' class="eff2" style="background-color:navy;border:none;font-size:15px;font-family: 'Montserrat' sans-serif;color:white; height:45px; line-height: 45px;vertical-align: middle;width:150px;margin:auto;cursor: pointer;"><strong>VERIFY</strong></div>
 				</td>
 				<td id='colform' style='width:33%;'>
-					<p style='text-align:left;'>
+					<p style='text-align:left; padding-left:12px;'>
 						Spend Address:<br>
 						<input type="text" name="" id='sender' size='32' class='form'><br>
 						Miner Fee (in satoshis):<br>
-						<input type="text" name="" id='fee' size='24' class='form'><span id='conversion2' style='color:grey;'></span><br>
-						<span id='est_fee' style='font-size:.8em;'></span><a href="https://bitcoinfees.earn.com/" style='font-size:.8em;font-weight:bold;color:black;text-decoration:none;'> more info</a><br><br>
-
-						<span style="font-family:'Montserrat' sans-serif;">OUTPUT:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>*<span id='add_output' style='text-decoration:underline;color:blue;'>add</span><br>
+						<input type="text" name="" id='fee' size='24' class='form'><span id='conversion2' style='color:grey;'></span><br><br>
+						<span style="font-family:'Montserrat' sans-serif;text-align: center;">SPENDING</span><br>
 						Amount:<br>
 						<input type="text" name="" id='amount' size='24' class='form'><span id='conversion1' style='color:grey;'></span><br>
 						To:<br>
 						<input type="text" name="" id='receiver' size='32' class='form'><br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*<span id='add_output' style='text-decoration:underline;color:blue;'>add</span>
 					</p>
 
-					<div id='create' class="eff2" style="background-color:navy;border:none;font-size:16px;font-family: 'Montserrat' sans-serif;color:white; height:45px; line-height: 45px;vertical-align: middle;width:150px;cursor: pointer;text-align:center;"><span style='text-align: center;'><strong>CREATE</strong></span></div><br><br>
+					<div id='create' class="eff2" style="background-color:navy;border:none;font-size:16px;font-family: 'Montserrat' sans-serif;color:white; height:45px; line-height: 45px;vertical-align: middle;width:150px;margin-left:12px;cursor: pointer;text-align:center;"><span style='text-align: center;'><strong>CREATE</strong></span></div><br><br>
 				</td>
 				<td style='text-align:center;width:33%;vertical-align:top;'>
-					<div style='height:60px;width:98%;border: 2px solid black;margin-left:0; margin-right:4px'><br>
+					<div style='height:100%;width:98%;border: 2px solid black;margin-left:0; margin-right:4px'><br>
+						<h3 style='font-weight:normal;font-style:italic;'>Current Figures</h3>
 						<input type="text" name="" id='conversion3' size='10' style='text-align: center; line-height: 15px;'> &nbsp;BTC&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='conversion4' size='10' style='text-align: center; line-height: 15px;'> sat
+						<br>
+						<span id='est_fee' style='font-size:.8em;'></span><a href="https://bitcoinfees.earn.com/" style='font-size:.8em;font-weight:bold;color:black;text-decoration:none;'> more info</a>
 					</div>
 				</td>
 			</tr>
@@ -227,6 +229,7 @@
 	document.getElementById('verify').onclick = function () {verification();}
 	
 	$('#step2').hide();
+	$('#revealunsigned').hide();
 
 	function maketx() {
 		var sender = $('#sender').val();
@@ -239,10 +242,10 @@
 			success: function (data) {
 				document.getElementById('unsigned').innerHTML = data.bytes_;
 				var tbl = $('#table1');
-				$('#colform').hide();
+				$('#colform').hide(500);
 				jQuery.moveColumn(tbl, 1, 0);
-				$('#revealunsigned').show();
-				$('#colform').show();
+				$('#revealunsigned').show(500);
+				$('#colform').show(500);
 			}
   		});
 	}
