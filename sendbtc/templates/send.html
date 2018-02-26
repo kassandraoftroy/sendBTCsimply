@@ -44,7 +44,7 @@
 		vertical-align:middle;
 		opacity:1.0;
 		top:40px;
-		left:180px;
+		left:40px;
 		height: 1000px;
 		width: 1000px;
 		z-index: 99;
@@ -230,6 +230,11 @@
 	$('#alert').hide();
 	var usd2btc = 1;
 	var optimal_satbyte, halfhour_satbyte, hour_satbyte;
+
+	my_round = function (value, decimals) {
+  		return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+	}
+
 	window.onload = function () {
 		$.ajax({
 			url: "https://bitcoinfees.earn.com/api/v1/fees/recommended",
@@ -271,7 +276,6 @@
 	document.getElementById('broadcast').onclick = function() {broadcast();};
 	document.getElementById('verify').onclick = function () {verify_direct();}
 	document.getElementById('get_suggest').onclick = function () {fee_suggest();}
-	document.getElementById('closealert').onclick = function() {alerthide();}
 
 	function maketx() {
 		var sender = $('#sender').val();
@@ -308,13 +312,14 @@
 	function verify_direct() {
 		var bytes_ = $('#unsigned').val();
 		$.ajax({
-			url: "https://http://api.blockcypher.com/txs/decode",
+			url: "https://api.blockcypher.com/txs/decode",
 			type: "post",
 			data: {'tx':bytes_},
 			success: function (data) {
 				var jsonStr = JSON.stringify(data, null, 4);
 				document.getElementById('alert').innerHTML = "<br><p style='text-align:center;color:blue;text_decoration:underline; cursor:pointer;' id='closealert'>close</p><br><br>"+jsonStr;
 				$('#alert').show(800);
+				document.getElementById('closealert').onclick = function() {alerthide();}
 			}
 		});
 	}
@@ -405,10 +410,6 @@
 	        cols = jQuery(this).children('th, td');
 	        cols.eq(from).detach().insertBefore(cols.eq(to));
 	    });
-	}
-
-	my_round = function (value, decimals) {
-  	return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 	}
 
 </script>
