@@ -282,7 +282,7 @@
 	$('#revealunsigned').hide();
 	$('#alert').hide();
 	$('#step3').hide();
-
+	$('#address_base').hide()
 	document.getElementById('enter').onclick = function() {unlock_address();}
 
 	function unlock_address() {
@@ -294,7 +294,7 @@
 				$('#enterform').hide();
 				$('#enter').hide();
 				document.getElementById('data').innerHTML = data.utxos;
-				$('#data').show();
+				$('#address_base').show();
 			}
 
 		});
@@ -366,10 +366,6 @@
 			}
   		});
 	}
-
-	document.getElementById('step1_header').onclick = function () {if(document.getElementById('step1').style.display=="none"){$('#step1').show(500);} else {$('#step1').hide(500);}};
-	document.getElementById('step2_header').onclick = function () {if(document.getElementById('step2').style.display=="none"){$('#step2').show(500);} else {$('#step2').hide(500);}};
-	document.getElementById('step3_header').onclick = function () {if(document.getElementById('step3').style.display=="none"){$('#step3').show(500);} else {$('#step3').hide(500);}};
 
 	function broadcast() {
 		var signed = $('#signed').val();
