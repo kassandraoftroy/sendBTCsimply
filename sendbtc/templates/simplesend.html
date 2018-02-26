@@ -51,11 +51,11 @@
 	}
 
 
-	.box {
-		width:97%;
-		height:auto;
+	.boxA {
+		width:50%;
+		height:30%;
 		background:#FFF;
-		margin:10px auto;
+		margin:5px auto;
 		opacity:0.85;
 	}
 
@@ -74,7 +74,7 @@
 	    bottom:0;
 	    left:0;
 	    right:0;
-	    border-radius:20px / 10px;
+	    border-radius:10px / 10px;
 	} 
 	.effect:after
 	{
@@ -106,6 +106,7 @@
 				<h1 style="font-family:'Montserrat' sans-serif;">
 					<strong>BTC</strong><span style='font-style:italic;font-weight:normal;font-family:georgia;'>tx</span>
 				</h1>
+				<h3 style='font-family: "Montserrat" sans-serif;'>Bitcoin Transfers from any Address Key Pair<sup><a href="" target="_blank">huh?</a></sup></h3>
 			</td>
 			<td style='text-align: center; width:25%;vertical-align: top;'>
 				<p style="font-family:'Montserrat' sans-serif;">
@@ -122,10 +123,16 @@
 		<pre id="json" style='text-align:left;margin-left:6px;'></pre>
 	</div>
 
-	<div class="box effect"> 
+	<div class="boxA effect">
+ 
+		<br>
+		<br>
+		<div style='background-color:lightgrey;text-align:center;font-family: "Montserrat" sans-serif;width:80%;height:80%;'>
+		<strong>Spend Bitcoin From Address:</strong><br>
+		<input type="text" name="" id='spend address' size='40' class='form'>
+		<br>
+		<br>
 
-	<div class="heading" id='step1_header'>
-		<span style='vertical-align: middle;line-height: 40px;'><strong>Step 1: Create Tx</strong></span>
 	</div>
 
 	<div id='step1'>
@@ -178,10 +185,6 @@
 		</table>
 	</div>
 
-	<div id='step2_header' class="heading">
-		<span style='vertical-align: middle;line-height: 40px;'><strong>Step 2: Securely Sign Tx OFFLINE</strong></span>
-	</div>
-
 	<div id='step2'>
 		<table width='70%' align='center'>
 			<tr>
@@ -196,10 +199,6 @@
 				</td>
 			</tr>
 		</table>
-	</div>
-
-	<div id='step3_header' class="heading">
-		<span style='vertical-align: middle;line-height: 40px;'><strong>Step 3: Broadcast Tx</strong></span>
 	</div>
 
 	<div id='step3'>
@@ -218,13 +217,6 @@
 		</table>
 	</div>
 
-	<br>
-	<br>
-	<br>
-	<br>
-
-	</div>
-
 </body>
 
 <script>
@@ -232,6 +224,7 @@
 	$('#revealunsigned').hide();
 	$('#alert').hide();
 	$('#step3').hide();
+	$('#step1').hide();
 	var usd2btc = 1;
 	var optimal_satbyte, halfhour_satbyte, hour_satbyte;
 
@@ -293,10 +286,6 @@
 			}
   		});
 	}
-
-	document.getElementById('step1_header').onclick = function () {if(document.getElementById('step1').style.display=="none"){$('#step1').show(500);} else {$('#step1').hide(500);}};
-	document.getElementById('step2_header').onclick = function () {if(document.getElementById('step2').style.display=="none"){$('#step2').show(500);} else {$('#step2').hide(500);}};
-	document.getElementById('step3_header').onclick = function () {if(document.getElementById('step3').style.display=="none"){$('#step3').show(500);} else {$('#step3').hide(500);}};
 
 	function broadcast() {
 		var signed = $('#signed').val();

@@ -7,7 +7,7 @@ from models import Broadcast
 from TransactionUtils import *
 
 def home(request):
-	return render(request, "send.html")
+	return render(request, "simplesend.html")
 
 def ajax_tx(request):
 
