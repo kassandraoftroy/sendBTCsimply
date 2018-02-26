@@ -37,6 +37,19 @@
 		cursor:pointer;
 	}
 
+	.json_alert {
+		position: absolute;
+		background-color: lightgrey;
+		text-align: center;
+		vertical-align:middle;
+		opacity:1.0;
+		top:100px;
+		left:250px;
+		height: 700px;
+		width: 700px;
+		z-index: 99;
+	}
+
 
 	.box {
 		width:97%;
@@ -100,6 +113,8 @@
 			</td>
 		</tr>
 	</table>
+
+	<div class="json_alert" id="alert"></div>
 
 	<div class="box effect"> 
 
@@ -210,11 +225,12 @@
 </body>
 
 <script>
+	$('#step2').hide();
+	$('#revealunsigned').hide();
+	$('#alert').hide();
 	var usd2btc = 1;
 	var optimal_satbyte, halfhour_satbyte, hour_satbyte;
 	window.onload = function () {
-		$('#step2').hide();
-		$('#revealunsigned').hide();
 		$.ajax({
 			url: "https://bitcoinfees.earn.com/api/v1/fees/recommended",
 			success: function (data){
@@ -255,6 +271,7 @@
 	document.getElementById('broadcast').onclick = function() {broadcast();};
 	document.getElementById('verify').onclick = function () {verify_direct();}
 	document.getElementById('get_suggest').onclick = function () {fee_suggest();}
+	document.getElementById('closealert').onclick = function() {alerthide();}
 
 	function maketx() {
 		var sender = $('#sender').val();
@@ -297,9 +314,14 @@
 			data: {'tx':bytes_},
 			success: function (data) {
 				var jsonStr = JSON.stringify(data, null, 4);
-				alert(jsonStr);
+				document.getElementById('alert').innerHTML = "<br><p style='text-align:center;color:blue;text_decoration:underline; cursor:pointer;' id='closealert'>close</p><br><br>"+jsonStr;
+				$('#alert').show(800);
 			}
 		});
+	}
+
+	function alerthide() {
+		$('#alert').hide(750);
 	}
 
 	function verification() {
