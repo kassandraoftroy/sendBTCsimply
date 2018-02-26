@@ -45,7 +45,7 @@
 		opacity:1.0;
 		top:40px;
 		left:40px;
-		height: 1000px;
+		height: 650px;
 		width: 1000px;
 		z-index: 99;
 	}
@@ -114,7 +114,12 @@
 		</tr>
 	</table>
 
-	<div class="json_alert" id="alert"></div>
+	<div class="json_alert" id="alert">
+		<br>
+		<p style='text-align:center;color:blue;text-decoration:underline; cursor:pointer;font-size:1.2em;' id='closealert'>close</p>
+		<br><br>
+		<pre id="json"></pre>
+	</div>
 
 	<div class="box effect"> 
 
@@ -317,7 +322,7 @@
 			data: {'tx':bytes_},
 			success: function (data) {
 				var jsonStr = JSON.stringify(data, null, 4);
-				document.getElementById('alert').innerHTML = "<br><p style='text-align:center;color:blue;text_decoration:underline; cursor:pointer;' id='closealert'>close</p><br><br>"+jsonStr;
+				document.getElementById('alert').innerHTML = jsonStr;
 				$('#alert').show(800);
 				document.getElementById('closealert').onclick = function() {alerthide();}
 			}
@@ -335,7 +340,7 @@
 			data: {'bytes_':bytes_},
 			success: function (data) {
 				var jsonStr = JSON.stringify(data, null, 4);
-				document.getElementById('alert').innerHTML = "<br><p style='text-align:center;color:blue;text_decoration:underline; cursor:pointer;' id='closealert'>close</p><br><br>"+jsonStr;
+				document.getElementById('json').innerHTML = jsonStr;
 				$('#alert').show(800);
 				document.getElementById('closealert').onclick = function() {alerthide();}
 			}
