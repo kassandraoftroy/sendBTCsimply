@@ -16,6 +16,27 @@
 		padding:5px;
 		font-family: 'Open Sans', sans-serif;
 	}
+
+	input.unlock {
+		line-height:20px;
+		font-size:16px;
+		padding:5px;
+		font-family: 'Open Sans', sans-serif;
+		text-align: center;
+		border:1px solid darkgrey;
+	}
+
+	.popout{
+	background-color:lightgrey;
+	text-align:center;
+	font-family: "Montserrat" sans-serif;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	border: 2px solid darkgrey;
+	opacity:1.0;
+
+	}
 	
 	input:focus {
     outline:none !important;
@@ -25,9 +46,8 @@
     outline:none !important;
 	}
 
-	div.heading{
+	div.header{
 		text-align:center;
-		background-color:lightgrey;
 		font-size:1.5em;
 		border:2px solid darkgrey;
 		font-family: 'Montserrat', sans-serif;
@@ -35,6 +55,7 @@
 		height:40px;
 		vertical-align: middle;
 		cursor:pointer;
+		width:98%;
 	}
 
 	.json_alert {
@@ -105,8 +126,9 @@
 			<td style='text-align: center;width:50%;'>
 				<h1 style="font-family:'Montserrat' sans-serif;">
 					<strong>BTC</strong><span style='font-style:italic;font-weight:normal;font-family:georgia;'>tx</span>
+					<br>
+					<span style='font-size:.7em;'>Bitcoin Transaction Independence</span>
 				</h1>
-				<h3 style='font-family: "Montserrat" sans-serif;'>Bitcoin Transfers from any Address Key Pair<sup><a href="" target="_blank">huh?</a></sup></h3>
 			</td>
 			<td style='text-align: center; width:25%;vertical-align: top;'>
 				<p style="font-family:'Montserrat' sans-serif;">
@@ -123,19 +145,27 @@
 		<pre id="json" style='text-align:left;margin-left:6px;'></pre>
 	</div>
 
+	<div class="header effect">
+		<h3 style='font-family: "Montserrat" sans-serif;color:navy;'>
+			<strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VERIFY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BROADCAST&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEND&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REQUEST&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WALLET&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+		</h3>
+	</div>
+
 	<div class="boxA effect">
  
 		<br>
 		<br>
-		<div style='background-color:lightgrey;text-align:center;font-family: "Montserrat" sans-serif;width:80%;height:80%;'>
-		<strong>Spend Bitcoin From Address:</strong><br>
-		<input type="text" name="" id='spend address' size='40' class='form'>
+		<div class='popout' style='margin-top: -100px;margin-left: -100px;width:200;height:200px;'>
+			<strong>Spend Bitcoin From Address:</strong><br>
+			<input type="text" name="" id='spend address' size='40' class='unlock'>
+		</div>
 		<br>
 		<br>
 
 	</div>
 
 	<div id='step1'>
+		<sup><a href="" target="_blank">?</a></sup>
 		<table id='table1' width='100%' align='center'>
 			<tr style = 'text-align: center;'>
 				<td style='text-align:center;width:30%;vertical-align:top;'>
