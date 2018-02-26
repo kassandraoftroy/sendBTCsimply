@@ -31,7 +31,7 @@
 		font-size:1.5em;
 		border:2px solid darkgrey;
 		font-family: 'Montserrat', sans-serif;
-		color:darkgrey;
+		color:navy;
 		height:40px;
 		vertical-align: middle;
 		cursor:pointer;
@@ -85,6 +85,7 @@
 	
 	.eff2{
 	     box-shadow: 0 10px 6px -6px #777;
+	     opacity:1.0;
 	}
 
 	</style>
@@ -130,33 +131,34 @@
 	<div id='step1'>
 		<table id='table1' width='100%' align='center'>
 			<tr style = 'text-align: center;'>
-				<td style='text-align:center;width:33%;vertical-align:top;'>
-					<div style='height:200px;width:98%;border: 2px solid black;margin-left:6px; margin-right:0; margin-top:6px; margin-bottom:6px;'><br>
+				<td style='text-align:center;width:30%;vertical-align:top;'>
+					<div style='height:200px;width:98%;margin-left:6px; margin-right:0; margin-top:6px; margin-bottom:6px;'><br>
 						<h3 style='font-weight:normal;font-style:italic;'>Conversions</h3>
 						<input type="text" name="" id='usdbtc' size='14' style='text-align: center; line-height: 15px;'> &nbsp;$&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='btcusd' size='14' style='text-align: center; line-height: 15px;'> &nbsp;BTC
 						<br><br>
 						<input type="text" name="" id='btcsat' size='14' style='text-align: center; line-height: 15px;'> &nbsp;BTC&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='satbtc' size='14' style='text-align: center; line-height: 15px;'> sat
 						<br><br><br>
 					</div>
-					<div style='height:40px;'></div>
-					<div style='height:200px;width:98%;border: 2px solid black;margin-left:6px; margin-right:0; margin-top:6px; margin-bottom:6px;'>
+					<div style='height:20px;'></div>
+					<div style='height:200px;width:98%;margin-left:6px; margin-right:0; margin-top:6px; margin-bottom:6px;'>
 						<h3 style='font-weight:normal;font-style:italic;'>Fees</h3>
 						<span id='est_fee'></span><br>
-						<span style='font-size:.8em;'>* assumes tx size of ~250 bytes - <a href="https://bitcoinfees.earn.com/" style='font-weight:bold;color:black;text-decoration:none;'> more fee info</a><br>
-						* * use "smart suggestion" for estimates specific to your tx.</span>
+						<input type="text" name="" id='mult_rate' size='4' style='text-align: center; line-height: 15px;'>sat/byte&nbsp; x &nbsp;<input type="text" name="" id='mult_size' size='6' style='text-align: center; line-height: 15px;'>bytes &nbsp;= &nbsp;<input type="text" name="" id='mult_result' size='12' style='text-align: center; line-height: 15px;'>satoshis<br><br>
+						<span style='font-size:.8em;'>*average tx size is 226 bytes - <a href="https://bitcoinfees.earn.com/" style='font-weight:bold;color:black;text-decoration:none;'> more fee info</a><br>
+						** use "smart suggestion" for estimates specific to your tx.</span>
 					</div>
 				</td>
-				<td id='colform' style='width:34%;'>
+				<td id='colform' style='width:40%;'>
 					<p style='text-align:left; padding-left:30px;'>
 						Spend Address:<br>
-						<input type="text" name="" id='sender' size='38' class='form'><br>
+						<input type="text" name="" id='sender' size='36' class='form'><br>
 					</p>
 					<p style='text-align:left; padding-left:30px;'>
 						To Address:<br>
-						<input type="text" name="" id='receiver' size='38' class='form'><br>
-						Amount (in satoshis):<br>
-						<input type="text" name="" id='amount' size='26' class='form'><span id='conversion1' style='color:grey;'></span><br>
-						<span id='add_output' style='text-decoration:underline;color:blue;cursor:pointer;'>add output</span><br>
+						<input type="text" name="" id='receiver1' size='36' class='form'><br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Amount (in satoshis):<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" id='amount1' size='26' class='form'><span id='conversion1' style='color:grey;'></span><br>
+						<span id='add_output' style='text-decoration:underline;color:blue;cursor:pointer;'>more outputs</span><br>
 					</p>
 					<p style='text-align:left; padding-left:30px;'>
 						Fee (in satoshis):<br>
@@ -166,7 +168,7 @@
 					</p>
 					<div id='create' class="eff2" style="background-color:navy;border:none;font-size:16px;font-family: 'Montserrat' sans-serif;color:white; height:45px; line-height: 45px;vertical-align: middle;width:150px;margin-left:30px;cursor: pointer;text-align:center;"><span style='text-align: center;'><strong>CREATE</strong></span></div><br><br>
 				</td>
-				<td style='width:33%; text-align:center;'>
+				<td style='width:30%; text-align:center;'>
 					<span id='revealunsigned'>
 						<h4 id='s_header'>Unsigned Transaction Hex:</h4>
 						<textarea name="" cols="55" rows="7" wrap='hard' id='unsigned'></textarea><br><br>
@@ -230,6 +232,7 @@
 	$('#step2').hide();
 	$('#revealunsigned').hide();
 	$('#alert').hide();
+	$('#step3').hide();
 	var usd2btc = 1;
 	var optimal_satbyte, halfhour_satbyte, hour_satbyte;
 
@@ -244,10 +247,7 @@
 				optimal_satbyte = data.fastestFee;
 				halfhour_satbyte = data.halfHourFee;
 				hour_satbyte = data.hourFee;
-				var best = Math.ceil(data.fastestFee*250/1000)*1000;
-				var half = Math.ceil(data.halfHourFee*250/1000)*1000;
-				var hour = Math.ceil(data.hourFee*250/1000)*1000;
-				document.getElementById('est_fee').innerHTML="optimal: " + optimal_satbyte.toString()+ " sat/byte &nbsp;&nbsp;&nbsp;(avg ~" + best.toString() + " satoshis (avg)<br> <30m: "+ halfhour_satbyte.toString() +" sat/byte &nbsp;&nbsp;&nbsp;(avg ~"+half.toString()+" satoshis (avg)<br><1hr:<strong> "+hour_satbyte.toString()+" sat/byte &nbsp;&nbsp;&nbsp;(avg ~"+hour.toString()+" satoshis<br><br>";
+				document.getElementById('est_fee').innerHTML="optimal:<strong> " + optimal_satbyte.toString()+ " sat/byte</strong><br> <30m:<strong> "+ halfhour_satbyte.toString() +" sat/byte</strong> <br><1hr:<strong> "+hour_satbyte.toString()+" sat/byte</strong><br><br>";
 			}
 		});
 		$.ajax({
@@ -281,8 +281,8 @@
 
 	function maketx() {
 		var sender = $('#sender').val();
-		var receiver = $('#receiver').val();
-		var amount = $('#amount').val();
+		var receiver = $('#receiver1').val();
+		var amount = $('#amount1').val();
 		var fee = $('#fee').val();
 
 		$.ajax({
@@ -295,9 +295,9 @@
   		});
 	}
 
-	document.getElementById('step1_header').onclick = function () {if(document.getElementById('step1').style.display=="none"){$('#step1').show(500);$('#step2').hide(500);$('#step3').hide(500);$('#about').hide();} else {$('#step1').hide(500);}};
-	document.getElementById('step2_header').onclick = function () {if(document.getElementById('step2').style.display=="none"){$('#step2').show(500);$('#step1').hide(500);$('#step3').hide(500);$('#about').hide();} else {$('#step2').hide(500);}};
-	document.getElementById('step3_header').onclick = function () {if(document.getElementById('step3').style.display=="none"){$('#step3').show(500);$('#step2').hide(500);$('#step1').hide(500);$('#about').hide();} else {$('#step3').hide(500);}};
+	document.getElementById('step1_header').onclick = function () {if(document.getElementById('step1').style.display=="none"){$('#step1').show(500);} else {$('#step1').hide(500);}};
+	document.getElementById('step2_header').onclick = function () {if(document.getElementById('step2').style.display=="none"){$('#step2').show(500);} else {$('#step2').hide(500);}};
+	document.getElementById('step3_header').onclick = function () {if(document.getElementById('step3').style.display=="none"){$('#step3').show(500);} else {$('#step3').hide(500);}};
 
 	function broadcast() {
 		var signed = $('#signed').val();
@@ -357,7 +357,7 @@
 					var opt = optimal_satbyte*size;
 					var halfh = halfhour_satbyte*size;
 					var hour = hour_satbyte*size;
-					document.getElementById('suggest').innerHTML = "size: ~"+ size.toString() +"bytes<br>optimal: <strong>"+opt.toString()+"</strong> || <30m: <strong>"+halfh.toString()+"</strong> || <1hr: <strong>"+hour.toString()+"</strong>";
+					document.getElementById('suggest').innerHTML = "size: ~"+ size.toString() +"bytes<br>optimized: <strong>"+opt.toString()+"</strong> || <30m: <strong>"+halfh.toString()+"</strong> || <1hr: <strong>"+hour.toString()+"</strong>";
 				}
 			}
 
@@ -403,6 +403,33 @@
 			document.getElementById('btcusd').value = num.toString();
 			document.getElementById('btcsat').value = num.toString();
 			document.getElementById('satbtc').value = Math.round(num*100000000).toString();}
+		});
+
+		$('#mult_rate').on('keyup', function () {
+			var a = $('#mult_rate').val();
+			var b = $('#mult_size').val();
+			if (a=='' || b==''){document.getElementById('mult_result').value = '';}
+			else {
+			var num = Math.round(parseFloat(a)*parseInt(b));
+			document.getElementById('mult_result').value = num.toString();}
+		});
+
+		$('#mult_size').on('keyup', function () {
+			var a = $('#mult_rate').val();
+			var b = $('#mult_size').val();
+			if (a=='' || b==''){document.getElementById('mult_result').value = '';}
+			else {
+			var num = Math.round(parseFloat(a)*parseInt(b));
+			document.getElementById('mult_result').value = num.toString();}
+		});
+
+		$('#mult_result').on('keyup', function () {
+			var a = $('#mult_result').val();
+			var b = $('#mult_size').val();
+			if (a=='' || b==''){document.getElementById('mult_rate').value = '';}
+			else {
+			var num = Math.round(parseFloat(a)*parseInt(b));
+			document.getElementById('mult_rate')=num.toString();}
 		});
 
 	});
