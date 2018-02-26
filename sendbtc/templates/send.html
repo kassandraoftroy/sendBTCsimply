@@ -31,7 +31,7 @@
 		font-size:1.5em;
 		border:2px solid darkgrey;
 		font-family: 'Montserrat', sans-serif;
-		color:navy;
+		color:#00004d;
 		height:40px;
 		vertical-align: middle;
 		cursor:pointer;
@@ -104,7 +104,7 @@
 			</td>
 			<td style='text-align: center;width:50%;'>
 				<h1 style="font-family:'Montserrat' sans-serif;">
-					BTC<span style='font-style:italic;font-weight:normal;font-family:georgia;'>tx</span>
+					<strong>BTC</strong><span style='font-style:italic;font-weight:normal;font-family:georgia;'>tx</span>
 				</h1>
 			</td>
 			<td style='text-align: center; width:25%;vertical-align: top;'>
@@ -132,18 +132,17 @@
 		<table id='table1' width='100%' align='center'>
 			<tr style = 'text-align: center;'>
 				<td style='text-align:center;width:30%;vertical-align:top;'>
-					<div style='height:200px;width:98%;margin-left:6px; margin-right:0; margin-top:6px; margin-bottom:6px;'><br>
+					<div style='height:150px;width:98%;margin-left:6px; margin-right:0; margin-top:6px; margin-bottom:6px;'><br>
 						<h3 style='font-weight:normal;font-style:italic;'>Conversions</h3>
 						<input type="text" name="" id='usdbtc' size='14' style='text-align: center; line-height: 15px;'> &nbsp;$&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='btcusd' size='14' style='text-align: center; line-height: 15px;'> &nbsp;BTC
 						<br><br>
 						<input type="text" name="" id='btcsat' size='14' style='text-align: center; line-height: 15px;'> &nbsp;BTC&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='satbtc' size='14' style='text-align: center; line-height: 15px;'> sat
 						<br><br><br>
 					</div>
-					<div style='height:20px;'></div>
-					<div style='height:200px;width:98%;margin-left:6px; margin-right:0; margin-top:6px; margin-bottom:6px;'>
+					<div style='height:250px;width:98%;margin-left:6px; margin-right:0; margin-top:6px; margin-bottom:6px;'>
 						<h3 style='font-weight:normal;font-style:italic;'>Fees</h3>
 						<span id='est_fee'></span><br>
-						<input type="text" name="" id='mult_rate' size='4' style='text-align: center; line-height: 15px;'>sat/byte&nbsp; x &nbsp;<input type="text" name="" id='mult_size' size='6' style='text-align: center; line-height: 15px;'>bytes &nbsp;= &nbsp;<input type="text" name="" id='mult_result' size='12' style='text-align: center; line-height: 15px;'>satoshis<br><br>
+						<input type="text" name="" id='mult_rate' size='3' style='text-align: center; line-height: 15px;'>sat/byte&nbsp; x &nbsp;<input type="text" name="" id='mult_size' size='5' style='text-align: center; line-height: 15px;'>bytes &nbsp;= &nbsp;<input type="text" name="" id='mult_result' size='12' style='text-align: center; line-height: 15px;'>sat<br><br>
 						<span style='font-size:.8em;'>*average tx size is 226 bytes - <a href="https://bitcoinfees.earn.com/" style='font-weight:bold;color:black;text-decoration:none;'> more fee info</a><br>
 						** use "smart suggestion" for estimates specific to your tx.</span>
 					</div>
@@ -156,8 +155,8 @@
 					<p style='text-align:left; padding-left:30px;'>
 						To Address:<br>
 						<input type="text" name="" id='receiver1' size='36' class='form'><br>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Amount (in satoshis):<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" id='amount1' size='26' class='form'><span id='conversion1' style='color:grey;'></span><br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Amount (in satoshis):<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" id='amount1' size='26' class='form'><span id='conversion1' style='color:grey;'></span><br>
 						<span id='add_output' style='text-decoration:underline;color:blue;cursor:pointer;'>more outputs</span><br>
 					</p>
 					<p style='text-align:left; padding-left:30px;'>
