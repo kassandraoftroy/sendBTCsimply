@@ -31,10 +31,12 @@
 	text-align:center;
 	font-family: "Montserrat" sans-serif;
     height: auto;
-    width:auto;
+    width:150px;
     margin: 0 auto;
     position: absolute;
     top:150px;
+    left:0;
+    right:0;
 	border: 2px solid darkgrey;
 	opacity:1.0;
 	z-index:50;
@@ -171,8 +173,301 @@
 
 	</div>
 
+<div id='step1'>
+		<table id='table1' width='100%' align='center'>
+			<tr style = 'text-align: center;'>
+				<td style='text-align:center;width:30%;vertical-align:top;'>
+					<div style='height:150px;width:98%;margin-left:6px; margin-right:0; margin-top:6px; margin-bottom:6px;'><br>
+						<h3 style='font-weight:normal;font-style:italic;'>Conversions</h3>
+						<input type="text" name="" id='usdbtc' size='14' style='text-align: center; line-height: 15px;'> &nbsp;$&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='btcusd' size='14' style='text-align: center; line-height: 15px;'> &nbsp;BTC
+						<br><br>
+						<input type="text" name="" id='btcsat' size='14' style='text-align: center; line-height: 15px;'> &nbsp;BTC&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='satbtc' size='14' style='text-align: center; line-height: 15px;'> sat
+						<br><br><br>
+					</div>
+					<div style='height:250px;width:98%;margin-left:6px; margin-right:0; margin-top:6px; margin-bottom:6px;'>
+						<h3 style='font-weight:normal;font-style:italic;'>Fees</h3>
+						<span id='est_fee'></span><br>
+						<input type="text" name="" id='mult_rate' size='3' style='text-align: center; line-height: 15px;'>sat/byte&nbsp; x &nbsp;<input type="text" name="" id='mult_size' size='5' style='text-align: center; line-height: 15px;'>bytes &nbsp;= &nbsp;<input type="text" name="" id='mult_result' size='12' style='text-align: center; line-height: 15px;'>sat<br><br>
+						<span style='font-size:.8em;'>*average tx size is 226 bytes - <a href="https://bitcoinfees.earn.com/" style='font-weight:bold;color:black;text-decoration:none;'> more fee info</a><br>
+						** use "smart suggestion" for estimates specific to your tx.</span>
+					</div>
+				</td>
+				<td id='colform' style='width:40%;'>
+					<p style='text-align:left; padding-left:30px;'>
+						Spend Address:<br>
+						<input type="text" name="" id='sender' size='36' class='form'><br>
+					</p>
+					<p style='text-align:left; padding-left:30px;'>
+						To Address:<br>
+						<input type="text" name="" id='receiver1' size='36' class='form'><br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Amount (in satoshis):<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" id='amount1' size='26' class='form'><span id='conversion1' style='color:grey;'></span><br>
+						<span id='add_output' style='text-decoration:underline;color:blue;cursor:pointer;'>more outputs</span><br>
+					</p>
+					<p style='text-align:left; padding-left:30px;'>
+						Fee (in satoshis):<br>
+						<input type="text" name="" id='fee' size='26' class='form'><span id='conversion2' style='color:grey;'></span><br>
+						<span id='get_suggest' style='text-decoration:underline;color:blue;cursor:pointer;'>smart suggestion</span><br>
+						<span id='suggest'></span><br>
+					</p>
+					<div id='create' class="eff2" style="background-color:navy;border:none;font-size:16px;font-family: 'Montserrat' sans-serif;color:white; height:45px; line-height: 45px;vertical-align: middle;width:150px;margin-left:30px;cursor: pointer;text-align:center;"><span style='text-align: center;'><strong>CREATE</strong></span></div><br><br>
+				</td>
+				<td style='width:30%; text-align:center;'>
+					<span id='revealunsigned'>
+						<h4 id='s_header'>Unsigned Transaction Hex:</h4>
+						<textarea name="" cols="55" rows="7" wrap='hard' id='unsigned'></textarea><br><br>
+						<div id='verify' class="eff2" style="background-color:navy;border:none;font-size:15px;font-family: 'Montserrat' sans-serif;color:white; height:45px; line-height: 45px;vertical-align: middle;width:150px;margin:auto;cursor: pointer;"><strong>VERIFY</strong></div>
+					</span>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div id='step2'>
+		<table width='70%' align='center'>
+			<tr>
+				<td>
+					<p>
+						(First Time Only) Install <a href="https://pypi.python.org/pypi/btcsignature" target='_blank' style='text-decoration:none;color:black;'><strong>btcsignature</strong></a> python package from command line with:<br><br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='background-color:lightgrey;'>&nbsp;&nbsp;$ pip install btcsignature &nbsp;&nbsp;</span>&nbsp;&nbsp;<br><br>
+						Run signing script from command line with:<br><br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='background-color:lightgrey;'>&nbsp;&nbsp;$ sign-offline &nbsp;&nbsp;</span><br><br>
+						*unfamiliar with the command line?<a href="{% url 'guide' %}" target="_blank" style='color:black;'> <strong>guide here</strong></a>
+					</p>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+
+	<div id='step3'>
+		<br>
+		<table width='600' align='center'>
+			<tr style='text-align: center;'>
+				<td>
+					<h4 id='s_header'>Signed Transaction Hex:</h4>
+					<textarea name="" cols="80" rows="7" wrap='hard' id='signed'></textarea><br><br>
+					<div id='broadcast' class="eff2" style="background-color:red;border:none;font-size:18px;font-family: 'Montserrat' sans-serif;color:white; height:50px; line-height: 50px;vertical-align: middle;width:200px;margin:auto;cursor: pointer;">&nbsp;<strong>BROADCAST</strong>&nbsp;</div><span style='font-size:12px;'><br><strong> &nbsp;(WARNING: Cannot change or cancel after broadcasting.) </strong></span>
+					<p>
+						<span style='font-style: italic;'>If you want to check out the contents of your transaction before broadcasting (verify that there are no extra fees and tx details are correct) - - <a href="https://live.blockcypher.com/btc/decodetx/" target='_blank' style='text-decoration:none;color:black;'><strong>click here</strong></a></span><br>
+					</p>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<br>
+	<br>
+	<br>
+	<br>
+
+	</div>
+
 </body>
 
 <script>
+	$('#step1').hide();
+	$('#step2').hide();
+	$('#revealunsigned').hide();
+	$('#alert').hide();
+	$('#step3').hide();
+	var usd2btc = 1;
+	var optimal_satbyte, halfhour_satbyte, hour_satbyte;
 
-</script>
+	my_round = function (value, decimals) {
+  		return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+	}
+
+	window.onload = function () {
+		$.ajax({
+			url: "https://bitcoinfees.earn.com/api/v1/fees/recommended",
+			success: function (data){
+				optimal_satbyte = data.fastestFee;
+				halfhour_satbyte = data.halfHourFee;
+				hour_satbyte = data.hourFee;
+				document.getElementById('est_fee').innerHTML="optimal:<strong> " + optimal_satbyte.toString()+ " sat/byte</strong><br> <30m:<strong> "+ halfhour_satbyte.toString() +" sat/byte</strong> <br><1hr:<strong> "+hour_satbyte.toString()+" sat/byte</strong><br><br>";
+			}
+		});
+		$.ajax({
+			url: "https://blockchain.info/ticker",
+			success: function (data){
+				usd2btc = my_round(data.USD.last, 2);
+				$('#btcusd').val("1");
+				$('#btcsat').val("1");
+				$('#usdbtc').val(usd2btc.toString());
+				$('#satbtc').val("100000000");
+			}
+		});
+		window.setInterval(function(){
+	        var x = $('#amount').val();
+	        var y = $('#fee').val();
+	        var num, conv_num, show, sat_low, sat_high;
+	        if (x != '') {
+	        	num = parseInt(x);
+	        	conv_num = num/100000000.0;
+	        	show = '&nbsp;&nbsp;&nbsp;' + conv_num.toString() + ' BTC';
+	        	document.getElementById('conversion1').innerHTML = show;}
+	        else {
+	        	document.getElementById('conversion1').innerHTML = '';}
+		}, 500);
+	};
+	
+	document.getElementById('create').onclick = function() {maketx();};
+	document.getElementById('broadcast').onclick = function() {broadcast();};
+	document.getElementById('verify').onclick = function () {verification();}
+	document.getElementById('get_suggest').onclick = function () {fee_suggest();}
+
+	function maketx() {
+		var sender = $('#sender').val();
+		var receiver = $('#receiver1').val();
+		var amount = $('#amount1').val();
+		var fee = $('#fee').val();
+
+		$.ajax({
+			url: "{% url 'ajax_tx' %}",
+			data: {'sender': sender, 'receiver':receiver, 'amount':amount, 'fee':fee},
+			success: function (data) {
+				document.getElementById('unsigned').innerHTML = data.bytes_;
+				$('#revealunsigned').show(750);
+			}
+  		});
+	}
+
+	document.getElementById('step1_header').onclick = function () {if(document.getElementById('step1').style.display=="none"){$('#step1').show(500);} else {$('#step1').hide(500);}};
+	document.getElementById('step2_header').onclick = function () {if(document.getElementById('step2').style.display=="none"){$('#step2').show(500);} else {$('#step2').hide(500);}};
+	document.getElementById('step3_header').onclick = function () {if(document.getElementById('step3').style.display=="none"){$('#step3').show(500);} else {$('#step3').hide(500);}};
+
+	function broadcast() {
+		var signed = $('#signed').val();
+		$('#signed').val('Sending . . .');
+		$.ajax({
+			url: "{% url 'ajax_broadcast' %}",
+			data: {'signed':signed},
+			success: function (data) {
+				$('#signed').val(data.output);
+			}
+  		});
+	}
+
+	function verify_direct() {
+		var bytes_ = $('#unsigned').val();
+		$.ajax({
+			url: "https://api.blockcypher.com/txs/decode",
+			type: "post",
+			data: {'tx':bytes_},
+			success: function (data) {
+				var jsonStr = JSON.stringify(data, null, 4);
+				document.getElementById('alert').innerHTML = jsonStr;
+				$('#alert').show(800);
+				document.getElementById('closealert').onclick = function() {alerthide();}
+			}
+		});
+	}
+
+	function alerthide() {
+		$('#alert').hide(750);
+	}
+
+	function verification() {
+		var bytes_ = $('#unsigned').val();
+		$.ajax({
+			url: "{% url 'ajax_verify' %}",
+			data: {'bytes_':bytes_},
+			success: function (data) {
+				var jsonStr = JSON.stringify(data, null, 4);
+				document.getElementById('json').innerHTML = jsonStr;
+				$('#alert').show(800);
+				document.getElementById('closealert').onclick = function() {alerthide();}
+			}
+		});
+	}
+
+	function fee_suggest() {
+		var addr = $('#sender').val();
+		var amount = $('#amount').val();
+		$.ajax({
+			url: "{% url 'ajax_suggest' %}",
+			data: {'addr': addr, 'amount':amount},
+			success: function (data){
+				var size = data.msg;
+				if (size == 0){document.getElementById('suggest').innerHTML = "fill out rest of form first!";}
+				else {
+					var opt = optimal_satbyte*size;
+					var halfh = halfhour_satbyte*size;
+					var hour = hour_satbyte*size;
+					document.getElementById('suggest').innerHTML = "size: ~"+ size.toString() +"bytes<br>optimized: <strong>"+opt.toString()+"</strong> || <30m: <strong>"+halfh.toString()+"</strong> || <1hr: <strong>"+hour.toString()+"</strong>";
+				}
+			}
+
+		});
+	}
+
+	$(document).ready( function () {
+		$('#btcsat').on('keyup', function () {
+			var a = $('#btcsat').val();
+			if (a==''){document.getElementById('satbtc').value = '';document.getElementById('btcusd').value = '';document.getElementById('usdbtc').value = '';}
+			else {
+			var num = Math.round(parseFloat(a)*100000000);
+			document.getElementById('satbtc').value = num.toString();
+			document.getElementById('btcusd').value = a;
+			document.getElementById('usdbtc').value = my_round(parseFloat(a)*usd2btc,2).toString();}
+		});
+
+		$('#satbtc').on('keyup', function () {
+			var a = $('#satbtc').val();
+			if (a==''){document.getElementById('btcsat').value = '';document.getElementById('btcusd').value = '';document.getElementById('usdbtc').value = '';}
+			else {
+			var num = parseInt(a)/100000000.0;
+			document.getElementById('btcsat').value = num.toString();
+			document.getElementById('btcusd').value = num.toString();
+			document.getElementById('usdbtc').value = my_round(parseFloat(num)*usd2btc,2).toString();}
+		});
+		
+		$('#btcusd').on('keyup', function () {
+			var a = $('#btcusd').val();
+			if (a==''){document.getElementById('satbtc').value = '';document.getElementById('btcsat').value = '';document.getElementById('usdbtc').value = '';}
+			else {
+			var num = Math.round(parseFloat(a)*usd2btc*100)/100;
+			document.getElementById('usdbtc').value = num.toString();
+			document.getElementById('btcsat').value = a;
+			document.getElementById('satbtc').value = Math.round(parseFloat(a)*100000000).toString();}
+		});
+		
+		$('#usdbtc').on('keyup', function () {
+			var a = $('#usdbtc').val();
+			if (a==''){document.getElementById('satbtc').value = '';document.getElementById('btcusd').value = '';document.getElementById('btcsat').value = '';}
+			else {
+			var num = my_round(parseFloat(a)/usd2btc, 8);
+			document.getElementById('btcusd').value = num.toString();
+			document.getElementById('btcsat').value = num.toString();
+			document.getElementById('satbtc').value = Math.round(num*100000000).toString();}
+		});
+
+		$('#mult_rate').on('keyup', function () {
+			var a = $('#mult_rate').val();
+			var b = $('#mult_size').val();
+			if (a=='' || b==''){document.getElementById('mult_result').value = '';}
+			else {
+			var num = Math.round(parseFloat(a)*parseInt(b));
+			document.getElementById('mult_result').value = num.toString();}
+		});
+
+		$('#mult_size').on('keyup', function () {
+			var a = $('#mult_rate').val();
+			var b = $('#mult_size').val();
+			if (a=='' || b==''){document.getElementById('mult_result').value = '';}
+			else {
+			var num = Math.round(parseFloat(a)*parseInt(b));
+			document.getElementById('mult_result').value = num.toString();}
+		});
+
+		$('#mult_result').on('keyup', function () {
+			var a = $('#mult_result').val();
+			var b = $('#mult_size').val();
+			if (a=='' || b==''){document.getElementById('mult_rate').value = '';}
+			else {
+			var num = Math.round(parseFloat(a)/parseFloat(b));
+			document.getElementById('mult_rate').value=num.toString();}
+		});
+
+	});
