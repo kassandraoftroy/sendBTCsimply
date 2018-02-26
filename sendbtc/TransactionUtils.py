@@ -103,6 +103,12 @@ def decode_tx(bytes_):
 def get_txid(bytes_):
 	return sha256(sha256(bytes_.decode('hex')).digest()).digest()[::-1].encode('hex')
 
+def get_utxos(addr):
+	return unspent(addr)
+
+def get_address(addr):
+	return blockexplorer.get_address(addr)
+
 def txsize_est(from_, outputs):
 	utxos = unspent(from_)
 	gross_input_thresh = sum([i['value'] for i in outputs]) + 1000

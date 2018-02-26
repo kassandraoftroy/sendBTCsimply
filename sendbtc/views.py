@@ -7,6 +7,9 @@ from models import Broadcast
 from TransactionUtils import *
 
 def home(request):
+	return render(request, "send.html")
+
+def test(request):
 	return render(request, "simplesend.html")
 
 def ajax_tx(request):
@@ -62,6 +65,13 @@ def ajax_suggest(request):
 		data = {"msg":txsize_est(addr, o)}
 	except:
 		data = {"msg": 0}
+	return JsonResponse(data)
+
+def ajax_unlock(request):
+	addr = str(request.GET.get('address', None))
+	utxos = get_utxos(addr)
+	address_info = get_address(addr)
+	data = {'utxos':utxos, 'info':info}
 	return JsonResponse(data)
 
 

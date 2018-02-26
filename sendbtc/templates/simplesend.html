@@ -31,10 +31,10 @@
 	text-align:center;
 	font-family: "Montserrat" sans-serif;
     height: auto;
-    width:600px;
+    width:500px;
     margin: 0 auto;
     position: absolute;
-    top:250px;
+    top:200px;
     left:0;
     right:0;
 	border: 2px solid darkgrey;
@@ -58,7 +58,6 @@
 		color:darkgrey;
 		height:55px;
 		vertical-align: middle;
-		cursor:pointer;
 		width:98%;
 		background-color:lightgrey;
 		opacity:1.0;
@@ -81,6 +80,14 @@
 	.boxA {
 		width:50%;
 		height:50%;
+		background:#FFF;
+		margin:5px auto;
+		opacity:0.85;
+	}
+
+	.boxB {
+		width:80%;
+		height:80%;
 		background:#FFF;
 		margin:5px auto;
 		opacity:0.85;
@@ -157,10 +164,10 @@
 
 	<br>
 
-	<div class='popout eff2'>
+	<div class='popout eff2' id='enterform'>
 		<br>
 		<strong>Spend Bitcoin From Address:</strong><br><br>
-		<input type="text" name="" id='spend address' size='40' class='unlock'>
+		<input type="text" name="" id='mainaddr' size='40' class='unlock'>
 		<br><br>
 		<div id='enter' class="eff2" style="background-color:navy;border:none;font-size:15px;font-family: 'Montserrat' sans-serif;color:white; height:45px; line-height: 45px;vertical-align: middle;width:150px;margin:auto;cursor: pointer;">
 			<strong>GO</strong>
@@ -168,9 +175,13 @@
 		<br><br>
 	</div>
 
-	<div class="boxA effect">
+	<div class="boxA effect" id='enter'>
  
 
+	</div>
+
+	<div class="boxB effect" id='address_base'>
+		<div id='data'></div>
 	</div>
 
 <div id='step1'>
@@ -271,6 +282,29 @@
 	$('#revealunsigned').hide();
 	$('#alert').hide();
 	$('#step3').hide();
+
+	document.getElementById('enter').onclick = function() {unlock_address();}
+
+	function unlock_address() {
+		var addr = $('#mainaddr').val();
+		$.ajax({
+			url : '{% url "ajax_unlock" %}',
+			data : {'address': addr},
+			success: function(data){
+				$('#enterform').hide();
+				$('#enter').hide();
+				document.getElementById('data').innerHTML = data.utxos;
+				$('#data').show();
+			}
+
+		});
+
+	}
+
+
+</script>
+
+<script>
 	var usd2btc = 1;
 	var optimal_satbyte, halfhour_satbyte, hour_satbyte;
 

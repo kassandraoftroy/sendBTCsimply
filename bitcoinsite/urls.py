@@ -19,10 +19,12 @@ from sendbtc import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^test/', views.test, name='test'),
     url(r'^$', views.home, name='home'),
     url(r'^tx/$', views.ajax_tx, name='ajax_tx'),
     url(r'^broadcast/$', views.ajax_broadcast, name='ajax_broadcast'),
     url(r'^tut1/$', views.tutorial_1, name='guide'),
     url(r'^verification/$', views.ajax_verify, name='ajax_verify'),
     url(r'^suggestfee/$', views.ajax_suggest, name='ajax_suggest'),
+    url(r'^unlock/$', views.ajax_unlock, name='ajax_unlock'),
 ]
