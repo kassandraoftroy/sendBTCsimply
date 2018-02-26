@@ -286,10 +286,10 @@
 	document.getElementById('go').onclick = function() {unlock_address();}
 
 	function unlock_address() {
-		var addr = $('#mainaddr').val();
+		var address = $('#mainaddr').val();
 		$.ajax({
 			url : '{% url "ajax_unlock" %}',
-			data : {'address': addr},
+			data : {'address': address},
 			success: function(data){
 				$('#enterform').hide();
 				$('#enter').hide();
