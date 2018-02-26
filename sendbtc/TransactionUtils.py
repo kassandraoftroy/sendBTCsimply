@@ -107,8 +107,8 @@ def txsize_est(from_, outputs):
 	utxos = unspent(from_)
 	gross_input_thresh = sum([i['value'] for i in outputs]) + 1000
 	tx_inputs = choose_inputs(utxos, gross_input_thresh)
-	bytes_est = 160*len(tx_inputs)+34*len(outputs)+100
-	return bytes_est
+	bytes_est = 168*len(tx_inputs)+34*(len(outputs)+1) + 24
+	return int(round(bytes_est/10.0)*10)
 
 
 def int2hexbyte(int_):

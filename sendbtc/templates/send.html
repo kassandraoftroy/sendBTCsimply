@@ -118,7 +118,7 @@
 		<br>
 		<p style='text-align:center;color:blue;text-decoration:underline; cursor:pointer;font-size:1.2em;' id='closealert'>close</p>
 		<br><br>
-		<pre id="json"></pre>
+		<pre id="json" style='text-align:left;margin-left:6px;'></pre>
 	</div>
 
 	<div class="box effect"> 
@@ -147,25 +147,22 @@
 					</div>
 				</td>
 				<td id='colform' style='width:34%;'>
-					<p style="font-family:'Montserrat' sans-serif;text-align: center;"><strong><br>INPUT</strong></p>
 					<p style='text-align:left; padding-left:30px;'>
 						Spend Address:<br>
-						<input type="text" name="" id='sender' size='38' class='form'>
+						<input type="text" name="" id='sender' size='38' class='form'><br>
 					</p>
-					<p style="font-family:'Montserrat' sans-serif;text-align: center;"><strong>OUTPUT</strong></p>
 					<p style='text-align:left; padding-left:30px;'>
 						To Address:<br>
 						<input type="text" name="" id='receiver' size='38' class='form'><br>
 						Amount (in satoshis):<br>
 						<input type="text" name="" id='amount' size='26' class='form'><span id='conversion1' style='color:grey;'></span><br>
-						<span id='add_output' style='text-decoration:underline;color:blue;cursor:pointer;'>add output</span>
+						<span id='add_output' style='text-decoration:underline;color:blue;cursor:pointer;'>add output</span><br>
 					</p>
-					<p style="font-family:'Montserrat' sans-serif;text-align: center;"><strong>MINER FEE</strong></p>
 					<p style='text-align:left; padding-left:30px;'>
 						Fee (in satoshis):<br>
 						<input type="text" name="" id='fee' size='26' class='form'><span id='conversion2' style='color:grey;'></span><br>
 						<span id='get_suggest' style='text-decoration:underline;color:blue;cursor:pointer;'>smart suggestion</span><br>
-						<span id='suggest'></span>
+						<span id='suggest'></span><br>
 					</p>
 					<div id='create' class="eff2" style="background-color:navy;border:none;font-size:16px;font-family: 'Montserrat' sans-serif;color:white; height:45px; line-height: 45px;vertical-align: middle;width:150px;margin-left:30px;cursor: pointer;text-align:center;"><span style='text-align: center;'><strong>CREATE</strong></span></div><br><br>
 				</td>
@@ -250,7 +247,7 @@
 				var best = Math.ceil(data.fastestFee*250/1000)*1000;
 				var half = Math.ceil(data.halfHourFee*250/1000)*1000;
 				var hour = Math.ceil(data.hourFee*250/1000)*1000;
-				document.getElementById('est_fee').innerHTML="optimal: " + optimal_satbyte.toString()+ "sat/byte - - ->&nbsp;~" + best.toString() + " satoshis (avg)<br> <30m: "+ halfhour_satbyte.toString() +"sat/byte - - ->&nbsp;~"+half.toString()+" satoshis (avg)<br><1hr: "+hour_satbyte.toString()+"sat/byte - - ->&nbsp;~"+hour.toString()+" satoshis (avg)<br><br>";
+				document.getElementById('est_fee').innerHTML="optimal: " + optimal_satbyte.toString()+ " sat/byte &nbsp;&nbsp;&nbsp;(avg ~" + best.toString() + " satoshis (avg)<br> <30m: "+ halfhour_satbyte.toString() +" sat/byte &nbsp;&nbsp;&nbsp;(avg ~"+half.toString()+" satoshis (avg)<br><1hr:<strong> "+hour_satbyte.toString()+" sat/byte &nbsp;&nbsp;&nbsp;(avg ~"+hour.toString()+" satoshis<br><br>";
 			}
 		});
 		$.ajax({
