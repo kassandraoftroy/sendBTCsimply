@@ -68,15 +68,11 @@ def ajax_suggest(request):
 	return JsonResponse(data)
 
 def ajax_unlock(request):
-	try:
-		addr = str(request.GET.get('address', None))
-		utxos = get_utxos(addr)
-		address_info = get_address(addr)
-		data = {'utxos':utxos, 'info':info}
-		return JsonResponse(data)
-	except:
-		data = {"utxos":"error"}
-		return JsonResponse(data)
+	addr = str(request.GET.get('address', None))
+	utxos = get_utxos(addr)
+	address_info = get_address(addr)
+	data = {'utxos':utxos, 'info':info}
+	return JsonResponse(data)
 
 
 def tutorial_1(request):
