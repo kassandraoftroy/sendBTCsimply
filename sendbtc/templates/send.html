@@ -274,7 +274,7 @@
 	
 	document.getElementById('create').onclick = function() {maketx();};
 	document.getElementById('broadcast').onclick = function() {broadcast();};
-	document.getElementById('verify').onclick = function () {verify_direct();}
+	document.getElementById('verify').onclick = function () {verification();}
 	document.getElementById('get_suggest').onclick = function () {fee_suggest();}
 
 	function maketx() {
@@ -335,7 +335,9 @@
 			data: {'bytes_':bytes_},
 			success: function (data) {
 				var jsonStr = JSON.stringify(data, null, 4);
-				alert(jsonStr);
+				document.getElementById('alert').innerHTML = "<br><p style='text-align:center;color:blue;text_decoration:underline; cursor:pointer;' id='closealert'>close</p><br><br>"+jsonStr;
+				$('#alert').show(800);
+				document.getElementById('closealert').onclick = function() {alerthide();}
 			}
 		});
 	}
