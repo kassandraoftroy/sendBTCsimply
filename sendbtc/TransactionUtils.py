@@ -107,7 +107,8 @@ def get_utxos(addr):
 	return unspent(addr)
 
 def get_address(addr):
-	return blockexplorer.get_address(addr)
+	address_info = blockexplorer.get_address(addr)
+	return address_info
 
 def txsize_est(from_, outputs):
 	utxos = unspent(from_)
