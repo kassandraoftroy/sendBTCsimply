@@ -132,12 +132,12 @@
 		<table id='table1' width='100%' align='center'>
 			<tr style = 'text-align: center;'>
 				<td style='text-align:center;width:30%;vertical-align:top;'>
-					<div style='height:400px;width:98%;margin-left:6px; margin-right:0; margin-top:6px; margin-bottom:6px;background-color:lightgrey;border: 2px solid darkgrey; border-radius: 5px;'><br>
+					<div style='height:400px;width:98%;margin-left:6px; margin-right:0; margin-top:6px; margin-bottom:6px;background-color:lightgrey;border: 2px solid darkgrey; border-radius: 5px;'>
 						<h3 style='font-weight:normal;font-style:italic;'>Conversions</h3>
 						<input type="text" name="" id='usdbtc' size='14' style='text-align: center; line-height: 15px;'> &nbsp;$&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='btcusd' size='14' style='text-align: center; line-height: 15px;'> &nbsp;BTC
 						<br><br>
 						<input type="text" name="" id='btcsat' size='14' style='text-align: center; line-height: 15px;'> &nbsp;BTC&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='satbtc' size='14' style='text-align: center; line-height: 15px;'> sat
-						<br><br><br>
+						<br><br>
 						<h3 style='font-weight:normal;font-style:italic;'>Fees</h3>
 						<span id='est_fee'></span><br>
 						<input type="text" name="" id='mult_rate' size='3' style='text-align: center; line-height: 15px;'>sat/byte&nbsp; x &nbsp;<input type="text" name="" id='mult_size' size='5' style='text-align: center; line-height: 15px;'>bytes &nbsp;= &nbsp;<input type="text" name="" id='mult_result' size='12' style='text-align: center; line-height: 15px;'>sat<br><br>
@@ -153,8 +153,8 @@
 					<p style='text-align:left; padding-left:30px;'>
 						To Address:<br>
 						<input type="text" name="" id='receiver1' size='36' class='form'><br>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Amount (in satoshis):<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" id='amount1' size='26' class='form'><span id='conversion1' style='color:grey;'></span><br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Amount (in satoshis):<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" id='amount1' size='26' class='form'><span id='conversion1' style='color:grey;'></span><br>
 						<span id='add_output' style='text-decoration:underline;color:blue;cursor:pointer;'>more outputs</span><br>
 					</p>
 					<p style='text-align:left; padding-left:30px;'>
@@ -244,7 +244,7 @@
 				optimal_satbyte = data.fastestFee;
 				halfhour_satbyte = data.halfHourFee;
 				hour_satbyte = data.hourFee;
-				document.getElementById('est_fee').innerHTML="optimal:<strong> " + optimal_satbyte.toString()+ " sat/byte</strong><br> <30m:<strong> "+ halfhour_satbyte.toString() +" sat/byte</strong> <br><1hr:<strong> "+hour_satbyte.toString()+" sat/byte</strong><br><br>";
+				document.getElementById('est_fee').innerHTML="optimized:<strong> " + optimal_satbyte.toString()+ " sat/byte</strong><br> <30m:<strong> "+ halfhour_satbyte.toString() +" sat/byte</strong> <br><1hr:<strong> "+hour_satbyte.toString()+" sat/byte</strong><br><br>";
 			}
 		});
 
