@@ -70,8 +70,7 @@ def ajax_suggest(request):
 def ajax_unlock(request):
 	addr = str(request.GET.get('address', None))
 	utxos = get_utxos(addr)
-	info = get_address(addr)
-	data = {'utxos':utxos, 'info':info}
+	data = {'utxos':utxos}
 	return JsonResponse(data)
 
 
