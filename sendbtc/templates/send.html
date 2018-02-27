@@ -50,6 +50,9 @@
 		z-index: 99;
 	}
 
+	.chart {
+		border: 2px solid darkgrey;
+	}
 
 	.box {
 		width:97%;
@@ -132,15 +135,15 @@
 		<table id='table1' width='100%' align='center'>
 			<tr style = 'text-align: center;'>
 				<td style='text-align:center;width:30%;vertical-align:top;'>
-					<div style='height:400px;width:98%;margin-left:6px; margin-right:0; margin-top:6px; margin-bottom:6px;background-color:lightgrey;border: 2px solid darkgrey; border-radius: 5px;'>
+					<div style='height:390px;width:98%;margin-left:6px; margin-right:0; margin-top:6px; margin-bottom:6px;background-color:lightgrey;border: 2px solid darkgrey; border-radius: 5px;'>
 						<h3 style='font-weight:normal;font-style:italic;'>Conversions</h3>
-						<input type="text" name="" id='usdbtc' size='14' style='text-align: center; line-height: 15px;'> &nbsp;$&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='btcusd' size='14' style='text-align: center; line-height: 15px;'> &nbsp;BTC
+						<input type="text" class= "chart" name="" id='usdbtc' size='14' style='text-align: center; line-height: 15px;'> &nbsp;$&nbsp;&nbsp;=&nbsp;&nbsp;<input class= "chart" type="text" name="" id='btcusd' size='14' style='text-align: center; line-height: 15px;'> &nbsp;BTC
 						<br><br>
-						<input type="text" name="" id='btcsat' size='14' style='text-align: center; line-height: 15px;'> &nbsp;BTC&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='satbtc' size='14' style='text-align: center; line-height: 15px;'> sat
+						<input type="text" nclass= "chart" name="" id='btcsat' size='14' style='text-align: center; line-height: 15px;'> &nbsp;BTC&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" class= "chart" name="" id='satbtc' size='14' style='text-align: center; line-height: 15px;'> sat
 						<br><br>
 						<h3 style='font-weight:normal;font-style:italic;'>Fees</h3>
 						<span id='est_fee'></span><br>
-						<input type="text" name="" id='mult_rate' size='3' style='text-align: center; line-height: 15px;'>sat/byte&nbsp; x &nbsp;<input type="text" name="" id='mult_size' size='5' style='text-align: center; line-height: 15px;'>bytes &nbsp;= &nbsp;<input type="text" name="" id='mult_result' size='12' style='text-align: center; line-height: 15px;'>sat<br><br>
+						<input type="text"  class= "chart" name="" id='mult_rate' size='3' style='text-align: center; line-height: 15px;'>sat/byte&nbsp; x &nbsp;<input type="text" class= "chart" name="" id='mult_size' size='5' style='text-align: center; line-height: 15px;'>bytes &nbsp;= &nbsp;<input type="text" class= "chart" name="" id='mult_result' size='12' style='text-align: center; line-height: 15px;'>sat<br><br>
 						<span style='font-size:.8em;'>*average tx size is 226 bytes - <a href="https://bitcoinfees.earn.com/" style='font-weight:bold;color:black;text-decoration:none;'> more fee info</a><br>
 						** use "smart suggestion" for estimates specific to your tx.</span>
 					</div>
@@ -208,9 +211,6 @@
 					<h4 id='s_header'>Signed Transaction Hex:</h4>
 					<textarea name="" cols="80" rows="7" wrap='hard' id='signed'></textarea><br><br>
 					<div id='broadcast' class="eff2" style="background-color:red;border:none;font-size:18px;font-family: 'Montserrat' sans-serif;color:white; height:50px; line-height: 50px;vertical-align: middle;width:200px;margin:auto;cursor: pointer;">&nbsp;<strong>BROADCAST</strong>&nbsp;</div><span style='font-size:12px;'><br><strong> &nbsp;(WARNING: Cannot change or cancel after broadcasting.) </strong></span>
-					<p>
-						<span style='font-style: italic;'>If you want to check out the contents of your transaction before broadcasting (verify that there are no extra fees and tx details are correct) - - <a href="https://live.blockcypher.com/btc/decodetx/" target='_blank' style='text-decoration:none;color:black;'><strong>click here</strong></a></span><br>
-					</p>
 				</td>
 			</tr>
 		</table>
