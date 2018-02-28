@@ -59,8 +59,9 @@ def ajax_verify(request):
 def ajax_suggest(request):
 	try:
 		addr = str(request.GET.get('addr', None))
-		num = int(request.GET.get('amount', None))
-		o = [{'address': "none", 'value':num}]
+		nums = request.GET.get('amounts', None)
+		print nums
+		o = [{'address': "none", 'value':num} for num in nums]
 		data = {"msg":txsize_est(addr, o)}
 	except:
 		data = {"msg": 0}
