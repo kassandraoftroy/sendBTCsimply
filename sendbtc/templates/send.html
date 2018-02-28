@@ -363,7 +363,7 @@
 		for (i=1;i<=n_outs; i++){amounts.push($('#amount'+i.toString()).val());}
 		$.ajax({
 			url: "{% url 'ajax_suggest' %}",
-			data: {'addr': addr, 'amount':amounts},
+			data: {'addr': addr, 'amounts':amounts},
 			success: function (data){
 				var size = data.msg;
 				if (size == 0){document.getElementById('suggest').innerHTML = "fill out rest of form first!";}
