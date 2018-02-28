@@ -19,7 +19,7 @@ def ajax_tx(request):
 		amounts = request.GET.getlist("amounts[]", None)
 		fee = int(request.GET.get("fee", None))
 	except:
-		bytes_ = "Transaction Generation Failed:\nVerify all input fields.\nLeave no fields blank!"
+		bytes_ = "Transaction Generation Failed:\nVerify all input fields.\nLeave no fields blank."
 
 	try:
 		outs = [{'address':receivers[i], 'value':int(amounts[i])} for i in range(len(receivers))]
