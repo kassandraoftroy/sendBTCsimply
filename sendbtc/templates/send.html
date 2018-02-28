@@ -365,7 +365,7 @@
 	function fee_suggest() {
 		var addr = $('#sender').val();
 		var amounts = []
-		for (i=1;i<=n_outs; i++){amounts.push($('#amount'+i.toString()).val());}
+		for (i=1;i<=n_outs; i++){if ($('#amount'+i.toString()).val() != '') {amounts.push($('#amount'+i.toString()).val());}}
 		$.ajax({
 			url: "{% url 'ajax_suggest' %}",
 			data: {'addr': addr, 'amounts':amounts},
