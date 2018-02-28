@@ -59,7 +59,7 @@ def ajax_verify(request):
 def ajax_suggest(request):
 	try:
 		addr = str(request.GET.get('addr', None))
-		nums = request.GET.get('amounts[]', None)
+		nums = request.GET.getlist('amounts[]', None)
 		print nums
 		print addr
 		o = [{'address': "none", 'value':num} for num in nums]
