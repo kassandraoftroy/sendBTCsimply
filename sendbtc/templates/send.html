@@ -267,9 +267,9 @@
 			}
 	        var num, conv_num, show;
 	        for (i=0; i<n_outs; i++) {
+	        	var j = i+1;
+		        var conversion_id = "conversion" + j.toString();
 		        if (x[i] != '') {
-		        	var j = i+1;
-		        	var conversion_id = "conversion" + j.toString();
 		        	num = parseInt(x[i]);
 		        	conv_num = num/100000000.0;
 		        	show = '&nbsp;&nbsp;&nbsp;' + conv_num.toString() + ' BTC';
@@ -443,7 +443,11 @@
 
 	function add_output () {
 		n_outs = n_outs + 1;
-		document.getElementById('output_fields').innerHTML += "To Address:<br><input type='text' id='receiver" +n_outs.toString() +"' size='36' class='form'><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;Amount (in satoshis):<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='text' id='amount"+n_outs.toString()+"' size='26' class='form'><span id='conversion"+n_outs.toString()+"' style='color:grey;'></span>";
+		var newhtml = ""
+		for (i=1;i<=n_outs;i++){
+			newhtml+="To Address:<br><input type='text' id='receiver" +i.toString() +"' size='36' class='form'><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;Amount (in satoshis):<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='text' id='amount"+i.toString()+"' size='26' class='form'><span id='conversion"+i.toString()+"' style='color:grey;'></span><br>"
+		}
+		document.getElementById('output_fields').innerHTML = newhtml + "<span id='add_output' style='text-decoration:underline;color:blue;cursor:pointer;'>more outputs</span><br>";
 	}
 
 	jQuery.moveColumn = function (table, from, to) {
