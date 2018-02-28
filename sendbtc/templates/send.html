@@ -361,6 +361,7 @@
 		var addr = $('#sender').val();
 		var amounts = []
 		for (i=1;i<=n_outs; i++){amounts.push($('#amount'+i.toString()).val());}
+		console.log(amounts);
 		$.ajax({
 			url: "{% url 'ajax_suggest' %}",
 			data: {'addr': addr, 'amounts':amounts},
