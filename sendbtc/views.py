@@ -15,14 +15,15 @@ def test_env(request):
 def ajax_tx(request):
 	try:
 		s_address = str(request.GET.get("sender", None))
-		r_address = str(request.GET.get("receiver", None))
-		amount = int(request.GET.get("amount", None))
+		receivers = request.GET.getlist("receivers[]", None)
+		amounts = request.GET.getlist("amounts[]", None)
 		fee = int(request.GET.get("fee", None))
 	except:
 		bytes_ = "Transaction Generation Failed:\nVerify all input fields.\nLeave no fields blank!"
 
 	try:
-		bytes_ = quick_unsigned_tx(s_address, r_address, amount, fee)
+		outs = [{'address':receivers[i], 'value':int(amounts[i])} for i in range(len(receivers))]
+		bytes_ = unsigned_tx(s_address, outs, fee)
 	except:
 		bytes_ = "Transaction Generation Failed:\nVerify all input fields.\nMake sure sender has enough funds for transaction and fee."
 	data = {'bytes_':bytes_}
@@ -60,9 +61,7 @@ def ajax_suggest(request):
 	try:
 		addr = str(request.GET.get('addr', None))
 		nums = request.GET.getlist('amounts[]', None)
-		print nums
-		print addr
-		o = [{'address': "none", 'value':num} for num in nums]
+		o = [{'address': "none", 'value':int(num)} for num in nums]
 		data = {"msg":txsize_est(addr, o)}
 	except:
 		data = {"msg": 0}
