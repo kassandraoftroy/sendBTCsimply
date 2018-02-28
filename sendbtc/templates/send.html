@@ -284,7 +284,6 @@
 	document.getElementById('broadcast').onclick = function() {broadcast();};
 	document.getElementById('verify').onclick = function () {verification();}
 	document.getElementById('get_suggest').onclick = function () {fee_suggest();}
-	document.getElementById('add_output').onclick = function () {add_output();}
 
 	function maketx() {
 		var sender = $('#sender').val();
@@ -352,6 +351,7 @@
 	}
 
 	function fee_suggest() {
+		console.log('hi there');
 		var addr = $('#sender').val();
 		var amount = $('#amount1').val();
 		$.ajax({
@@ -449,6 +449,7 @@
 			newhtml+="To Address:<br><input type='text' id='receiver" +i.toString() +"' size='36' class='form'><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;Amount (in satoshis):<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='text' id='amount"+i.toString()+"' size='26' class='form'><span id='conversion"+i.toString()+"' style='color:grey;'></span><br>"
 		}
 		document.getElementById('output_fields').innerHTML = newhtml + "<span id='add_output' style='text-decoration:underline;color:blue;cursor:pointer;'>more outputs</span><br>";
+		document.getElementById('add_output').onclick = function () {add_output();}
 	}
 
 	jQuery.moveColumn = function (table, from, to) {
