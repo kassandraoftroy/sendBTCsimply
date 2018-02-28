@@ -9,11 +9,10 @@ from TransactionUtils import *
 def home(request):
 	return render(request, "send.html")
 
-def test(request):
-	return render(request, "simplesend.html")
+def test_env(request):
+	return render(request, "testing.html")
 
 def ajax_tx(request):
-
 	try:
 		s_address = str(request.GET.get("sender", None))
 		r_address = str(request.GET.get("receiver", None))
