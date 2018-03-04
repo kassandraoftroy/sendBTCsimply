@@ -129,7 +129,7 @@ def int2hexbyte(int_):
 	return byte_
 
 def broadcast_tx(data):
-	pushtx.pushtx(data)
+	pushtx(data)
 
 
 
