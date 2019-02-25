@@ -16,31 +16,6 @@
 		padding:5px;
 		font-family: 'Open Sans', sans-serif;
 	}
-
-	input.unlock {
-		line-height:20px;
-		font-size:16px;
-		padding:5px;
-		font-family: 'Open Sans', sans-serif;
-		text-align: center;
-		border:1px solid darkgrey;
-	}
-
-	.popout {
-	background-color:lightgrey;
-	text-align:center;
-	font-family: "Montserrat" sans-serif;
-    height: auto;
-    width:500px;
-    margin: 0 auto;
-    position: absolute;
-    top:200px;
-    left:0;
-    right:0;
-	border: 2px solid darkgrey;
-	opacity:1.0;
-	z-index:50;
-	}
 	
 	input:focus {
     outline:none !important;
@@ -50,17 +25,16 @@
     outline:none !important;
 	}
 
-	div.header{
+	div.heading{
 		text-align:center;
+		background-color:lightgrey;
 		font-size:1.5em;
 		border:2px solid darkgrey;
 		font-family: 'Montserrat', sans-serif;
-		color:darkgrey;
-		height:55px;
+		color:#00004d;
+		height:40px;
 		vertical-align: middle;
-		width:98%;
-		background-color:lightgrey;
-		opacity:1.0;
+		cursor:pointer;
 	}
 
 	.json_alert {
@@ -71,26 +45,32 @@
 		opacity:1.0;
 		top:40px;
 		left:40px;
-		height: 650px;
+		height: 1000px;
 		width: 1000px;
 		z-index: 99;
 	}
 
+	.chart {
+		border: 2px solid darkgrey;
+	}
 
 	.boxA {
-		width:50%;
-		height:50%;
+		width:97%;
+		height:auto;
 		background:#FFF;
-		margin:5px auto;
-		opacity:0.85;
+		margin:10px auto;
 	}
 
 	.boxB {
-		width:80%;
-		height:80%;
+		width:66%;
+		height:auto;
 		background:#FFF;
-		margin:5px auto;
-		opacity:0.85;
+		opacity:0.82;
+		margin:10px auto;
+		padding-top:10px;
+		padding-bottom:10px;
+		padding-left:16px;
+		padding-right:0;
 	}
 
 	.effect
@@ -108,7 +88,7 @@
 	    bottom:0;
 	    left:0;
 	    right:0;
-	    border-radius:10px / 10px;
+	    border-radius:20px / 10px;
 	} 
 	.effect:after
 	{
@@ -119,32 +99,21 @@
 	
 	.eff2{
 	     box-shadow: 0 10px 6px -6px #777;
-	     z-index:99;
+	     opacity:1.0;
 	}
 
 	</style>
 </head>
 
-<body style="text-align:center;font-family:georgia;background-image:url('https://s3.amazonaws.com/aristaticfiles/cligraph3.jpg');">
+<body style="text-align:center;font-family:georgia;background-image:url('https://s3.amazonaws.com/aristaticfiles/caligraphybackground.jpg');">
 
 	<table width= '95%' align='center'>
 		<tr style='text-align: center;'>
-			<td style='width:25%;text-align:left;vertical-align: top;'>
-				<p style='font-family: "Montserrat" sans-serif;'><strong>
-					<a href="" target="" style="text-decoration:none;color:black;" >HOW TO</a> &nbsp;&nbsp;|&nbsp;&nbsp;
-					<a href="https://github.com/superarius/sendBTCsimply" target="_blank" style="text-decoration:none;color:black;">GITHUB</a>
-					</strong>
-				</p>
-			</td>
 			<td style='text-align: center;width:50%;'>
 				<h1 style="font-family:'Montserrat' sans-serif;">
 					<strong>BTC</strong><span style='font-style:italic;font-weight:normal;font-family:georgia;'>tx</span>
 				</h1>
-			</td>
-			<td style='text-align: center; width:25%;vertical-align: top;'>
-				<p style="font-family:'Montserrat' sans-serif;">
-					Donate:<br><span style="font-size:.8em;"><strong>19wfYbP9wYprQoKQAFasT7SZyU7XzuUuZk</strong></span>
-				</p>
+				<h3 style="font-family:'Montserrat' sans-serif;">Take full control of your Bitcoin transactions.</h3>
 			</td>
 		</tr>
 	</table>
@@ -156,49 +125,25 @@
 		<pre id="json" style='text-align:left;margin-left:6px;'></pre>
 	</div>
 
-	<div class="header effect">
-		<span style='font-family: "Montserrat" sans-serif;color:navy;font-weight:bolder;line-height:55px;'>
-			&nbsp;&nbsp;VERIFY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BROADCAST&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEND&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REQUEST&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WALLET&nbsp;&nbsp;
-		</span>
+	<div class="boxA effect"> 
+
+	<div class="heading" id='step1_header'>
+		<span style='vertical-align: middle;line-height: 40px;'><strong>Step 1: Create tx</strong></span>
 	</div>
 
-	<br>
-
-	<div class='popout eff2' id='enterform'>
-		<br>
-		<strong>Spend Bitcoin From Address:</strong><br><br>
-		<input type="text" name="" id='mainaddr' size='40' class='unlock'>
-		<br><br>
-		<div id='go' class="eff2" style="background-color:navy;border:none;font-size:15px;font-family: 'Montserrat' sans-serif;color:white; height:45px; line-height: 45px;vertical-align: middle;width:150px;margin:auto;cursor: pointer;">
-			<strong>GO</strong>
-		</div>
-		<br><br>
-	</div>
-
-	<div class="boxA effect" id='enter'>
- 
-
-	</div>
-
-	<div class="boxB effect" id='address_base'>
-		<div id='data'></div>
-	</div>
-
-<div id='step1'>
+	<div id='step1'>
 		<table id='table1' width='100%' align='center'>
 			<tr style = 'text-align: center;'>
 				<td style='text-align:center;width:30%;vertical-align:top;'>
-					<div style='height:150px;width:98%;margin-left:6px; margin-right:0; margin-top:6px; margin-bottom:6px;'><br>
+					<div style='height:390px;width:98%;margin-left:6px; margin-right:0; margin-top:6px; margin-bottom:6px;background-color:lightgrey;border: 2px solid darkgrey; border-radius: 5px;'>
 						<h3 style='font-weight:normal;font-style:italic;'>Conversions</h3>
-						<input type="text" name="" id='usdbtc' size='14' style='text-align: center; line-height: 15px;'> &nbsp;$&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='btcusd' size='14' style='text-align: center; line-height: 15px;'> &nbsp;BTC
+						<input type="text" class= "chart" name="" id='usdbtc' size='14' style='text-align: center; line-height: 15px;'> &nbsp;$&nbsp;&nbsp;=&nbsp;&nbsp;<input class= "chart" type="text" name="" id='btcusd' size='14' style='text-align: center; line-height: 15px;'> &nbsp;BTC
 						<br><br>
-						<input type="text" name="" id='btcsat' size='14' style='text-align: center; line-height: 15px;'> &nbsp;BTC&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" name="" id='satbtc' size='14' style='text-align: center; line-height: 15px;'> sat
-						<br><br><br>
-					</div>
-					<div style='height:250px;width:98%;margin-left:6px; margin-right:0; margin-top:6px; margin-bottom:6px;'>
+						<input type="text" class= "chart" name="" id='btcsat' size='14' style='text-align: center; line-height: 15px;'> &nbsp;BTC&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" class= "chart" name="" id='satbtc' size='14' style='text-align: center; line-height: 15px;'> sat
+						<br><br>
 						<h3 style='font-weight:normal;font-style:italic;'>Fees</h3>
 						<span id='est_fee'></span><br>
-						<input type="text" name="" id='mult_rate' size='3' style='text-align: center; line-height: 15px;'>sat/byte&nbsp; x &nbsp;<input type="text" name="" id='mult_size' size='5' style='text-align: center; line-height: 15px;'>bytes &nbsp;= &nbsp;<input type="text" name="" id='mult_result' size='12' style='text-align: center; line-height: 15px;'>sat<br><br>
+						<input type="text"  class= "chart" name="" id='mult_rate' size='3' style='text-align: center; line-height: 15px;'>sat/byte&nbsp; x &nbsp;<input type="text" class= "chart" name="" id='mult_size' size='5' style='text-align: center; line-height: 15px;'>bytes &nbsp;= &nbsp;<input type="text" class= "chart" name="" id='mult_result' size='12' style='text-align: center; line-height: 15px;'>sat<br><br>
 						<span style='font-size:.8em;'>*average tx size is 226 bytes - <a href="https://bitcoinfees.earn.com/" style='font-weight:bold;color:black;text-decoration:none;'> more fee info</a><br>
 						** use "smart suggestion" for estimates specific to your tx.</span>
 					</div>
@@ -208,11 +153,11 @@
 						Spend Address:<br>
 						<input type="text" name="" id='sender' size='36' class='form'><br>
 					</p>
-					<p style='text-align:left; padding-left:30px;'>
+					<p id="output_fields" style='text-align:left; padding-left:30px;'>
 						To Address:<br>
 						<input type="text" name="" id='receiver1' size='36' class='form'><br>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Amount (in satoshis):<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" id='amount1' size='26' class='form'><span id='conversion1' style='color:grey;'></span><br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Amount (in satoshis):<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" id='amount1' size='26' class='form'><span id='conversion1' style='color:grey;'></span><br>
 						<span id='add_output' style='text-decoration:underline;color:blue;cursor:pointer;'>more outputs</span><br>
 					</p>
 					<p style='text-align:left; padding-left:30px;'>
@@ -234,22 +179,24 @@
 		</table>
 	</div>
 
+	<div id='step2_header' class="heading">
+		<span style='vertical-align: middle;line-height: 40px;'><strong>Step 2: Securely Sign tx</strong></span>
+	</div>
+
 	<div id='step2'>
 		<table width='70%' align='center'>
 			<tr>
 				<td>
-					<p>
-						(First Time Only) Install <a href="https://pypi.python.org/pypi/btcsignature" target='_blank' style='text-decoration:none;color:black;'><strong>btcsignature</strong></a> python package from command line with:<br><br>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='background-color:lightgrey;'>&nbsp;&nbsp;$ pip install btcsignature &nbsp;&nbsp;</span>&nbsp;&nbsp;<br><br>
-						Run signing script from command line with:<br><br>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='background-color:lightgrey;'>&nbsp;&nbsp;$ sign-offline &nbsp;&nbsp;</span><br><br>
-						*unfamiliar with the command line?<a href="{% url 'guide' %}" target="_blank" style='color:black;'> <strong>guide here</strong></a>
+					<p id='hashes'>
 					</p>
 				</td>
 			</tr>
 		</table>
 	</div>
 
+	<div id='step3_header' class="heading">
+		<span style='vertical-align: middle;line-height: 40px;'><strong>Step 3: Broadcast tx</strong></span>
+	</div>
 
 	<div id='step3'>
 		<br>
@@ -259,19 +206,22 @@
 					<h4 id='s_header'>Signed Transaction Hex:</h4>
 					<textarea name="" cols="80" rows="7" wrap='hard' id='signed'></textarea><br><br>
 					<div id='broadcast' class="eff2" style="background-color:red;border:none;font-size:18px;font-family: 'Montserrat' sans-serif;color:white; height:50px; line-height: 50px;vertical-align: middle;width:200px;margin:auto;cursor: pointer;">&nbsp;<strong>BROADCAST</strong>&nbsp;</div><span style='font-size:12px;'><br><strong> &nbsp;(WARNING: Cannot change or cancel after broadcasting.) </strong></span>
-					<p>
-						<span style='font-style: italic;'>If you want to check out the contents of your transaction before broadcasting (verify that there are no extra fees and tx details are correct) - - <a href="https://live.blockcypher.com/btc/decodetx/" target='_blank' style='text-decoration:none;color:black;'><strong>click here</strong></a></span><br>
-					</p>
 				</td>
 			</tr>
 		</table>
 	</div>
 
-	<br>
-	<br>
-	<br>
-	<br>
+	</div>
 
+	<div class="boxB effect">
+		<p style='font-family: "Montserrat" sans-serif;text-align: left;'>
+			BTCtx is a free, open source, and wallet agnostic webpage that helps anyone publish transactions to the Bitcoin blockchain securely and independently. BTCtx is:<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Universal:</strong> Send Bitcoin from any address/private key pair.<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Ultralight:</strong> No hefty desktop client, no registration, no storage, just a transaction tool.<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Trustless:</strong> Personally oversee each step of your transaction and securely sign offline (step by step guide).<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Cold Storage Friendly:</strong> No more having to sweep or import paper wallets to start spending.<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Transparent:</strong> Set your own fee with no hidden or extra charges.<br>
+		</p>
 	</div>
 
 </body>
@@ -282,31 +232,10 @@
 	$('#revealunsigned').hide();
 	$('#alert').hide();
 	$('#step3').hide();
-	$('#address_base').hide()
-	document.getElementById('go').onclick = function() {unlock_address();}
-
-	function unlock_address() {
-		var address = $('#mainaddr').val();
-		$.ajax({
-			url : '{% url "ajax_unlock" %}',
-			data : {'address': address},
-			success: function(data){
-				$('#enterform').hide();
-				$('#enter').hide();
-				document.getElementById('data').innerHTML = data.utxos;
-				$('#address_base').show();
-			}
-
-		});
-
-	}
-
-
-</script>
-
-<script>
 	var usd2btc = 1;
 	var optimal_satbyte, halfhour_satbyte, hour_satbyte;
+	var n_outs = 1;
+	var current_to_sign = []
 
 	my_round = function (value, decimals) {
   		return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
@@ -319,9 +248,10 @@
 				optimal_satbyte = data.fastestFee;
 				halfhour_satbyte = data.halfHourFee;
 				hour_satbyte = data.hourFee;
-				document.getElementById('est_fee').innerHTML="optimal:<strong> " + optimal_satbyte.toString()+ " sat/byte</strong><br> <30m:<strong> "+ halfhour_satbyte.toString() +" sat/byte</strong> <br><1hr:<strong> "+hour_satbyte.toString()+" sat/byte</strong><br><br>";
+				document.getElementById('est_fee').innerHTML="optimized:<strong> " + optimal_satbyte.toString()+ " sat/byte</strong><br> <30m:<strong> "+ halfhour_satbyte.toString() +" sat/byte</strong> <br><1hr:<strong> "+hour_satbyte.toString()+" sat/byte</strong><br><br>";
 			}
 		});
+
 		$.ajax({
 			url: "https://blockchain.info/ticker",
 			success: function (data){
@@ -332,46 +262,95 @@
 				$('#satbtc').val("100000000");
 			}
 		});
+
 		window.setInterval(function(){
-	        var x = $('#amount').val();
-	        var y = $('#fee').val();
-	        var num, conv_num, show, sat_low, sat_high;
-	        if (x != '') {
-	        	num = parseInt(x);
-	        	conv_num = num/100000000.0;
-	        	show = '&nbsp;&nbsp;&nbsp;' + conv_num.toString() + ' BTC';
-	        	document.getElementById('conversion1').innerHTML = show;}
-	        else {
-	        	document.getElementById('conversion1').innerHTML = '';}
-		}, 500);
+			var x = []
+			for (i=1; i<=n_outs; i++){
+				x.push($("#amount" + i.toString()).val());
+			}
+	        var num, conv_num, show;
+	        for (i=0; i<n_outs; i++) {
+	        	var j = i+1;
+		        var conversion_id = "conversion" + j.toString();
+		        if (x[i] != '') {
+		        	num = parseInt(x[i]);
+		        	conv_num = num/100000000.0;
+		        	show = '&nbsp;&nbsp;&nbsp;' + conv_num.toString() + ' BTC';
+		        	document.getElementById(conversion_id).innerHTML = show;}
+		        else {
+		        	document.getElementById(conversion_id).innerHTML = '';}
+	        }
+			}, 500);
+		$.ajaxSetup({ 
+		  beforeSend: function(xhr, settings) {
+		    function getCookie(name) {
+		      var cookieValue = null;
+		      if (document.cookie && document.cookie != '') {
+			var cookies = document.cookie.split(';');
+			for (var i = 0; i < cookies.length; i++) {
+			  var cookie = jQuery.trim(cookies[i]);
+			  // Does this cookie string begin with the name we want?
+			  if (cookie.substring(0, name.length + 1) == (name + '=')) {
+			    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+			    break;
+			  }
+			}
+		      }
+		      return cookieValue;
+		    }
+		    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+		      // Only send the token to relative URLs i.e. locally.
+		      xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+		    }
+		  } 
+		});
 	};
 	
 	document.getElementById('create').onclick = function() {maketx();};
 	document.getElementById('broadcast').onclick = function() {broadcast();};
 	document.getElementById('verify').onclick = function () {verification();}
 	document.getElementById('get_suggest').onclick = function () {fee_suggest();}
+	document.getElementById('add_output').onclick = function () {add_output();}
 
 	function maketx() {
 		var sender = $('#sender').val();
-		var receiver = $('#receiver1').val();
-		var amount = $('#amount1').val();
 		var fee = $('#fee').val();
+		var amounts = []
+		var receivers = []
+		for (i=1;i<=n_outs;i++){
+			if ($('#amount'+i.toString()).val() != '' && $('#receiver'+i.toString()).val() !=''){
+				amounts.push($('#amount'+i.toString()).val());
+				receivers.push($('#receiver'+i.toString()).val());
+			}
+		}
 
 		$.ajax({
 			url: "{% url 'ajax_tx' %}",
-			data: {'sender': sender, 'receiver':receiver, 'amount':amount, 'fee':fee},
+			type: "POST",
+			data: {'sender': sender, 'receivers':receivers, 'amounts':amounts, 'fee':fee},
 			success: function (data) {
 				document.getElementById('unsigned').innerHTML = data.bytes_;
 				$('#revealunsigned').show(750);
+				texts = "";
+				for (i=0;i<data.hashes.length; i++){
+					texts += data.hashes[i]+ " ";
+				}
+				document.getElementById('hashes').innerHTML = texts;
+				current_to_sign = data.hashes;
 			}
   		});
 	}
+
+	document.getElementById('step1_header').onclick = function () {if(document.getElementById('step1').style.display=="none"){$('#step1').show(500);} else {$('#step1').hide(500);}};
+	document.getElementById('step2_header').onclick = function () {if(document.getElementById('step2').style.display=="none"){$('#step2').show(500);} else {$('#step2').hide(500);}};
+	document.getElementById('step3_header').onclick = function () {if(document.getElementById('step3').style.display=="none"){$('#step3').show(500);} else {$('#step3').hide(500);}};
 
 	function broadcast() {
 		var signed = $('#signed').val();
 		$('#signed').val('Sending . . .');
 		$.ajax({
 			url: "{% url 'ajax_broadcast' %}",
+			type: "POST",
 			data: {'signed':signed},
 			success: function (data) {
 				$('#signed').val(data.output);
@@ -402,6 +381,7 @@
 		var bytes_ = $('#unsigned').val();
 		$.ajax({
 			url: "{% url 'ajax_verify' %}",
+			type: "POST",
 			data: {'bytes_':bytes_},
 			success: function (data) {
 				var jsonStr = JSON.stringify(data, null, 4);
@@ -414,10 +394,12 @@
 
 	function fee_suggest() {
 		var addr = $('#sender').val();
-		var amount = $('#amount').val();
+		var amounts = []
+		for (i=1;i<=n_outs; i++){if ($('#amount'+i.toString()).val() != '') {amounts.push($('#amount'+i.toString()).val());}}
 		$.ajax({
 			url: "{% url 'ajax_suggest' %}",
-			data: {'addr': addr, 'amount':amount},
+			type: "POST",
+			data: {'addr': addr, 'amounts':amounts},
 			success: function (data){
 				var size = data.msg;
 				if (size == 0){document.getElementById('suggest').innerHTML = "fill out rest of form first!";}
@@ -499,6 +481,28 @@
 			var num = Math.round(parseFloat(a)/parseFloat(b));
 			document.getElementById('mult_rate').value=num.toString();}
 		});
-
 	});
+
+	function add_output () {
+		n_outs += 1;
+		var newhtml = ""
+		var current_amount, current_address;
+		for (i=1;i<=n_outs;i++){
+			if (i == n_outs) {current_amount = ''; current_address = '';}
+			else {current_amount = $('#amount'+i.toString()).val(); current_address = $('#receiver'+i.toString()).val();}
+			newhtml+="To Address:<br><input type='text' id='receiver" +i.toString() +"' size='36' class='form' value='"+current_address+"'><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;Amount (in satoshis):<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='text' id='amount"+i.toString()+"' size='26' class='form' value='"+current_amount+"'><span id='conversion"+i.toString()+"' style='color:grey;'></span><br>"
+		}
+		document.getElementById('output_fields').innerHTML = newhtml + "<span id='add_output' style='text-decoration:underline;color:blue;cursor:pointer;'>more outputs</span><br>";
+		document.getElementById('add_output').onclick = function () {add_output();}
+	}
+
+	jQuery.moveColumn = function (table, from, to) {
+	    var rows = jQuery('tr', table);
+	    var cols;
+	    rows.each(function() {
+	        cols = jQuery(this).children('th, td');
+	        cols.eq(from).detach().insertBefore(cols.eq(to));
+	    });
+	}
+
 </script>

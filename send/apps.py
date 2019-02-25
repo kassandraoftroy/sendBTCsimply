@@ -4,5 +4,5 @@ from __future__ import unicode_literals
 from django.apps import AppConfig
 
 
-class SendbtcConfig(AppConfig):
-    name = 'sendbtc'
+class SendConfig(AppConfig):
+    name = 'send'

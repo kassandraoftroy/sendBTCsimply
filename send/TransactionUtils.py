@@ -117,6 +117,36 @@ def txsize_est(from_, outputs):
 	bytes_est = 168*len(tx_inputs)+34*(len(outputs)+1) + 24
 	return int(round(bytes_est/10.0)*10)
 
+def broadcast_tx(data):
+	pushtx(data)
+
+def prepare_sig(hex_data, address):
+	split_data = hex_data.split("00ffffffff")
+	input_stubs = split_data[:-1]
+	output_stub = split_data[-1]
+	pre_sig_script = '1976a914'+b58decode(address)+'88acffffffff'
+	hashes = []
+	for i in range(len(input_stubs)):
+		signing_message = ''
+		for j in range(i):
+			signing_message += input_stubs[j]+'00ffffffff'
+		signing_message += input_stubs[i] + pre_sig_script
+		for k in range(i+1, len(input_stubs)):
+			signing_message += input_stubs[k]+'00ffffffff'
+		signing_message += output_stub+'01000000'
+		hashed_message = hashlib.sha256(hashlib.sha256(signing_message.decode('hex')).digest()).digest()
+		hashes.append(hashed_message)
+	return hashes
+
+def apply_sig(hex_data, sigs):
+	split_data = hex_data.split("00ffffffff")
+	input_stubs = split_data[:-1]
+	output_stub = split_data[-1]
+	bytes_ = ''
+	for q in range(len(sigs)):
+		bytes_ += input_stubs[q]+sigs[q]
+	bytes_ += output_stub
+	return bytes_
 
 def int2hexbyte(int_):
 	raw_hex = hex(int_)[2:]
@@ -128,14 +158,26 @@ def int2hexbyte(int_):
 		return -1
 	return byte_
 
-def broadcast_tx(data):
-	pushtx(data)
+b58dict = {0:'1', 1:'2', 2:'3', 3:'4', 4:'5',5:'6',6:'7',7:'8',8:'9',9:'A',10:'B',11:'C',12:'D',13:'E',14:'F',15:'G',16:'H',17:'J',18:'K',19:'L',20:'M',21:'N',22:'P',23:'Q',24:'R',25:'S',26:'T',27:'U',28:'V',29:'W',30:'X',31:'Y',32:'Z',33:'a',34:'b',35:'c',36:'d',37:'e',38:'f',39:'g',40:'h',41:'i',42:'j',43:'k',44:'m',45:'n',46:'o',47:'p',48:'q',49:'r',50:'s',51:'t',52:'u',53:'v',54:'w',55:'x',56:'y',57:'z'}
+b58inv = {v: k for k, v in b58dict.iteritems()}
 
+def b58encode(hex_string):
+	number = int(hex_string, 16)
+	nums = []
+	while number>0:
+		nums.append(b58dict[number%58])
+		number = number//58
+	return ''.join(reversed(nums))
 
-
-
-
-
-
-
-
+def b58decode(b58_string, btc=True):
+	power = len(b58_string)-1
+	num = 0
+	for char in b58_string:
+		num += b58inv[char]*(58**power)
+		power -= 1
+	out = hex(num)[2:]
+	if out[-1]=='L':
+		out = out[:-1]
+	out = out[:-8] if btc else out
+	out = out if b58_string[0]=='1' else out[2:]
+	return out
