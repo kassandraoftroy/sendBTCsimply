@@ -1,35 +1,81 @@
 from blockchain import pushtx, blockexplorer
 from bitcoin import *
-import hashlib, ecdsa, binascii
-from ecdsa import SigningKey, SECP256k1
+import hashlib, ecdsa, binascii, requests
+from ecdsa import *
 from operator import itemgetter
 
-def quick_unsigned_tx(from_, to_, satoshi_amount, satoshi_fee):
-	outs = [{'value':satoshi_amount, 'address':to_}]
-	return unsigned_tx(from_, outs, satoshi_fee)
+G = ecdsa.generator_secp256k1
+N = G.order()
+
+def genECkeypair(priv=None, gen=G):
+	if priv == None:
+		gate = True
+		while gate:
+			priv = randrange(1,N)
+			pub = priv*gen
+			try:
+				convertPub2Addr(convertPt2Pub(pub))
+				gate = False
+			except:
+				pass
+	else:
+		pub = priv*gen
+		convertPub2Addr(convertPt2Pub(pub))
+	return priv, pub
+
+def ECsign(h, priv):
+	k = randrange(1, N)
+	p1 = k*G 
+	r = p1.x()%N
+	s = mod_inv(k,N)*(h+r*priv)%N
+	if s > N/2:
+		s = N - s
+	return r,s
+
+def ECverify(h, sig, pub):
+	r,s = sig
+	if 0<r<N and 0<s<N and (N*pub).x()==None:
+		u1 = h*mod_inv(s,N)%N
+		u2 = r*mod_inv(s,N)%N
+		checkP = u1*G + u2*pub
+		if checkP.x()==r:
+			return True
+	return False
+
+def getUnspent(address, testnet):
+	network = 'BTCTEST' if testnet else 'BTC'
+	response = requests.get('https://chain.so/api/v2/get_tx_unspent/'+network+'/'+address).json()
+	utxos = response['data']['txs']
+	clean_utxos = [{'value':int(float(i['value'])*100000000), 'index':i['output_no'], 'txid':i['txid']} for i in utxos]
+	return clean_utxos
+
+def pushTX(tx, testnet=False):
+	data = {'tx_hex':tx}
+	network = 'BTCTEST' if testnet else 'BTC'
+	response = requests.post('https://chain.so/api/v2/send_tx/'+network, data=data)
+	return response.json()
 
 def convert_single_input(input_):
-	prev_tx_raw = input_['output'].split(":")
-	prev_index_padded = "".join(["0" for i in range(8-len(hex(int(prev_tx_raw[1]))[2:]))])+hex(int(prev_tx_raw[1]))[2:]
+	prev_index_padded = "".join(["0" for i in range(8-len(hex(input_['index'])[2:]))])+hex(input_['index'])[2:]
 	prev_index_endian = "".join(list(reversed([prev_index_padded[2*i:2*(i+1)] for i in range(len(prev_index_padded)/2)]))) 
-	prev_tx_hash_r = "".join(list(reversed([prev_tx_raw[0][2*i:2*(i+1)] for i in range(len(prev_tx_raw[0])/2)])))
+	prev_tx_hash_r = "".join(list(reversed([input_['txid'][2*i:2*(i+1)] for i in range(len(input_['txid'])/2)])))
 	collected_input_data = prev_tx_hash_r + prev_index_endian
 	return collected_input_data
 
 def convert_single_output(output_):
 	output_value_padded = "".join(["0" for i in range(16-len(hex(output_['value'])[2:]))])+hex(output_['value'])[2:]
 	output_value_endian = "".join(list(reversed([output_value_padded[2*i:2*(i+1)] for i in range(len(output_value_padded)/2)])))
-	collected_output_data = output_value_endian+'1976a914'+b58check_to_hex(output_['address'])+'88ac'
+	collected_output_data = output_value_endian+'1976a914'+b58decode(output_['address'])+'88ac'
 	return collected_output_data
 
-def choose_inputs(utxos, amount, protocol='basic'):
+def choose_inputs(utxos, amount, policy='basic'):
 	tx_inputs = []
 	try:
-		if protocol == 'all':
+		if policy == 'all':
 			return utxos
-		elif protocol == 'basic':
+		elif policy == 'basic':
 			utxos = sorted(utxos, key=itemgetter('value'), reverse=True)
-		elif protocol == 'small_first':
+		elif policy == 'small_first':
 			utxos = sorted(utxos, key=itemgetter('value'))
 		i = 0
 		input_tally = 0
@@ -41,20 +87,18 @@ def choose_inputs(utxos, amount, protocol='basic'):
 	except:
 		return -1
 
-
-def unsigned_tx(from_, outputs, satoshi_fee, inputs_protocol='basic'):
+def unsigned_tx(address, outputs, satoshi_fee, change_address=None, testnet=False, utxo_policy='basic'):
 	gross_input_thresh = sum([i['value'] for i in outputs]) + satoshi_fee
-	utxos = unspent(from_)
-	tx_inputs = choose_inputs(utxos, gross_input_thresh, protocol=inputs_protocol)
+	utxos = getUnspent(address, testnet)
+	total = sum([i['value'] for i in utxos])
+	if total<gross_input_thresh:
+		return -1
+	tx_inputs = choose_inputs(utxos, gross_input_thresh, policy=utxo_policy)
 	tx_outputs = outputs
 	gross_input = sum([i['value'] for i in tx_inputs])
+	change_address = change_address if change_address!=None else address
 	if gross_input > gross_input_thresh:
-		tx_outputs.append({'value':gross_input - gross_input_thresh, 'address':from_})
-	elif gross_input == gross_input_thresh:
-		pass
-	else:
-		print "Error. Abort Tx."
-		return -1
+		tx_outputs.append({'value':gross_input - gross_input_thresh, 'address':change_address})
 	n_inputs = int2hexbyte(len(tx_inputs))
 	n_outputs = int2hexbyte(len(tx_outputs))
 	if n_inputs==-1 or n_outputs == -1:
@@ -62,6 +106,16 @@ def unsigned_tx(from_, outputs, satoshi_fee, inputs_protocol='basic'):
 		return -1
 	bytes_ = '01000000'+n_inputs+"".join([convert_single_input(i)+'00ffffffff' for i in tx_inputs])+n_outputs+"".join([convert_single_output(i) for i in tx_outputs])+'00000000'
 	return bytes_
+
+def quick_unsigned_tx(from_, to_, satoshi_amount, satoshi_fee):
+	outs = [{'value':satoshi_amount, 'address':to_}]
+	if from_[0] == '1':
+		testnet=False
+	elif from_[0] in ['2', 'm', 'n']:
+		testnet=True
+	else:
+		raise ValueError("Not a bitcoin address: %s" %from_)
+	return unsigned_tx(from_, outs, satoshi_fee, testnet=testnet)
 
 def sign_tx(hex_data, private_key):
 	public_address = pubtoaddr(privtopub(private_key))
@@ -92,34 +146,6 @@ def sign_tx(hex_data, private_key):
 	bytes_ += output_stub
 	return bytes_
 
-def decode_tx(bytes_):
-	readable = deserialize(bytes_)
-	inputs_decoded = [{'address': blockexplorer.get_tx(i['outpoint']['hash']).outputs[i['outpoint']['index']].address, 'value' : blockexplorer.get_tx(i['outpoint']['hash']).outputs[i['outpoint']['index']].value, 'prev_hash':i['outpoint']['hash'], 'index':i['outpoint']['index'], 'script':i['script'], 'sequence':i['sequence']}for i in readable['ins']]
-	outputs_decoded = [{'address' : hex_to_b58check(i['script'][6:-4]), 'value': i['value'], 'script':i['script']} for i in readable['outs']]
-	all_addresses = list(set([i['address'] for i in inputs_decoded] + [j['address'] for j in outputs_decoded]))
-	full_decode = {'addresses': all_addresses, 'version': readable['version'], 'size':len(bytes_)/2, 'fees': sum([i['value'] for i in inputs_decoded]) - sum([i['value'] for i in outputs_decoded]), 'locktime':readable['locktime'], 'inputs':inputs_decoded, 'outputs':outputs_decoded}
-	return full_decode
-
-def get_txid(bytes_):
-	return sha256(sha256(bytes_.decode('hex')).digest()).digest()[::-1].encode('hex')
-
-def get_utxos(addr):
-	return unspent(addr)
-
-def get_address(addr):
-	address_info = blockexplorer.get_address(addr)
-	return address_info
-
-def txsize_est(from_, outputs):
-	utxos = unspent(from_)
-	gross_input_thresh = sum([i['value'] for i in outputs]) + 1000
-	tx_inputs = choose_inputs(utxos, gross_input_thresh)
-	bytes_est = 168*len(tx_inputs)+34*(len(outputs)+1) + 24
-	return int(round(bytes_est/10.0)*10)
-
-def broadcast_tx(data):
-	pushtx(data)
-
 def prepare_sig(hex_data, address):
 	split_data = hex_data.split("00ffffffff")
 	input_stubs = split_data[:-1]
@@ -148,6 +174,27 @@ def apply_sig(hex_data, sigs):
 	bytes_ += output_stub
 	return bytes_
 
+def get_txid(bytes_):
+	return sha256(sha256(bytes_.decode('hex')).digest()).digest()[::-1].encode('hex')
+
+def decode_tx(bytes_):
+	readable = deserialize(bytes_)
+	inputs_decoded = [{'address': blockexplorer.get_tx(i['outpoint']['hash']).outputs[i['outpoint']['index']].address, 'value' : blockexplorer.get_tx(i['outpoint']['hash']).outputs[i['outpoint']['index']].value, 'prev_hash':i['outpoint']['hash'], 'index':i['outpoint']['index'], 'script':i['script'], 'sequence':i['sequence']}for i in readable['ins']]
+	outputs_decoded = [{'address' : hex_to_b58check(i['script'][6:-4]), 'value': i['value'], 'script':i['script']} for i in readable['outs']]
+	all_addresses = list(set([i['address'] for i in inputs_decoded] + [j['address'] for j in outputs_decoded]))
+	full_decode = {'addresses': all_addresses, 'version': readable['version'], 'size':len(bytes_)/2, 'fees': sum([i['value'] for i in inputs_decoded]) - sum([i['value'] for i in outputs_decoded]), 'locktime':readable['locktime'], 'inputs':inputs_decoded, 'outputs':outputs_decoded}
+	return full_decode
+
+def btc2sat(decimal):
+	return int(decimal*100000000)
+
+def txsize_est(from_, outputs):
+	utxos = unspent(from_)
+	gross_input_thresh = sum([i['value'] for i in outputs]) + 1000
+	tx_inputs = choose_inputs(utxos, gross_input_thresh)
+	bytes_est = 168*len(tx_inputs)+34*(len(outputs)+1) + 24
+	return int(round(bytes_est/10.0)*10)
+
 def int2hexbyte(int_):
 	raw_hex = hex(int_)[2:]
 	if len(raw_hex) == 1:
@@ -155,7 +202,7 @@ def int2hexbyte(int_):
 	elif len(raw_hex) == 2:
 		byte_ = raw_hex
 	else:
-		return -1
+		raise ValueError("not interpretable as hex byte: %s" %int_)
 	return byte_
 
 b58dict = {0:'1', 1:'2', 2:'3', 3:'4', 4:'5',5:'6',6:'7',7:'8',8:'9',9:'A',10:'B',11:'C',12:'D',13:'E',14:'F',15:'G',16:'H',17:'J',18:'K',19:'L',20:'M',21:'N',22:'P',23:'Q',24:'R',25:'S',26:'T',27:'U',28:'V',29:'W',30:'X',31:'Y',32:'Z',33:'a',34:'b',35:'c',36:'d',37:'e',38:'f',39:'g',40:'h',41:'i',42:'j',43:'k',44:'m',45:'n',46:'o',47:'p',48:'q',49:'r',50:'s',51:'t',52:'u',53:'v',54:'w',55:'x',56:'y',57:'z'}
@@ -181,3 +228,25 @@ def b58decode(b58_string, btc=True):
 	out = out[:-8] if btc else out
 	out = out if b58_string[0]=='1' else out[2:]
 	return out
+
+def rs2DER(r,s):
+	r=hex(r)[2:]
+	s=hex(s)[2:]
+	r = r if r[-1]!='L' else r[:-1]
+	r = r if r[0] in [str(i) for i in range(1,8)] else '00'+r
+	s = s if s[-1]!='L' else s[:-1]
+	s = s if s[0] in [str(i) for i in range(1,8)] else '00'+s
+	r_len=hex(len(r)/2)[2:]
+	s_len=hex(len(s)/2)[2:]
+	sig = '02'+r_len+r+'02'+s_len+s
+	sig_len=hex(len(sig)/2)[2:]
+	sigScript='30'+sig_len+sig+'01'
+	script_len=hex(len(sigScript)/2)[2:]
+	return script_len+sigScript
+
+def rawSig2ScriptSig(sig, pubkey):
+	r,s = sig
+	sig=rs2DER(r,s)
+	sig=sig+hex(len(pubkey)/2)[2:] + pubkey	
+	sig_len=hex(len(sig)/2)[2:]
+	return sig_len+sig+'ffffffff'

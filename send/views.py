@@ -15,12 +15,16 @@ def ajax_tx(request):
 		receivers = request.POST.getlist("receivers[]", None)
 		amounts = request.POST.getlist("amounts[]", None)
 		fee = int(request.POST.get("fee", None))
+		if s_address[0] not in ['m','n', '2', '1']:
+			raise ValueError
+		for i in range(len(receivers)):
+			if receivers[i][0] not in ['m','n', '2', '1']:
+				raise ValueError
 	except:
-		bytes_ = "Transaction Generation Failed:\nVerify all input fields.\nLeave no fields blank."
-		hashes = []
+		pass
 	try:
 		outs = [{'address':receivers[i], 'value':int(amounts[i])} for i in range(len(receivers))]
-		bytes_ = unsigned_tx(s_address, outs, fee)
+		bytes_ = unsigned_tx(s_address, outs, fee, testnet=s_address[0]!='1')
 		hashes = [i.encode("hex") for i in prepare_sig(bytes_, s_address)]
 	except:
 		bytes_ = "Transaction Generation Failed:\nVerify all input fields.\nMake sure sender has enough funds for transaction and fee."
