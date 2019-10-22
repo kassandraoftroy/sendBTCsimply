@@ -2,7 +2,7 @@ bitcoin==1.1.42
 blockchain==1.4.0
 dj-database-url==0.4.2
 Django==1.11.10
-ecdsa==0.13
+ecdsa==0.13.3
 enum==0.4.6
 gunicorn==19.7.1
 psycopg2==2.7.4
